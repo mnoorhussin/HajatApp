@@ -30,7 +30,7 @@ export default function JoinUs() {
             </div>
             
             <h3 className="text-3xl font-extrabold text-secondary mb-4">
-              انظم إلينا <span className="text-primary">كشريك</span>
+              انضم إلينا <span className="text-primary">كشريك</span>
             </h3>
             
             <p className="text-gray-600 text-lg mb-8 leading-relaxed">
@@ -72,7 +72,7 @@ export default function JoinUs() {
             </div>
             
             <h3 className="text-3xl font-extrabold text-white mb-4">
-              انظم لأسرة <span className="text-primary">طياري حاجات</span>
+              انضم لأسرة <span className="text-primary">طياري حاجات</span>
             </h3>
             
             <p className="text-gray-400 text-lg mb-8 leading-relaxed">

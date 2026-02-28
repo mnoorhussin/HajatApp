@@ -9,7 +9,7 @@ export default function Navbar() {
     { name: 'الرئيسية', href: '#' },
     { name: 'خدماتنا', href: '#services' },
     { name: 'كيف يعمل', href: '#how-it-works' },
-    { name: 'كن طياراً', href: '#pilot' },
+    { name: 'انضم إلينا', href: '#join-us' },
   ];
 
   return (

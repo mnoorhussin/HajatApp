@@ -2,7 +2,7 @@ import { Mic, Send, Sparkles, MessageSquare } from 'lucide-react';
 
 export default function MagicBoxSection() {
   return (
-    <section className="py-24 bg-white overflow-hidden relative">
+    <section id="how-it-works" className="py-24 bg-white overflow-hidden relative">
       {/* Background patterns */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50 -mr-32 -mt-32"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-50 -ml-32 -mb-32"></div>

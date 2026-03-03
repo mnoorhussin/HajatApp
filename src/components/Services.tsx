@@ -1,51 +1,81 @@
 import { Pill, Utensils, ShoppingBasket, Cog, Package, Mic } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const services = [
   {
-    icon: <Pill size={28} className="text-primary" />,
-    title: 'الصيدلية',
-  },
-  {
-    icon: <Utensils size={28} className="text-primary" />,
+    icon: <Utensils size={24} />,
     title: 'المطاعم',
+    color: 'bg-orange-50 text-orange-600'
   },
   {
-    icon: <ShoppingBasket size={28} className="text-primary" />,
+    icon: <Pill size={24} />,
+    title: 'الصيدلية',
+    color: 'bg-red-50 text-red-600'
+  },
+  {
+    icon: <ShoppingBasket size={24} />,
     title: 'المقاضي',
+    color: 'bg-green-50 text-green-600'
   },
   {
-    icon: <Package size={28} className="text-primary" />,
+    icon: <Package size={24} />,
     title: 'مرسال',
+    color: 'bg-[#6C5CE7]/10 text-[#6C5CE7]'
   },
   {
-    icon: <Cog size={28} className="text-primary" />,
+    icon: <Cog size={24} />,
     title: 'الإسبيرات',
+    color: 'bg-blue-50 text-blue-600'
   },
   {
-    icon: <Mic size={28} className="text-primary" />,
+    icon: <Mic size={24} />,
     title: 'طلب صوتي',
+    color: 'bg-purple-50 text-purple-600'
   }
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="py-16 bg-white border-y border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-secondary">
-            مهما كانت الحاجة، نحن نجيبها
-          </h2>
+    <section id="services" className="py-20 bg-white border-y border-[#F3F4F6]">
+      <div className="container-custom">
+        <div className="text-center mb-12 space-y-4">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-extrabold text-[#1E2A45]"
+          >
+            كل اللي تحتاجه، <span className="text-[#6C5CE7]">تلقاه عندنا</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-[#6B7280] text-lg max-w-2xl mx-auto font-medium"
+          >
+            نحن نوفر لك مجموعة واسعة من الخدمات لتسهيل حياتك اليومية وتوفير وقتك ومجهودك.
+          </motion.p>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12">
+        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 overflow-x-auto pb-4 hide-scrollbar">
           {services.map((service, index) => (
-            <div 
+            <motion.div 
               key={index}
-              className="flex items-center gap-3 text-secondary font-bold text-lg md:text-xl py-2 px-4 bg-gray-50 rounded-full border border-gray-100"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.05 }}
+              whileHover={{ y: -5 }}
+              className="flex items-center gap-3 bg-[#F9FAFB] hover:bg-white hover:shadow-md border border-[#F3F4F6] py-3 px-6 rounded-2xl transition-all duration-300 min-w-fit"
             >
-              {service.icon}
-              <span>{service.title}</span>
-            </div>
+              <div className={`p-2 rounded-xl ${service.color}`}>
+                {service.icon}
+              </div>
+              <span className="font-extrabold text-[#1E2A45] whitespace-nowrap">
+                {service.title}
+              </span>
+            </motion.div>
           ))}
         </div>
       </div>

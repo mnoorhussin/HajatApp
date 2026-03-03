@@ -133,7 +133,7 @@ export default function CaptainRegistration() {
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold">ح</div>
             <div>
               <h1 className="text-lg font-bold">انضم لأسرة حاجات</h1>
-              <p className="text-xs text-gray-400">سجل كطيار توصيل</p>
+              <p className="text-xs text-gray-400">سجل ككابتن توصيل</p>
             </div>
           </div>
           <Link to="/" className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1">

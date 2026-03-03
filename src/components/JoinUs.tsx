@@ -1,105 +1,136 @@
 import { Store, Bike, ChevronRight, TrendingUp, Users, Smartphone, HeadphonesIcon, DollarSign, Gift, Clock, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 export default function JoinUs() {
   return (
-    <section id="join-us" className="py-24 bg-gray-50 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="join-us" className="py-32 bg-[#F9FAFB] overflow-hidden relative">
+      <div className="container-custom relative z-10">
         
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-secondary">
-            كن جزءاً من <span className="text-primary">عائلة حاجات</span>
-          </h2>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-            سواء كنت صاحب عمل تبحث عن النمو، أو شخص يبحث عن دخل إضافي بمرونة، لدينا الفرصة المناسبة لك.
-          </p>
+        <div className="text-center mb-20 space-y-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#6C5CE7]/5 text-[#6C5CE7] rounded-full font-bold text-sm mb-2"
+          >
+            <span>انضم لمستقبل التوصيل</span>
+          </motion.div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl lg:text-5xl font-extrabold text-[#1E2A45]"
+          >
+            كن جزءاً من <span className="text-[#6C5CE7]">عائلة حاجات</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-lg text-[#6B7280] max-w-2xl mx-auto font-medium"
+          >
+            سواء كنت صاحب عمل تبحث عن النمو، أو تبحث عن دخل إضافي مرن، لدينا المكان المناسب لك.
+          </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid lg:grid-cols-2 gap-8">
           
           {/* Partner Card */}
-          <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 flex flex-col relative overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="group relative bg-white rounded-[2.5rem] p-10 shadow-sm border border-[#F3F4F6] hover:shadow-xl hover:border-[#6C5CE7]/10 transition-all duration-500 overflow-hidden"
+          >
+            {/* Soft background glow */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#6C5CE7]/5 rounded-full blur-3xl group-hover:bg-[#6C5CE7]/10 transition-colors duration-500"></div>
             
-            <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 shadow-sm">
-              <Store size={40} />
-            </div>
-            
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-accent/10 text-secondary rounded-full font-bold text-sm border border-accent/20 w-fit mb-4">
-              فرصة لنمو أعمالك
-            </div>
-            
-            <h3 className="text-3xl font-extrabold text-secondary mb-4">
-              انضم إلينا <span className="text-primary">كشريك</span>
-            </h3>
-            
-            <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-              اجذب المزيد من العملاء وحقق نموًا استثنائيًا. ابدأ فصلك الجديد مع حاجات ووسّع نطاق عملك بسهولة.
-            </p>
-            
-            <ul className="space-y-4 mb-10 flex-grow">
-              {[
-                { text: 'توسيع قاعدة عملائك بشكل ملحوظ', icon: <Users size={20} /> },
-                { text: 'زيادة المبيعات وتحقيق أرباح مستدامة', icon: <TrendingUp size={20} /> },
-                { text: 'لوحة تحكم ذكية لإدارة متجرك', icon: <Smartphone size={20} /> },
-                { text: 'دعم فني وتسويقي على مدار الساعة', icon: <HeadphonesIcon size={20} /> },
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-secondary font-medium">
-                  <div className="text-accent bg-accent/10 p-1.5 rounded-lg">
-                    {item.icon}
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="w-16 h-16 rounded-2xl bg-[#6C5CE7]/10 flex items-center justify-center text-[#6C5CE7] mb-8 group-hover:scale-110 transition-transform duration-500">
+                <Store size={32} />
+              </div>
+              
+              <h3 className="text-3xl font-extrabold text-[#1E2A45] mb-4">
+                انضم إلينا <span className="text-[#6C5CE7]">كشريك</span>
+              </h3>
+              
+              <p className="text-[#6B7280] text-lg mb-8 leading-relaxed font-medium">
+                اجذب المزيد من العملاء وحقق نموًا استثنائيًا لمتجرك بسهولة تامة.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 flex-grow">
+                {[
+                  { text: 'توسيع قاعدة عملائك', icon: <Users size={18} /> },
+                  { text: 'تحقيق أرباح مستدامة', icon: <TrendingUp size={18} /> },
+                  { text: 'لوحة تحكم احترافية', icon: <Smartphone size={18} /> },
+                  { text: 'دعم فني متكامل', icon: <HeadphonesIcon size={18} /> },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-[#1E2A45] font-bold">
+                    <div className="text-[#6C5CE7] bg-[#6C5CE7]/5 p-2 rounded-xl border border-[#6C5CE7]/10">
+                      {item.icon}
+                    </div>
+                    <span className="text-sm">{item.text}</span>
                   </div>
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-            
-            <button className="w-full flex items-center justify-center gap-2 bg-secondary text-white px-6 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-all shadow-md group-hover:shadow-secondary/20 group">
-              سجل متجرك الآن
-              <ChevronRight className="group-hover:-translate-x-1 transition-transform" />
-            </button>
-          </div>
+                ))}
+              </div>
+              
+              <button className="w-full btn btn-outline py-4 text-base rounded-2xl group/btn overflow-hidden relative">
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  سجل متجرك الآن
+                  <ChevronRight size={20} className="scale-x-[-1] group-hover/btn:translate-x-[-4px] transition-transform" />
+                </span>
+              </button>
+            </div>
+          </motion.div>
 
           {/* Captain Card */}
-          <div className="bg-secondary rounded-3xl p-8 shadow-xl border border-secondary flex flex-col relative overflow-hidden group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="group relative bg-[#1E2A45] rounded-[2.5rem] p-10 shadow-xl border border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden"
+          >
+            {/* Soft background glow for dark mode */}
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#6C5CE7]/20 rounded-full blur-3xl group-hover:bg-[#6C5CE7]/30 transition-colors duration-500"></div>
             
-            <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center text-primary mb-6 shadow-sm border border-white/5">
-              <Bike size={40} />
-            </div>
-            
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/20 text-primary border border-primary/30 rounded-full font-bold text-sm w-fit mb-4">
-              فرصة عمل مميزة
-            </div>
-            
-            <h3 className="text-3xl font-extrabold text-white mb-4">
-              انضم لأسرة <span className="text-primary">طياري حاجات</span>
-            </h3>
-            
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              عندك ركشة، موتر، أو عربية؟ كن فهلوي وزيد دخلك. أكتب طلباتهم ونحن في دربك — كن كابتن حاجات وابدأ اليوم.
-            </p>
-            
-            <ul className="space-y-4 mb-10 flex-grow">
-              {[
-                { text: 'دخل إضافي مستمر وممتاز', icon: <DollarSign size={20} /> },
-                { text: 'حوافز ومكافآت شهرية للمتميزين', icon: <Gift size={20} /> },
-                { text: 'ساعات عمل مرنة تناسب وقتك', icon: <Clock size={20} /> },
-                { text: 'دعم فني وتأمين أثناء الرحلات', icon: <ShieldCheck size={20} /> },
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-gray-200 font-medium">
-                  <div className="text-primary bg-primary/20 p-1.5 rounded-lg border border-primary/10">
-                    {item.icon}
+            <div className="relative z-10 flex flex-col h-full">
+              <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-[#6C5CE7] mb-8 border border-white/5 group-hover:scale-110 transition-transform duration-500">
+                <Bike size={32} />
+              </div>
+              
+              <h3 className="text-3xl font-extrabold text-white mb-4">
+                انضم لأسرة <span className="text-[#6C5CE7]">كباتن حاجات</span>
+              </h3>
+              
+              <p className="text-gray-400 text-lg mb-8 leading-relaxed font-medium">
+                كن فهلوي وزيد دخلك بمرونة تامة. سجل ككابتن حاجات وابدأ اليوم.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 flex-grow">
+                {[
+                  { text: 'دخل إضافي مستمر', icon: <DollarSign size={18} /> },
+                  { text: 'حوافز ومكافآت', icon: <Gift size={18} /> },
+                  { text: 'ساعات عمل مرنة', icon: <Clock size={18} /> },
+                  { text: 'دعم وتأمين كامل', icon: <ShieldCheck size={18} /> },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-white font-bold">
+                    <div className="text-[#6C5CE7] bg-white/5 p-2 rounded-xl border border-white/10">
+                      {item.icon}
+                    </div>
+                    <span className="text-sm">{item.text}</span>
                   </div>
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-            
-            <Link to="/join" className="w-full flex items-center justify-center gap-2 bg-primary text-white px-6 py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-all shadow-md group-hover:shadow-primary/30 group">
-              سجل كطيار الآن
-              <ChevronRight className="group-hover:-translate-x-1 transition-transform" />
-            </Link>
-          </div>
+                ))}
+              </div>
+              
+              <Link to="/join" className="w-full btn btn-primary py-4 text-base rounded-2xl shadow-lg shadow-[#6C5CE7]/30">
+                <span>سجل ككابتن الآن</span>
+                <ChevronRight size={20} className="scale-x-[-1]" />
+              </Link>
+            </div>
+          </motion.div>
 
         </div>
       </div>

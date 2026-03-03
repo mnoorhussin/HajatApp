@@ -10,6 +10,17 @@
     <meta name="description" content="حاجات هو التطبيق الأول لتوصيل كل احتياجاتك في السودان. مطاعم، صيدليات، بقالات، أو أي مرسال، نحن في خدمتك." />
     <meta name="keywords" content="حاجات, توصيل, السودان, تطبيق توصيل, مطاعم, صيدلية, مرسال" />
     
+    <script>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+    
     <!-- Performance: Preconnect to Font domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

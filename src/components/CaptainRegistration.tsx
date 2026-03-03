@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Upload, CheckCircle, Truck, ArrowRight, Camera, FileText, AlertCircle, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 interface FormData {
   fullName: string;
@@ -57,7 +58,21 @@ export default function CaptainRegistration() {
   const profileRef = useRef<HTMLInputElement>(null);
 
   const updateField = (field: keyof FormData, value: string | boolean | File | null) => {
-    setForm(prev => ({ ...prev, [field]: value }));
+    setForm(prev => {
+      const next = { ...prev, [field]: value };
+      
+      // Clear errors for plate and license if vehicle type changes to something that doesn't require them
+      if (field === 'vehicleType' && (value === 'tukTuk' || value === 'bicycle')) {
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          plateNumber: undefined,
+          licenseFile: undefined
+        }));
+      }
+      
+      return next;
+    });
+    
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
@@ -73,12 +88,23 @@ export default function CaptainRegistration() {
     if (!form.city) newErrors.city = 'المدينة مطلوبة';
     if (!form.area.trim()) newErrors.area = 'الحي/المنطقة مطلوب';
     if (!form.vehicleType) newErrors.vehicleType = 'نوع المركبة مطلوب';
-    if (!form.plateNumber.trim()) newErrors.plateNumber = 'رقم اللوحة مطلوب';
+    
+    const needsPlateAndLicense = form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle';
+    
+    if (needsPlateAndLicense && !form.plateNumber.trim()) {
+      newErrors.plateNumber = 'رقم اللوحة مطلوب';
+    }
+    
     if (!form.emergencyName.trim()) newErrors.emergencyName = 'اسم جهة الاتصال مطلوب';
     if (!form.emergencyPhone.trim()) newErrors.emergencyPhone = 'رقم الطوارئ مطلوب';
     if (!form.idFrontFile) newErrors.idFrontFile = 'صورة الهوية (الأمام) مطلوبة';
     if (!form.idBackFile) newErrors.idBackFile = 'صورة الهوية (الخلف) مطلوبة';
-    if (!form.licenseFile) newErrors.licenseFile = 'صورة رخصة القيادة مطلوبة';
+    
+    if (needsPlateAndLicense && !form.licenseFile) {
+      newErrors.licenseFile = 'صورة رخصة القيادة مطلوبة';
+    }
+    
+    if (!form.profilePhoto) newErrors.profilePhoto = 'الصورة الشخصية مطلوبة';
     if (!form.agreed) newErrors.agreed = 'يجب الموافقة على الشروط والأحكام';
 
     setErrors(newErrors);
@@ -94,21 +120,21 @@ export default function CaptainRegistration() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50 font-ar flex items-center justify-center p-4" dir="rtl">
-        <div className="bg-white rounded-3xl p-10 max-w-md w-full text-center shadow-xl border border-gray-100">
+      <div className="min-h-screen bg-[var(--bg)] font-ar flex items-center justify-center p-4 transition-colors duration-300" dir="rtl">
+        <div className="bg-[var(--surface)] rounded-3xl p-10 max-w-md w-full text-center shadow-xl border border-[var(--border)]">
           <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle size={48} className="text-accent" />
           </div>
-          <h2 className="text-2xl font-extrabold text-secondary mb-3">تم إرسال طلبك بنجاح! 🎉</h2>
-          <p className="text-gray-600 mb-2">
+          <h2 className="text-2xl font-extrabold text-[var(--text)] mb-3">تم إرسال طلبك بنجاح! 🎉</h2>
+          <p className="text-[var(--text-muted)] mb-2">
             شكراً لك <span className="font-bold text-primary">{form.fullName}</span>
           </p>
-          <p className="text-gray-500 text-sm leading-relaxed mb-6">
+          <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6 opacity-80">
             فريقنا حيراجع طلبك خلال 24-48 ساعة. حنتواصل معاك على الرقم
-            <span className="font-bold text-secondary"> {form.phone} </span>
+            <span className="font-bold text-[var(--text)]"> {form.phone} </span>
             لإكمال الإجراءات.
           </p>
-          <div className="bg-orange-50 rounded-xl p-4 text-sm text-gray-600 mb-6">
+          <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-4 text-sm text-[var(--text-muted)] mb-6">
             <p className="font-bold text-primary mb-1">رقم الطلب: HJT-CPT-{Math.floor(Math.random() * 9000 + 1000)}</p>
             <p>احتفظ بهذا الرقم للمتابعة</p>
           </div>
@@ -125,18 +151,22 @@ export default function CaptainRegistration() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 font-ar" dir="rtl">
+    <div className="min-h-screen bg-[var(--bg)] font-ar transition-colors duration-300" dir="rtl">
       {/* Header */}
-      <header className="bg-secondary text-white">
+      <header className="bg-[var(--surface)] border-b border-[var(--border)] text-[var(--text)]">
         <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white font-bold">ح</div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-0">
+              <img src={logo} alt="Hajat Logo" className="h-12 w-auto object-contain dark:invert dark:brightness-200" />
+              <span className="text-xl font-black text-[var(--text)] tracking-tight -mr-2">حاجات</span>
+            </div>
+            <div className="h-8 w-px bg-[var(--border)]"></div>
             <div>
               <h1 className="text-lg font-bold">انضم لأسرة حاجات</h1>
-              <p className="text-xs text-gray-400">سجل ككابتن توصيل</p>
+              <p className="text-xs text-[var(--text-muted)]">سجل ككابتن توصيل</p>
             </div>
           </div>
-          <Link to="/" className="text-sm text-gray-400 hover:text-white transition-colors flex items-center gap-1">
+          <Link to="/" className="text-sm text-[var(--text-muted)] hover:text-primary transition-colors flex items-center gap-1">
             <ArrowRight size={14} />
             الرئيسية
           </Link>
@@ -152,7 +182,7 @@ export default function CaptainRegistration() {
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold mb-3">كن كابتن حاجات</h2>
           <p className="text-orange-100 text-lg max-w-2xl mx-auto">
-            عندك ركشة، موتر، أو عربية؟ كن فهلوي وزيد دخلك. سجل الآن وابدأ التوصيل في مدينتك.
+            طريقك لزيادة دخلك بيبدأ هنا. انضم لكباتن حاجات واستثمر وقتك ومركبتك بأفضل طريقة.
           </p>
         </div>
       </div>
@@ -162,8 +192,8 @@ export default function CaptainRegistration() {
         <form onSubmit={handleSubmit} className="space-y-8">
           
           {/* Section 1: Personal Info */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold text-secondary mb-6 flex items-center gap-2">
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
+            <h3 className="text-xl font-bold text-[var(--text)] mb-6 flex items-center gap-2">
               <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">1</span>
               المعلومات الشخصية
             </h3>
@@ -176,20 +206,20 @@ export default function CaptainRegistration() {
           </div>
 
           {/* Section 2: Location */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold text-secondary mb-6 flex items-center gap-2">
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
+            <h3 className="text-xl font-bold text-[var(--text)] mb-6 flex items-center gap-2">
               <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">2</span>
               الموقع والمنطقة
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-bold text-secondary mb-2">المدينة <span className="text-red-500">*</span></label>
+                <label className="block text-sm font-bold text-[var(--text)] mb-2">المدينة <span className="text-red-500">*</span></label>
                 <select
                   value={form.city}
                   onChange={e => updateField('city', e.target.value)}
-                  className={`w-full border rounded-xl px-4 py-3 text-secondary bg-gray-50 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all ${errors.city ? 'border-red-400' : 'border-gray-200'}`}
+                  className={`w-full border rounded-xl px-4 py-3 text-[var(--text)] bg-[var(--bg)] focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all ${errors.city ? 'border-red-400' : 'border-[var(--border)]'}`}
                 >
-                  {cities.map(city => <option key={city} value={city}>{city}</option>)}
+                  {cities.map(city => <option key={city} value={city} className="bg-[var(--surface)]">{city}</option>)}
                 </select>
                 {errors.city && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle size={12} /> {errors.city}</p>}
               </div>
@@ -198,13 +228,13 @@ export default function CaptainRegistration() {
           </div>
 
           {/* Section 3: Vehicle */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold text-secondary mb-6 flex items-center gap-2">
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
+            <h3 className="text-xl font-bold text-[var(--text)] mb-6 flex items-center gap-2">
               <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">3</span>
               معلومات المركبة
             </h3>
             <div className="mb-6">
-              <label className="block text-sm font-bold text-secondary mb-3">نوع المركبة <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-bold text-[var(--text)] mb-3">نوع المركبة <span className="text-red-500">*</span></label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {vehicleTypes.map(v => (
                   <button
@@ -213,12 +243,12 @@ export default function CaptainRegistration() {
                     onClick={() => updateField('vehicleType', v.value)}
                     className={`p-4 rounded-xl border-2 text-center transition-all ${
                       form.vehicleType === v.value
-                        ? 'border-primary bg-orange-50 shadow-md shadow-primary/10'
-                        : 'border-gray-100 hover:border-gray-200 bg-white'
+                        ? 'border-primary bg-primary/5 shadow-md shadow-primary/10'
+                        : 'border-[var(--border)] hover:border-primary/30 bg-[var(--bg)]'
                     }`}
                   >
                     <div className="text-3xl mb-2">{v.icon}</div>
-                    <div className={`text-sm font-bold ${form.vehicleType === v.value ? 'text-primary' : 'text-secondary'}`}>
+                    <div className={`text-sm font-bold ${form.vehicleType === v.value ? 'text-primary' : 'text-[var(--text)]'}`}>
                       {v.label}
                     </div>
                   </button>
@@ -226,12 +256,19 @@ export default function CaptainRegistration() {
               </div>
               {errors.vehicleType && <p className="text-red-500 text-xs mt-2 flex items-center gap-1"><AlertCircle size={12} /> {errors.vehicleType}</p>}
             </div>
-            <InputField label="رقم اللوحة" required value={form.plateNumber} onChange={v => updateField('plateNumber', v)} error={errors.plateNumber} placeholder="مثال: ABC 1234" />
+            <InputField 
+              label="رقم اللوحة" 
+              required={form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle'} 
+              value={form.plateNumber} 
+              onChange={v => updateField('plateNumber', v)} 
+              error={errors.plateNumber} 
+              placeholder="مثال: ABC 1234" 
+            />
           </div>
 
           {/* Section 4: Documents */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold text-secondary mb-2 flex items-center gap-2">
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
+            <h3 className="text-xl font-bold text-[var(--text)] mb-2 flex items-center gap-2">
               <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">4</span>
               المستندات المطلوبة
             </h3>
@@ -258,7 +295,7 @@ export default function CaptainRegistration() {
               />
               <FileUploadField
                 label="رخصة القيادة"
-                required
+                required={form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle'}
                 icon={<Truck size={24} />}
                 file={form.licenseFile}
                 inputRef={licenseRef}
@@ -266,18 +303,20 @@ export default function CaptainRegistration() {
                 error={errors.licenseFile}
               />
               <FileUploadField
-                label="صورة شخصية (اختياري)"
+                label="صورة شخصية"
+                required
                 icon={<Camera size={24} />}
                 file={form.profilePhoto}
                 inputRef={profileRef}
                 onChange={f => updateField('profilePhoto', f)}
+                error={errors.profilePhoto}
               />
             </div>
           </div>
 
           {/* Section 5: Emergency Contact */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
-            <h3 className="text-xl font-bold text-secondary mb-6 flex items-center gap-2">
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
+            <h3 className="text-xl font-bold text-[var(--text)] mb-6 flex items-center gap-2">
               <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">5</span>
               جهة الاتصال للطوارئ
             </h3>
@@ -296,7 +335,7 @@ export default function CaptainRegistration() {
                 onChange={e => updateField('agreed', e.target.checked)}
                 className="mt-1 w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
               />
-              <span className="text-sm text-gray-600 leading-relaxed">
+              <span className="text-sm text-[var(--text-muted)] leading-relaxed">
                 أوافق على <span className="text-primary font-bold">الشروط والأحكام</span> وأقر بأن جميع البيانات المدخلة صحيحة.
                 أتفهم أن تقديم بيانات خاطئة قد يؤدي إلى رفض الطلب.
               </span>
@@ -329,7 +368,7 @@ function InputField({ label, value, onChange, placeholder, type = 'text', requir
 }) {
   return (
     <div>
-      <label className="block text-sm font-bold text-secondary mb-2">
+      <label className="block text-sm font-bold text-[var(--text)] mb-2">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <input
@@ -337,7 +376,7 @@ function InputField({ label, value, onChange, placeholder, type = 'text', requir
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`w-full border rounded-xl px-4 py-3 text-secondary bg-gray-50 placeholder-gray-400 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all ${error ? 'border-red-400' : 'border-gray-200'}`}
+        className={`w-full border rounded-xl px-4 py-3 text-[var(--text)] bg-[var(--bg)] placeholder-[var(--text-muted)] opacity-80 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all ${error ? 'border-red-400' : 'border-[var(--border)]'}`}
       />
       {error && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle size={12} /> {error}</p>}
     </div>
@@ -356,7 +395,7 @@ function FileUploadField({ label, file, inputRef, onChange, icon, required, erro
 }) {
   return (
     <div>
-      <label className="block text-sm font-bold text-secondary mb-2">
+      <label className="block text-sm font-bold text-[var(--text)] mb-2">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <input
@@ -367,9 +406,9 @@ function FileUploadField({ label, file, inputRef, onChange, icon, required, erro
         onChange={e => onChange(e.target.files?.[0] || null)}
       />
       {file ? (
-        <div className="flex items-center gap-3 bg-accent/5 border border-accent/20 rounded-xl px-4 py-3">
-          <CheckCircle size={20} className="text-accent flex-shrink-0" />
-          <span className="text-sm text-secondary font-medium flex-1 truncate">{file.name}</span>
+        <div className="flex items-center gap-3 bg-primary/5 border border-primary/20 rounded-xl px-4 py-3">
+          <CheckCircle size={20} className="text-primary flex-shrink-0" />
+          <span className="text-sm text-[var(--text)] font-medium flex-1 truncate">{file.name}</span>
           <button
             type="button"
             onClick={() => {
@@ -385,12 +424,12 @@ function FileUploadField({ label, file, inputRef, onChange, icon, required, erro
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className={`w-full border-2 border-dashed rounded-xl p-6 text-center transition-all hover:bg-gray-50 hover:border-primary/30 ${error ? 'border-red-300 bg-red-50/30' : 'border-gray-200'}`}
+          className={`w-full border-2 border-dashed rounded-xl p-6 text-center transition-all hover:bg-primary/5 hover:border-primary/30 ${error ? 'border-red-300 bg-red-50/30' : 'border-[var(--border)] bg-[var(--bg)]'}`}
         >
-          <div className="text-gray-400 flex flex-col items-center gap-2">
+          <div className="text-[var(--text-muted)] flex flex-col items-center gap-2">
             {icon}
             <span className="text-sm font-medium">اضغط لرفع الملف</span>
-            <span className="text-xs text-gray-300">JPG, PNG, PDF — أقصى حجم 5MB</span>
+            <span className="text-xs opacity-60">JPG, PNG, PDF — أقصى حجم 5MB</span>
           </div>
         </button>
       )}

@@ -25,14 +25,14 @@ export default function FAQ() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-[var(--bg)] transition-colors duration-300">
       <div className="container-custom max-w-3xl">
         <div className="text-center mb-16 space-y-4">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-extrabold text-[#1E2A45]"
+            className="text-3xl md:text-5xl font-extrabold text-[var(--text)]"
           >
             الأسئلة <span className="text-[#6C5CE7]">الشائعة</span>
           </motion.h2>
@@ -41,7 +41,7 @@ export default function FAQ() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-[#6B7280] text-lg font-medium"
+            className="text-[var(--text-muted)] text-lg font-medium"
           >
             كل ما تود معرفته عن خدماتنا وكيفية البدء
           </motion.p>
@@ -56,7 +56,9 @@ export default function FAQ() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               className={`rounded-3xl border transition-all duration-300 ${
-                activeIndex === index ? 'border-[#6C5CE7] bg-[#6C5CE7]/5 shadow-sm' : 'border-[#F3F4F6] bg-white'
+                activeIndex === index 
+                  ? 'border-[#6C5CE7] bg-[#6C5CE7]/5 shadow-sm' 
+                  : 'border-[var(--border)] bg-[var(--surface)]'
               }`}
             >
               <button
@@ -64,12 +66,12 @@ export default function FAQ() {
                 className="w-full px-8 py-6 flex items-center justify-between text-right"
               >
                 <span className={`text-lg font-bold transition-colors ${
-                  activeIndex === index ? 'text-[#6C5CE7]' : 'text-[#1E2A45]'
+                  activeIndex === index ? 'text-[#6C5CE7]' : 'text-[var(--text)]'
                 }`}>
                   {faq.question}
                 </span>
                 <div className={`p-1.5 rounded-xl transition-all ${
-                  activeIndex === index ? 'bg-[#6C5CE7] text-white rotate-180' : 'bg-[#F3F4F6] text-[#6B7280]'
+                  activeIndex === index ? 'bg-[#6C5CE7] text-white rotate-180' : 'bg-[var(--border)] text-[var(--text-muted)]'
                 }`}>
                   {activeIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                 </div>
@@ -84,7 +86,7 @@ export default function FAQ() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-8 pb-8 text-[#6B7280] font-medium leading-relaxed">
+                    <div className="px-8 pb-8 text-[var(--text-muted)] font-medium leading-relaxed">
                       {faq.answer}
                     </div>
                   </motion.div>

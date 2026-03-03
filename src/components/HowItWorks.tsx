@@ -24,14 +24,14 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 bg-[#F9FAFB]">
+    <section id="how-it-works" className="py-24 bg-[var(--bg)] transition-colors duration-300">
       <div className="container-custom">
         <div className="text-center mb-20">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-5xl font-extrabold text-[#1E2A45]"
+            className="text-3xl md:text-5xl font-extrabold text-[var(--text)]"
           >
             كيف تطلب من <span className="text-[#6C5CE7]">حاجات؟</span>
           </motion.h2>
@@ -40,7 +40,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mt-4 text-[#6B7280] text-lg font-medium"
+            className="mt-4 text-[var(--text-muted)] text-lg font-medium"
           >
             ثلاث خطوات بسيطة تفصلك عن وصول طلبك لباب بيتك
           </motion.p>
@@ -62,13 +62,13 @@ export default function HowItWorks() {
               >
                 <div className={`relative w-24 h-24 rounded-3xl ${step.color} flex items-center justify-center shadow-xl shadow-black/5 group hover:rotate-6 transition-transform duration-300`}>
                   {step.icon}
-                  <div className="absolute -top-3 -right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center text-[#1E2A45] font-extrabold shadow-md border border-[#F3F4F6]">
+                  <div className="absolute -top-3 -right-3 w-10 h-10 bg-[var(--surface)] rounded-full flex items-center justify-center text-[var(--text)] font-extrabold shadow-md border border-[var(--border)]">
                     {index + 1}
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <h3 className="text-2xl font-bold text-[#1E2A45]">{step.title}</h3>
-                  <p className="text-[#6B7280] font-medium leading-relaxed max-w-xs mx-auto">
+                  <h3 className="text-2xl font-bold text-[var(--text)]">{step.title}</h3>
+                  <p className="text-[var(--text-muted)] font-medium leading-relaxed max-w-xs mx-auto">
                     {step.description}
                   </p>
                 </div>

@@ -16,8 +16,17 @@
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 4px 20px -2px rgba(30, 42, 69, 0.05);
-  --shadow-lg:
-    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.dark {
+  --bg: #0f172a; /* Slate 900 */
+  --surface: #1e293b; /* Slate 800 */
+  --text: #f8fafc; /* Slate 50 */
+  --text-muted: #94a3b8; /* Slate 400 */
+  --border: #334155; /* Slate 700 */
+  --secondary: #f8fafc;
+  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
 }
 
 @layer base {
@@ -26,16 +35,11 @@
   }
 
   body {
-    @apply font-ar bg-[#F9FAFB] text-[#1E2A45] antialiased selection:bg-[#6C5CE7]/10 selection:text-[#6C5CE7];
+    @apply font-ar bg-[var(--bg)] text-[var(--text)] antialiased selection:bg-[#6C5CE7]/10 selection:text-[#6C5CE7] transition-colors duration-300;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-bold tracking-tight;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-[var(--text)];
   }
 }
 
@@ -45,7 +49,7 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold transition-all duration-200 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold transition-all duration-300 active:scale-[0.98];
   }
 
   .btn-primary {
@@ -53,10 +57,18 @@
   }
 
   .btn-outline {
-    @apply bg-white text-[#1E2A45] border border-[#F3F4F6] hover:border-[#6C5CE7] hover:text-[#6C5CE7] shadow-sm;
+    @apply bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] hover:border-[#6C5CE7] hover:text-[#6C5CE7] shadow-sm;
   }
 
   .card {
-    @apply bg-white rounded-3xl border border-[#F3F4F6] p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#6C5CE7]/10;
+    @apply bg-[var(--surface)] rounded-3xl border border-[var(--border)] p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#6C5CE7]/10;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

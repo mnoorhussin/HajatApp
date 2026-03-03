@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function JoinUs() {
   return (
-    <section id="join-us" className="py-32 bg-[#F9FAFB] overflow-hidden relative">
+    <section id="join-us" className="py-32 bg-[var(--bg)] overflow-hidden relative transition-colors duration-300">
       <div className="container-custom relative z-10">
         
         <div className="text-center mb-20 space-y-4">
@@ -20,7 +20,7 @@ export default function JoinUs() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl lg:text-5xl font-extrabold text-[#1E2A45]"
+            className="text-4xl lg:text-5xl font-extrabold text-[var(--text)]"
           >
             كن جزءاً من <span className="text-[#6C5CE7]">عائلة حاجات</span>
           </motion.h2>
@@ -29,7 +29,7 @@ export default function JoinUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-lg text-[#6B7280] max-w-2xl mx-auto font-medium"
+            className="text-lg text-[var(--text-muted)] max-w-2xl mx-auto font-medium"
           >
             سواء كنت صاحب عمل تبحث عن النمو، أو تبحث عن دخل إضافي مرن، لدينا المكان المناسب لك.
           </motion.p>
@@ -42,7 +42,7 @@ export default function JoinUs() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="group relative bg-white rounded-[2.5rem] p-10 shadow-sm border border-[#F3F4F6] hover:shadow-xl hover:border-[#6C5CE7]/10 transition-all duration-500 overflow-hidden"
+            className="group relative bg-[var(--surface)] rounded-[2.5rem] p-10 shadow-sm border border-[var(--border)] hover:shadow-xl hover:border-[#6C5CE7]/10 transition-all duration-500 overflow-hidden"
           >
             {/* Soft background glow */}
             <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#6C5CE7]/5 rounded-full blur-3xl group-hover:bg-[#6C5CE7]/10 transition-colors duration-500"></div>
@@ -52,11 +52,11 @@ export default function JoinUs() {
                 <Store size={32} />
               </div>
               
-              <h3 className="text-3xl font-extrabold text-[#1E2A45] mb-4">
+              <h3 className="text-3xl font-extrabold text-[var(--text)] mb-4">
                 انضم إلينا <span className="text-[#6C5CE7]">كشريك</span>
               </h3>
               
-              <p className="text-[#6B7280] text-lg mb-8 leading-relaxed font-medium">
+              <p className="text-[var(--text-muted)] text-lg mb-8 leading-relaxed font-medium">
                 اجذب المزيد من العملاء وحقق نموًا استثنائيًا لمتجرك بسهولة تامة.
               </p>
               
@@ -67,7 +67,7 @@ export default function JoinUs() {
                   { text: 'لوحة تحكم احترافية', icon: <Smartphone size={18} /> },
                   { text: 'دعم فني متكامل', icon: <HeadphonesIcon size={18} /> },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-[#1E2A45] font-bold">
+                  <div key={i} className="flex items-center gap-3 text-[var(--text)] font-bold">
                     <div className="text-[#6C5CE7] bg-[#6C5CE7]/5 p-2 rounded-xl border border-[#6C5CE7]/10">
                       {item.icon}
                     </div>
@@ -91,7 +91,7 @@ export default function JoinUs() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="group relative bg-[#1E2A45] rounded-[2.5rem] p-10 shadow-xl border border-transparent hover:shadow-2xl transition-all duration-500 overflow-hidden"
+            className="group relative bg-[#1E2A45] dark:bg-[#1e293b] rounded-[2.5rem] p-10 shadow-xl border border-[var(--border)] dark:border-white/5 hover:shadow-2xl transition-all duration-500 overflow-hidden"
           >
             {/* Soft background glow for dark mode */}
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#6C5CE7]/20 rounded-full blur-3xl group-hover:bg-[#6C5CE7]/30 transition-colors duration-500"></div>
@@ -106,7 +106,7 @@ export default function JoinUs() {
               </h3>
               
               <p className="text-gray-400 text-lg mb-8 leading-relaxed font-medium">
-                كن فهلوي وزيد دخلك بمرونة تامة. سجل ككابتن حاجات وابدأ اليوم.
+                طريقك لزيادة دخلك بيبدأ هنا. انضم لكباتن حاجات واستثمر وقتك ومركبتك بأفضل طريقة.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 flex-grow">

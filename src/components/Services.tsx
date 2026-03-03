@@ -36,14 +36,14 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-20 bg-white border-y border-[#F3F4F6]">
+    <section id="services" className="py-20 bg-[var(--bg)] border-y border-[var(--border)] transition-colors duration-300">
       <div className="container-custom">
         <div className="text-center mb-12 space-y-4">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-extrabold text-[#1E2A45]"
+            className="text-3xl md:text-4xl font-extrabold text-[var(--text)]"
           >
             كل اللي تحتاجه، <span className="text-[#6C5CE7]">تلقاه عندنا</span>
           </motion.h2>
@@ -52,7 +52,7 @@ export default function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-[#6B7280] text-lg max-w-2xl mx-auto font-medium"
+            className="text-[var(--text-muted)] text-lg max-w-2xl mx-auto font-medium"
           >
             نحن نوفر لك مجموعة واسعة من الخدمات لتسهيل حياتك اليومية وتوفير وقتك ومجهودك.
           </motion.p>
@@ -67,12 +67,12 @@ export default function Services() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
               whileHover={{ y: -5 }}
-              className="flex items-center gap-3 bg-[#F9FAFB] hover:bg-white hover:shadow-md border border-[#F3F4F6] py-3 px-6 rounded-2xl transition-all duration-300 min-w-fit"
+              className="flex items-center gap-3 bg-[var(--surface)] hover:shadow-md border border-[var(--border)] py-3 px-6 rounded-2xl transition-all duration-300 min-w-fit"
             >
               <div className={`p-2 rounded-xl ${service.color}`}>
                 {service.icon}
               </div>
-              <span className="font-extrabold text-[#1E2A45] whitespace-nowrap">
+              <span className="font-extrabold text-[var(--text)] whitespace-nowrap">
                 {service.title}
               </span>
             </motion.div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Download } from 'lucide-react';
 import logo from '../assets/logo.png';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,31 +26,32 @@ export default function Navbar() {
     <nav 
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white/80 backdrop-blur-lg py-3 shadow-sm border-b border-[#F3F4F6]' 
+          ? 'bg-[var(--surface)]/80 backdrop-blur-lg py-3 shadow-sm border-b border-[var(--border)]' 
           : 'bg-transparent py-5'
       }`}
     >
       <div className="container-custom">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-2">
+          <div className="flex-shrink-0 flex items-center gap-0">
             <img 
               src={logo} 
               alt="Hajat Logo" 
-              className={`h-10 lg:h-12 w-auto object-contain transition-all duration-300 ${
-                scrolled ? 'scale-95' : 'scale-100'
-              }`} 
+              className={`h-20 lg:h-18 w-auto object-contain transition-all duration-300 ${
+                scrolled ? 'scale-90' : 'scale-100'
+              } dark:invert dark:brightness-200`} 
             />
+            <span className="text-2xl lg:text-3xl font-black text-[var(--text)] tracking-tight -mr-5">حاجات</span>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-8 lg:gap-10">
             <div className="flex items-center gap-8 gap-x-reverse">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-[#1E2A45] hover:text-[#6C5CE7] transition-colors font-semibold text-sm lg:text-base relative group"
+                  className="text-[var(--text)] hover:text-[#6C5CE7] transition-colors font-semibold text-sm lg:text-base relative group"
                 >
                   {link.name}
                   <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-[#6C5CE7] transition-all duration-300 group-hover:w-full"></span>
@@ -57,17 +59,21 @@ export default function Navbar() {
               ))}
             </div>
             
-            <button className="btn btn-primary px-7 py-2.5 text-sm">
-              <Download size={18} />
-              <span>حمل التطبيق</span>
-            </button>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <button className="btn btn-primary px-7 py-2.5 text-sm">
+                <Download size={18} />
+                <span>حمل التطبيق</span>
+              </button>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Menu Actions */}
+          <div className="md:hidden flex items-center gap-3">
+            <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-[#1E2A45] hover:bg-[#F3F4F6] rounded-xl transition-colors focus:outline-none"
+              className="p-2 text-[var(--text)] hover:bg-[var(--bg)] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-[var(--border)]"
               aria-label="Toggle Menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -78,7 +84,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`md:hidden absolute top-full left-0 w-full bg-white border-b border-[#F3F4F6] shadow-xl transition-all duration-300 transform origin-top ${
+        className={`md:hidden absolute top-full left-0 w-full bg-[var(--surface)] border-b border-[var(--border)] shadow-xl transition-all duration-300 transform origin-top ${
           isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'
         }`}
       >
@@ -87,13 +93,13 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
-              className="block py-3 text-lg font-bold text-[#1E2A45] hover:text-[#6C5CE7] transition-colors"
+              className="block py-3 text-lg font-bold text-[var(--text)] hover:text-[#6C5CE7] transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {link.name}
             </a>
           ))}
-          <div className="pt-4 border-t border-[#F3F4F6]">
+          <div className="pt-6 border-t border-[var(--border)]">
             <button className="w-full btn btn-primary py-4 text-base">
               <Download size={20} />
               <span>حمل التطبيق الآن</span>

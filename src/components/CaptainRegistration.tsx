@@ -1,7 +1,10 @@
 import { useState, useRef } from 'react';
-import { Upload, CheckCircle, Truck, ArrowRight, Camera, FileText, AlertCircle, X } from 'lucide-react';
+import { Upload, CheckCircle, Truck, ArrowRight, Camera, FileText, AlertCircle, X, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { db, storage } from '../lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 interface FormData {
   fullName: string;
@@ -50,6 +53,8 @@ const vehicleTypes = [
 export default function CaptainRegistration() {
   const [form, setForm] = useState<FormData>(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [applicationId, setApplicationId] = useState('');
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const idFrontRef = useRef<HTMLInputElement>(null);
@@ -111,10 +116,58 @@ export default function CaptainRegistration() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const uploadFile = async (file: File, path: string): Promise<string> => {
+    const storageRef = ref(storage, path);
+    await uploadBytes(storageRef, file);
+    return getDownloadURL(storageRef);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
+    if (!validate()) return;
+
+    setLoading(true);
+    try {
+      const timestamp = Date.now();
+      const filePrefix = `captainApplications/${form.phone}_${timestamp}`;
+
+      // Upload files in parallel
+      const [idFrontUrl, idBackUrl, licenseUrl, profileUrl] = await Promise.all([
+        form.idFrontFile ? uploadFile(form.idFrontFile, `${filePrefix}/id_front`) : Promise.resolve(''),
+        form.idBackFile ? uploadFile(form.idBackFile, `${filePrefix}/id_back`) : Promise.resolve(''),
+        form.licenseFile ? uploadFile(form.licenseFile, `${filePrefix}/license`) : Promise.resolve(''),
+        form.profilePhoto ? uploadFile(form.profilePhoto, `${filePrefix}/profile`) : Promise.resolve(''),
+      ]);
+
+      // Save to Firestore
+      const docRef = await addDoc(collection(db, 'captainApplications'), {
+        fullName: form.fullName,
+        phone: form.phone,
+        whatsapp: form.whatsapp || null,
+        nationalId: form.nationalId,
+        city: form.city,
+        area: form.area,
+        vehicleType: form.vehicleType,
+        plateNumber: form.plateNumber || null,
+        emergencyName: form.emergencyName,
+        emergencyPhone: form.emergencyPhone,
+        documents: {
+          idFront: idFrontUrl,
+          idBack: idBackUrl,
+          license: licenseUrl,
+          profilePhoto: profileUrl,
+        },
+        status: 'pending',
+        createdAt: serverTimestamp(),
+      });
+
+      setApplicationId(docRef.id);
       setSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert('حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -135,7 +188,7 @@ export default function CaptainRegistration() {
             لإكمال الإجراءات.
           </p>
           <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-4 text-sm text-[var(--text-muted)] mb-6">
-            <p className="font-bold text-primary mb-1">رقم الطلب: HJT-CPT-{Math.floor(Math.random() * 9000 + 1000)}</p>
+            <p className="font-bold text-primary mb-1">رقم الطلب: {applicationId}</p>
             <p>احتفظ بهذا الرقم للمتابعة</p>
           </div>
           <Link
@@ -156,9 +209,8 @@ export default function CaptainRegistration() {
       <header className="bg-[var(--surface)] border-b border-[var(--border)] text-[var(--text)]">
         <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-0">
-              <img src={logo} alt="Hajat Logo" className="h-12 w-auto object-contain dark:invert dark:brightness-200" />
-              <span className="text-xl font-black text-[var(--text)] tracking-tight -mr-2">حاجات</span>
+            <div>
+              <img src={logo} alt="Hajat Logo" className="h-14 lg:h-18 w-auto object-contain dark:invert dark:brightness-200" />
             </div>
             <div className="h-8 w-px bg-[var(--border)]"></div>
             <div>
@@ -344,10 +396,20 @@ export default function CaptainRegistration() {
 
             <button
               type="submit"
-              className="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2"
+              disabled={loading}
+              className="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition-all shadow-lg hover:shadow-primary/30 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              <Upload size={20} />
-              إرسال طلب الانضمام
+              {loading ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  جاري إرسال الطلب...
+                </>
+              ) : (
+                <>
+                  <Upload size={20} />
+                  إرسال طلب الانضمام
+                </>
+              )}
             </button>
           </div>
         </form>

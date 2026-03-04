@@ -32,16 +32,14 @@ export default function Navbar() {
     >
       <div className="container-custom">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center gap-0">
+          <div className="flex-shrink-0">
             <img 
               src={logo} 
               alt="Hajat Logo" 
-              className={`h-20 lg:h-18 w-auto object-contain transition-all duration-300 ${
-                scrolled ? 'scale-90' : 'scale-100'
+              className={`h-14 lg:h-18 w-auto object-contain transition-all duration-300 ${
+                scrolled ? 'scale-75' : 'scale-100'
               } dark:invert dark:brightness-200`} 
             />
-            <span className="text-2xl lg:text-3xl font-black text-[var(--text)] tracking-tight -mr-5">حاجات</span>
           </div>
 
           {/* Desktop Menu */}

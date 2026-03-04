@@ -7,9 +7,8 @@ export default function Footer() {
       <div className="container-custom">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12 mb-20 text-right">
           <div className="lg:col-span-1 space-y-8">
-             <div className="flex items-center gap-0 mb-6">
-                <img src={logo} alt="Hajat Logo" className="h-20 w-auto object-contain dark:invert dark:brightness-200" />
-                <span className="text-3xl font-black text-[var(--text)] tracking-tight -mr-3">حاجات</span>
+             <div className="mb-6">
+                <img src={logo} alt="Hajat Logo" className="h-14 lg:h-18 w-auto object-contain dark:invert dark:brightness-200" />
              </div>
              <p className="text-[var(--text-muted)] leading-relaxed font-medium">
                أي حاجة... حاجات! أكتب طلبك، ونحن في دربك. التطبيق السوداني الأول لتوصيل كل احتياجاتك بسرعة وأمان.

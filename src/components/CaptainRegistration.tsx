@@ -139,8 +139,12 @@ export default function CaptainRegistration() {
         form.profilePhoto ? uploadFile(form.profilePhoto, `${filePrefix}/profile`) : Promise.resolve(''),
       ]);
 
+      // Generate a unique 5-digit captain ID
+      const captainId = String(Math.floor(10000 + Math.random() * 90000));
+
       // Save to Firestore
-      const docRef = await addDoc(collection(db, 'captainApplications'), {
+      await addDoc(collection(db, 'captainApplications'), {
+        captainId,
         fullName: form.fullName,
         phone: form.phone,
         whatsapp: form.whatsapp || null,
@@ -161,7 +165,7 @@ export default function CaptainRegistration() {
         createdAt: serverTimestamp(),
       });
 
-      setApplicationId(docRef.id);
+      setApplicationId(captainId);
       setSubmitted(true);
     } catch (error) {
       console.error('Error submitting application:', error);

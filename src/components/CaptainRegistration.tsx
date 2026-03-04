@@ -3,7 +3,7 @@ import { Upload, CheckCircle, Truck, ArrowRight, Camera, FileText, AlertCircle, 
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { db, storage } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 interface FormData {
@@ -139,8 +139,20 @@ export default function CaptainRegistration() {
         form.profilePhoto ? uploadFile(form.profilePhoto, `${filePrefix}/profile`) : Promise.resolve(''),
       ]);
 
-      // Generate a unique 5-digit captain ID
-      const captainId = String(Math.floor(10000 + Math.random() * 90000));
+      // Generate a unique 5-digit captain ID (check Firestore for duplicates)
+      let captainId = '';
+      let isUnique = false;
+      for (let i = 0; i < 10; i++) {
+        const candidate = String(Math.floor(10000 + Math.random() * 90000));
+        const q = query(collection(db, 'captainApplications'), where('captainId', '==', candidate));
+        const snapshot = await getDocs(q);
+        if (snapshot.empty) {
+          captainId = candidate;
+          isUnique = true;
+          break;
+        }
+      }
+      if (!isUnique) throw new Error('Could not generate unique ID');
 
       // Save to Firestore
       await addDoc(collection(db, 'captainApplications'), {

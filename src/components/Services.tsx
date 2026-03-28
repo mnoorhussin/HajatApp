@@ -58,7 +58,7 @@ export default function Services() {
           </motion.p>
         </div>
 
-        <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 overflow-x-auto pb-4 hide-scrollbar">
+        <div className="flex justify-start md:justify-center items-center gap-4 md:gap-8 overflow-x-auto md:flex-wrap pb-4 hide-scrollbar snap-x snap-mandatory -mx-4 px-4 md:mx-0 md:px-0">
           {services.map((service, index) => (
             <motion.div 
               key={index}
@@ -67,7 +67,7 @@ export default function Services() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
               whileHover={{ y: -5 }}
-              className="flex items-center gap-3 bg-[var(--surface)] hover:shadow-md border border-[var(--border)] py-3 px-6 rounded-2xl transition-all duration-300 min-w-fit"
+              className="flex items-center gap-3 bg-[var(--surface)] hover:shadow-md border border-[var(--border)] py-3 px-6 rounded-2xl transition-all duration-300 shrink-0 snap-center"
             >
               <div className={`p-2 rounded-xl ${service.color}`}>
                 {service.icon}

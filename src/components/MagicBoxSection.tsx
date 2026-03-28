@@ -56,7 +56,7 @@ export default function MagicBoxSection() {
                   
                   <button
                     type="button"
-                    className="w-full md:w-auto aspect-square bg-[#1E2A45] dark:bg-white/10 text-white p-5 rounded-xl font-bold flex items-center justify-center relative overflow-hidden cursor-default transition-colors duration-300"
+                    className="w-full md:w-auto md:aspect-square bg-[#1E2A45] dark:bg-white/10 text-white p-4 md:p-5 rounded-xl font-bold flex items-center justify-center relative overflow-hidden cursor-default transition-colors duration-300 text-xl md:text-base"
                   >
                     <Mic size={28} className="animate-pulse-slow" />
                     <span className="md:hidden mr-3">سجل طلبك بصوتك</span>

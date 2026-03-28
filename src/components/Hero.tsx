@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
           
           {/* Text Content */}
-          <div className="text-right space-y-10 order-2 lg:order-1">
+          <div className="text-right space-y-10 order-1 lg:order-1">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -93,7 +93,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
             animate={{ opacity: 1, scale: 1, rotate: -5 }}
             transition={{ duration: 0.8 }}
-            className="relative lg:h-[700px] flex items-center justify-center order-1 lg:order-2"
+            className="relative lg:h-[700px] flex items-center justify-center order-2 lg:order-2 mt-8 lg:mt-0"
           >
              <div className="relative w-full max-w-sm mx-auto">
                 {/* Clean Phone Mockup */}
@@ -154,7 +154,7 @@ export default function Hero() {
                 <motion.div 
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -right-12 top-[42%] bg-[var(--surface)] p-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-[var(--border)] z-30"
+                  className="hidden md:flex absolute -right-12 top-[42%] bg-[var(--surface)] p-4 rounded-2xl shadow-2xl items-center gap-3 border border-[var(--border)] z-30"
                 >
                   <div className="w-10 h-10 bg-[#A3E635]/20 rounded-full flex items-center justify-center text-xl">🍔</div>
                   <div>
@@ -166,7 +166,7 @@ export default function Hero() {
                 <motion.div 
                   animate={{ y: [0, 15, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -left-16 bottom-1/4 bg-[var(--surface)] p-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-[var(--border)] z-30"
+                  className="hidden md:flex absolute -left-16 bottom-1/4 bg-[var(--surface)] p-4 rounded-2xl shadow-2xl items-center gap-3 border border-[var(--border)] z-30"
                 >
                   <div className="w-10 h-10 bg-[#6C5CE7]/20 rounded-full flex items-center justify-center text-xl">🛵</div>
                   <div>

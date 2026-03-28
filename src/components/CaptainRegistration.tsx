@@ -3,20 +3,26 @@ import { Upload, CheckCircle, Truck, ArrowRight, Camera, FileText, AlertCircle, 
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { db, storage } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { generateCaptainFileNumber } from '../utils/generateFileNumber';
 
 interface FormData {
   fullName: string;
   phone: string;
   whatsapp: string;
+  age: string;
   nationalId: string;
   city: string;
   area: string;
   vehicleType: string;
   plateNumber: string;
+  previousDeliveryExperience: boolean;
+  previousCompany: string;
+  whyJoin: string;
   emergencyName: string;
   emergencyPhone: string;
+  emergencyContactRelation: string;
   idFrontFile: File | null;
   idBackFile: File | null;
   licenseFile: File | null;
@@ -28,13 +34,18 @@ const initialForm: FormData = {
   fullName: '',
   phone: '',
   whatsapp: '',
+  age: '',
   nationalId: '',
   city: 'الخرطوم',
   area: '',
   vehicleType: '',
   plateNumber: '',
+  previousDeliveryExperience: false,
+  previousCompany: '',
+  whyJoin: '',
   emergencyName: '',
   emergencyPhone: '',
+  emergencyContactRelation: '',
   idFrontFile: null,
   idBackFile: null,
   licenseFile: null,
@@ -48,6 +59,7 @@ const vehicleTypes = [
   { value: 'tukTuk', label: 'ركشة', icon: '🛺' },
   { value: 'car', label: 'عربية', icon: '🚗' },
   { value: 'bicycle', label: 'عجلة', icon: '🚲' },
+  { value: 'walking', label: 'مشي', icon: '🚶' },
 ];
 
 export default function CaptainRegistration() {
@@ -67,7 +79,7 @@ export default function CaptainRegistration() {
       const next = { ...prev, [field]: value };
       
       // Clear errors for plate and license if vehicle type changes to something that doesn't require them
-      if (field === 'vehicleType' && (value === 'tukTuk' || value === 'bicycle')) {
+      if (field === 'vehicleType' && (value === 'tukTuk' || value === 'bicycle' || value === 'walking')) {
         setErrors(prevErrors => ({
           ...prevErrors,
           plateNumber: undefined,
@@ -89,19 +101,27 @@ export default function CaptainRegistration() {
     if (!form.fullName.trim()) newErrors.fullName = 'الاسم الكامل مطلوب';
     if (!form.phone.trim()) newErrors.phone = 'رقم الهاتف مطلوب';
     else if (!/^(09|01)\d{8}$/.test(form.phone.trim())) newErrors.phone = 'رقم هاتف غير صحيح (مثال: 0912345678)';
+    if (!form.age.trim()) newErrors.age = 'العمر مطلوب';
+    else if (isNaN(Number(form.age)) || Number(form.age) < 18) newErrors.age = 'يجب أن يكون العمر 18 سنة أو أكثر';
     if (!form.nationalId.trim()) newErrors.nationalId = 'الرقم الوطني مطلوب';
     if (!form.city) newErrors.city = 'المدينة مطلوبة';
     if (!form.area.trim()) newErrors.area = 'الحي/المنطقة مطلوب';
     if (!form.vehicleType) newErrors.vehicleType = 'نوع المركبة مطلوب';
     
-    const needsPlateAndLicense = form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle';
+    const needsPlateAndLicense = form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle' && form.vehicleType !== 'walking';
     
     if (needsPlateAndLicense && !form.plateNumber.trim()) {
       newErrors.plateNumber = 'رقم اللوحة مطلوب';
     }
     
+    if (form.previousDeliveryExperience && !form.previousCompany.trim()) {
+      newErrors.previousCompany = 'اسم الشركة السابقة مطلوب';
+    }
+    
     if (!form.emergencyName.trim()) newErrors.emergencyName = 'اسم جهة الاتصال مطلوب';
     if (!form.emergencyPhone.trim()) newErrors.emergencyPhone = 'رقم الطوارئ مطلوب';
+    if (!form.emergencyContactRelation.trim()) newErrors.emergencyContactRelation = 'صلة القرابة مطلوبة';
+    
     if (!form.idFrontFile) newErrors.idFrontFile = 'صورة الهوية (الأمام) مطلوبة';
     if (!form.idBackFile) newErrors.idBackFile = 'صورة الهوية (الخلف) مطلوبة';
     
@@ -139,45 +159,48 @@ export default function CaptainRegistration() {
         form.profilePhoto ? uploadFile(form.profilePhoto, `${filePrefix}/profile`) : Promise.resolve(''),
       ]);
 
-      // Generate a unique 5-digit captain ID (check Firestore for duplicates)
-      let captainId = '';
-      let isUnique = false;
-      for (let i = 0; i < 10; i++) {
-        const candidate = String(Math.floor(10000 + Math.random() * 90000));
-        const q = query(collection(db, 'captainApplications'), where('captainId', '==', candidate));
-        const snapshot = await getDocs(q);
-        if (snapshot.empty) {
-          captainId = candidate;
-          isUnique = true;
-          break;
-        }
-      }
-      if (!isUnique) throw new Error('Could not generate unique ID');
+      // Generate a unique file number
+      const fileNumber = await generateCaptainFileNumber();
 
-      // Save to Firestore
-      await addDoc(collection(db, 'captainApplications'), {
-        captainId,
+      const hasVehicle = form.vehicleType !== 'walking';
+
+      // Save to Firestore following the schema
+      const applicationData: any = {
+        fileNumber,
+        userId: `tmp_${Date.now()}`,
+        userName: form.fullName.split(' ')[0],
+        userPhone: form.phone,
         fullName: form.fullName,
-        phone: form.phone,
-        whatsapp: form.whatsapp || null,
-        nationalId: form.nationalId,
+        age: Number(form.age),
         city: form.city,
-        area: form.area,
+        neighborhood: form.area,
+        nationalIdNumber: form.nationalId,
+        nationalIdFrontUrl: idFrontUrl,
+        nationalIdBackUrl: idBackUrl,
+        selfieWithIdUrl: profileUrl,
+        hasVehicle,
         vehicleType: form.vehicleType,
-        plateNumber: form.plateNumber || null,
-        emergencyName: form.emergencyName,
-        emergencyPhone: form.emergencyPhone,
-        documents: {
-          idFront: idFrontUrl,
-          idBack: idBackUrl,
-          license: licenseUrl,
-          profilePhoto: profileUrl,
-        },
+        vehiclePlate: form.plateNumber || null,
+        driverLicenseUrl: licenseUrl || null,
+        previousDeliveryExperience: form.previousDeliveryExperience,
+        previousCompany: form.previousCompany || null,
+        whyJoin: form.whyJoin || null,
+        emergencyContactName: form.emergencyName,
+        emergencyContactPhone: form.emergencyPhone,
+        emergencyContactRelation: form.emergencyContactRelation,
         status: 'pending',
-        createdAt: serverTimestamp(),
-      });
+        submittedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
 
-      setApplicationId(captainId);
+      // Clean up nulls
+      Object.keys(applicationData).forEach(
+        key => applicationData[key] === null && delete applicationData[key]
+      );
+
+      await addDoc(collection(db, 'captainApplications'), applicationData);
+
+      setApplicationId(fileNumber);
       setSubmitted(true);
     } catch (error) {
       console.error('Error submitting application:', error);
@@ -270,6 +293,7 @@ export default function CaptainRegistration() {
               <InputField label="رقم الهاتف" required value={form.phone} onChange={v => updateField('phone', v)} error={errors.phone} placeholder="0912345678" type="tel" />
               <InputField label="رقم الواتساب (اختياري)" value={form.whatsapp} onChange={v => updateField('whatsapp', v)} placeholder="لو مختلف عن رقم الهاتف" type="tel" />
               <InputField label="الرقم الوطني" required value={form.nationalId} onChange={v => updateField('nationalId', v)} error={errors.nationalId} placeholder="رقم البطاقة الشخصية" />
+              <InputField label="العمر" required value={form.age} onChange={v => updateField('age', v)} error={errors.age} placeholder="مثال: 25" type="number" />
             </div>
           </div>
 
@@ -326,7 +350,7 @@ export default function CaptainRegistration() {
             </div>
             <InputField 
               label="رقم اللوحة" 
-              required={form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle'} 
+              required={form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle' && form.vehicleType !== 'walking'} 
               value={form.plateNumber} 
               onChange={v => updateField('plateNumber', v)} 
               error={errors.plateNumber} 
@@ -363,7 +387,7 @@ export default function CaptainRegistration() {
               />
               <FileUploadField
                 label="رخصة القيادة"
-                required={form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle'}
+                required={form.vehicleType !== 'tukTuk' && form.vehicleType !== 'bicycle' && form.vehicleType !== 'walking'}
                 icon={<Truck size={24} />}
                 file={form.licenseFile}
                 inputRef={licenseRef}
@@ -382,26 +406,68 @@ export default function CaptainRegistration() {
             </div>
           </div>
 
-          {/* Section 5: Emergency Contact */}
+          {/* Section 5: Experience */}
           <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
             <h3 className="text-xl font-bold text-[var(--text)] mb-6 flex items-center gap-2">
               <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">5</span>
+              الخبرة والدوافع
+            </h3>
+            <div className="space-y-6">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={form.previousDeliveryExperience}
+                  onChange={e => updateField('previousDeliveryExperience', e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
+                />
+                <span className="text-sm font-bold text-[var(--text)]">هل لديك خبرة سابقة في التوصيل؟</span>
+              </label>
+              
+              {form.previousDeliveryExperience && (
+                <InputField 
+                  label="اسم الشركة/التطبيق السابق" 
+                  required
+                  value={form.previousCompany} 
+                  onChange={v => updateField('previousCompany', v)} 
+                  error={errors.previousCompany}
+                  placeholder="مثال: طلبات، ترحال..." 
+                />
+              )}
+
+              <div>
+                <label className="block text-sm font-bold text-[var(--text)] mb-2">لماذا ترغب في الانضمام لحاجات؟</label>
+                <textarea
+                  value={form.whyJoin}
+                  onChange={e => updateField('whyJoin', e.target.value)}
+                  placeholder="حدثنا عن دوافعك..."
+                  className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-[var(--text)] bg-[var(--bg)] focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                  rows={3}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 6: Emergency Contact */}
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
+            <h3 className="text-xl font-bold text-[var(--text)] mb-6 flex items-center gap-2">
+              <span className="w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center text-sm font-bold">6</span>
               جهة الاتصال للطوارئ
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <InputField label="اسم جهة الاتصال" required value={form.emergencyName} onChange={v => updateField('emergencyName', v)} error={errors.emergencyName} placeholder="مثال: أحمد (أخ)" />
               <InputField label="رقم هاتف الطوارئ" required value={form.emergencyPhone} onChange={v => updateField('emergencyPhone', v)} error={errors.emergencyPhone} placeholder="0912345678" type="tel" />
+              <InputField label="صلة القرابة" required value={form.emergencyContactRelation} onChange={v => updateField('emergencyContactRelation', v)} error={errors.emergencyContactRelation} placeholder="مثال: أب، أخ، صديق" />
             </div>
           </div>
 
           {/* Agreement & Submit */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100">
+          <div className="bg-[var(--surface)] rounded-2xl p-6 md:p-8 shadow-sm border border-[var(--border)]">
             <label className="flex items-start gap-3 cursor-pointer mb-6">
               <input
                 type="checkbox"
                 checked={form.agreed}
                 onChange={e => updateField('agreed', e.target.checked)}
-                className="mt-1 w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
+                className="mt-1 w-5 h-5 rounded border-[var(--border)] text-primary focus:ring-primary bg-[var(--bg)]"
               />
               <span className="text-sm text-[var(--text-muted)] leading-relaxed">
                 أوافق على <span className="text-primary font-bold">الشروط والأحكام</span> وأقر بأن جميع البيانات المدخلة صحيحة.

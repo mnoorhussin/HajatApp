@@ -43,7 +43,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-8 lg:gap-10">
+          <div className="hidden lg:flex items-center gap-8 lg:gap-10">
             <div className="flex items-center gap-8 gap-x-reverse">
               {navLinks.map((link) => (
                 <a
@@ -67,7 +67,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Actions */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="lg:hidden flex items-center gap-3">
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -82,7 +82,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`md:hidden absolute top-full left-0 w-full bg-[var(--surface)] border-b border-[var(--border)] shadow-xl transition-all duration-300 transform origin-top ${
+        className={`lg:hidden absolute top-full left-0 w-full bg-[var(--surface)] border-b border-[var(--border)] shadow-xl transition-all duration-300 transform origin-top ${
           isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'
         }`}
       >

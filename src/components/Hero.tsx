@@ -1,5 +1,6 @@
 import { Download, ArrowLeft, Shield, Zap, CreditCard } from 'lucide-react';
 import { motion } from 'framer-motion';
+import heroDelivery from '../assets/hero-delivery.png';
 
 export default function Hero() {
   return (
@@ -109,7 +110,7 @@ export default function Hero() {
                 className="relative z-20"
               >
                 <img 
-                  src="/src/assets/hero-delivery.png" 
+                  src={heroDelivery} 
                   alt="Hajat Delivery Captain" 
                   className="w-full h-auto drop-shadow-[0_35px_35px_rgba(108,92,231,0.25)]"
                 />

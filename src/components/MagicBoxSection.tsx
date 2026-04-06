@@ -1,4 +1,4 @@
-import { Mic, Send, Sparkles, MessageSquare } from 'lucide-react';
+import { Send, Sparkles } from 'lucide-react';
 
 export default function MagicBoxSection() {
   return (
@@ -14,10 +14,10 @@ export default function MagicBoxSection() {
             تجربة فريدة
           </div>
           <h2 className="text-3xl lg:text-5xl font-extrabold text-[var(--text)]">
-            المربع السحري: <span className="text-primary">أطلب أي شي!</span>
+            المربع السحري: <span className="text-primary">اطلب أي شيء!</span>
           </h2>
           <p className="text-lg text-[var(--text-muted)] max-w-2xl mx-auto font-medium">
-            ما بنحصرك في قائمة مطاعم معينة. اكتب اللي في بالك، وصوتك مسموع.
+            لا نلزمك بقائمة مطاعم محددة. اكتب ما يدور في ذهنك، وسنوفره لك.
           </p>
         </div>
 
@@ -30,18 +30,14 @@ export default function MagicBoxSection() {
               <div className="space-y-6">
                 <div className="relative">
                   <label className="block text-[var(--text)] font-bold text-xl mb-4 text-right">
-حاجتك شنو الليلة؟                     </label>
+ما الذي تحتاجه اليوم؟                     </label>
                   
                   <div className="relative">
                     <textarea
                       readOnly
-                      placeholder='مثلاً: "عايز نص دستة باسطة من بابا غنوج وواحد بيبسي عائلي"'
+                      placeholder='مثلاً: "أريد نصف دزينة من الحلويات من متجر ومشروب غازي عائلي"'
                       className="w-full bg-[var(--bg)] border-2 border-[var(--border)] rounded-2xl p-6 text-lg text-right text-[var(--text)] h-40 outline-none transition-all resize-none placeholder-gray-300 dark:placeholder-gray-600 shadow-inner cursor-default"
                     />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center gap-2 opacity-40">
-                      <MessageSquare size={32} className="text-primary italic" />
-                      <span className="text-sm font-medium text-[var(--text)]">نحن بنسمعك...</span>
-                    </div>
                   </div>
                 </div>
 
@@ -52,14 +48,6 @@ export default function MagicBoxSection() {
                   >
                     أرسل الطلب
                     <Send size={24} />
-                  </button>
-                  
-                  <button
-                    type="button"
-                    className="w-full md:w-auto md:aspect-square bg-[#1E2A45] dark:bg-white/10 text-white p-4 md:p-5 rounded-xl font-bold flex items-center justify-center relative overflow-hidden cursor-default transition-colors duration-300 text-xl md:text-base"
-                  >
-                    <Mic size={28} className="animate-pulse-slow" />
-                    <span className="md:hidden mr-3">سجل طلبك بصوتك</span>
                   </button>
                 </div>
               </div>

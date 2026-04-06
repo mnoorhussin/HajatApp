@@ -1,4 +1,5 @@
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 export default function Footer() {
@@ -11,7 +12,7 @@ export default function Footer() {
                 <img src={logo} alt="Hajat Logo" className="h-14 lg:h-18 w-auto object-contain dark:invert dark:brightness-200" />
              </div>
              <p className="text-[var(--text-muted)] leading-relaxed font-medium">
-               أي حاجة... حاجات! أكتب طلبك، ونحن في دربك. التطبيق السوداني الأول لتوصيل كل احتياجاتك بسرعة وأمان.
+               تطبيق حاجات... دليلك لتلبية كافة احتياجاتك! اطلب ما تريد، وسنكون في طريقنا إليك. التطبيق السوداني الأول لتوصيل كل احتياجاتك بسرعة وأمان.
              </p>
              <div className="flex gap-4">
                {[
@@ -77,9 +78,13 @@ export default function Footer() {
 
         <div className="pt-10 border-t border-[var(--border)] text-center text-[var(--text-muted)] text-sm font-bold flex flex-col md:flex-row justify-between items-center gap-6">
           <p>© {new Date().getFullYear()} حاجات لخدمات التوصيل. جميع الحقوق محفوظة.</p>
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-[var(--text)] transition-colors">الشروط والأحكام</a>
-            <a href="#" className="hover:text-[var(--text)] transition-colors">سياسة الخصوصية</a>
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+            <Link to="/policies/merchant-agreement" className="hover:text-[var(--text)] transition-colors">اتفاقية المتاجر</Link>
+            <Link to="/policies/captain-agreement" className="hover:text-[var(--text)] transition-colors">اتفاقية شركاء التوصيل</Link>
+            <Link to="/policies/cancellation-policy" className="hover:text-[var(--text)] transition-colors">سياسة الإلغاء</Link>
+            <Link to="/policies/consumer-protection" className="hover:text-[var(--text)] transition-colors">حماية المستهلك</Link>
+            <Link to="/policies/terms-and-conditions" className="hover:text-[var(--text)] transition-colors">الشروط والأحكام</Link>
+            <Link to="/policies/privacy-policy" className="hover:text-[var(--text)] transition-colors">سياسة الخصوصية</Link>
           </div>
         </div>
       </div>

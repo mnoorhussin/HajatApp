@@ -63,17 +63,13 @@ export const ordersByArea = [
   { area: 'مناطق أخرى', orders: 230, percentage: 6.0 },
 ];
 
-export const voiceVsText = {
-  voice: 42, // percentage
-  text: 58,
-};
+// Removed voiceVsText stats
 
 export const recentFeedback = [
   { user: 'أحمد محمد', rating: 5, comment: 'خدمة ممتازة! الكابتن وصل في 15 دقيقة', time: '14:30' },
   { user: 'سارة حسن', rating: 4, comment: 'جيد لكن التغليف ممكن يتحسن', time: '13:45' },
   { user: 'عمر بكري', rating: 5, comment: 'أحسن تطبيق توصيل في كسلا والله', time: '12:20' },
   { user: 'فاطمة عثمان', rating: 3, comment: 'الكابتن اتأخر شوية', time: '11:55' },
-  { user: 'نورا صالح', rating: 5, comment: 'ميزة الصوت رهيبة! ما محتاجة اكتب', time: '10:30' },
 ];
 
 export const hourlyOrders = [

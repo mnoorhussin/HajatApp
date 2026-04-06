@@ -55,11 +55,11 @@ const initialForm: FormData = {
 
 const cities = ['الخرطوم', 'بحري', 'أمدرمان', 'كسلا', 'بورتسودان', 'مدني', 'الأبيض', 'أخرى'];
 const vehicleTypes = [
-  { value: 'motorcycle', label: 'موتر (دراجة نارية)', icon: '🏍️' },
-  { value: 'tukTuk', label: 'ركشة', icon: '🛺' },
-  { value: 'car', label: 'عربية', icon: '🚗' },
-  { value: 'bicycle', label: 'عجلة', icon: '🚲' },
-  { value: 'walking', label: 'مشي', icon: '🚶' },
+  { value: 'motorcycle', label: 'دراجة نارية', icon: '🏍️' },
+  { value: 'tukTuk', label: 'توك توك', icon: '🛺' },
+  { value: 'car', label: 'سيارة', icon: '🚗' },
+  { value: 'bicycle', label: 'دراجة هوائية', icon: '🚲' },
+  { value: 'walking', label: 'سيراً على الأقدام', icon: '🚶' },
 ];
 
 export default function CaptainRegistration() {
@@ -222,7 +222,7 @@ export default function CaptainRegistration() {
             شكراً لك <span className="font-bold text-primary">{form.fullName}</span>
           </p>
           <p className="text-[var(--text-muted)] text-sm leading-relaxed mb-6 opacity-80">
-            فريقنا حيراجع طلبك خلال 24-48 ساعة. حنتواصل معاك على الرقم
+            سيقوم فريقنا بمراجعة طلبك خلال 24-48 ساعة. سنتواصل معك على الرقم
             <span className="font-bold text-[var(--text)]"> {form.phone} </span>
             لإكمال الإجراءات.
           </p>
@@ -254,7 +254,7 @@ export default function CaptainRegistration() {
             <div className="h-8 w-px bg-[var(--border)]"></div>
             <div>
               <h1 className="text-lg font-bold">انضم لأسرة حاجات</h1>
-              <p className="text-xs text-[var(--text-muted)]">سجل ككابتن توصيل</p>
+              <p className="text-xs text-[var(--text-muted)]">سجل كمندوب توصيل</p>
             </div>
           </div>
           <Link to="/" className="text-sm text-[var(--text-muted)] hover:text-primary transition-colors flex items-center gap-1">
@@ -271,9 +271,9 @@ export default function CaptainRegistration() {
             <Truck size={16} />
             فرصة عمل مميزة
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-3">كن كابتن حاجات</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-3">كن مندوب توصيل</h2>
           <p className="text-orange-100 text-lg max-w-2xl mx-auto">
-            طريقك لزيادة دخلك بيبدأ هنا. انضم لكباتن حاجات واستثمر وقتك ومركبتك بأفضل طريقة.
+            طريقك لزيادة دخلك يبدأ من هنا. انضم لشركاء التوصيل واستثمر وقتك ومركبتك بأفضل طريقة.
           </p>
         </div>
       </div>

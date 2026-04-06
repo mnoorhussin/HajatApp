@@ -36,9 +36,7 @@ export default function Navbar() {
             <img 
               src={logo} 
               alt="Hajat Logo" 
-              className={`h-14 lg:h-18 w-auto object-contain transition-all duration-300 ${
-                scrolled ? 'scale-75' : 'scale-100'
-              } dark:invert dark:brightness-200`} 
+              className="h-14 lg:h-18 w-auto object-contain transition-all duration-300 dark:invert dark:brightness-200" 
             />
           </div>
 

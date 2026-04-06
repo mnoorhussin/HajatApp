@@ -26,12 +26,15 @@ function LandingPage() {
   );
 }
 
+import PolicyPage from './components/PolicyPage';
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/join" element={<CaptainRegistration />} />
+        <Route path="/policies/:slug" element={<PolicyPage />} />
       </Routes>
     </Router>
   );

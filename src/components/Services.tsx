@@ -1,4 +1,4 @@
-import { Pill, Utensils, ShoppingBasket, Cog, Package, Mic } from 'lucide-react';
+import { Pill, Utensils, ShoppingBasket, Cog, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const services = [
@@ -14,23 +14,18 @@ const services = [
   },
   {
     icon: <ShoppingBasket size={24} />,
-    title: 'المقاضي',
+    title: 'البقالة',
     color: 'bg-green-50 text-green-600'
   },
   {
     icon: <Package size={24} />,
-    title: 'مرسال',
+    title: 'مندوب خاص',
     color: 'bg-[#6C5CE7]/10 text-[#6C5CE7]'
   },
   {
     icon: <Cog size={24} />,
-    title: 'الإسبيرات',
+    title: 'قطع الغيار',
     color: 'bg-blue-50 text-blue-600'
-  },
-  {
-    icon: <Mic size={24} />,
-    title: 'طلب صوتي',
-    color: 'bg-purple-50 text-purple-600'
   }
 ];
 
@@ -45,7 +40,7 @@ export default function Services() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-extrabold text-[var(--text)]"
           >
-            كل اللي تحتاجه، <span className="text-[#6C5CE7]">تلقاه عندنا</span>
+            كل ما تحتاجه، <span className="text-[#6C5CE7]">تجده لدينا</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

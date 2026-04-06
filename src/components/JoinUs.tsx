@@ -1,4 +1,4 @@
-import { Store, Bike, ChevronRight, TrendingUp, Users, Smartphone, HeadphonesIcon, DollarSign, Gift, Clock, ShieldCheck } from 'lucide-react';
+import { Bike, ChevronRight, DollarSign, Gift, Clock, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -31,107 +31,60 @@ export default function JoinUs() {
             transition={{ delay: 0.1 }}
             className="text-lg text-[var(--text-muted)] max-w-2xl mx-auto font-medium"
           >
-            سواء كنت صاحب عمل تبحث عن النمو، أو تبحث عن دخل إضافي مرن، لدينا المكان المناسب لك.
+            ابدأ رحلتك معنا كمندوب توصيل اليوم وحقق دخلاً ممتازاً بمرونة تامة، مع دعم كامل في كل خطوة.
           </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          
-          {/* Partner Card */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="group relative bg-[var(--surface)] rounded-[2.5rem] p-10 shadow-sm border border-[var(--border)] hover:shadow-xl hover:border-[#6C5CE7]/10 transition-all duration-500 overflow-hidden"
-          >
-            {/* Soft background glow */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#6C5CE7]/5 rounded-full blur-3xl group-hover:bg-[#6C5CE7]/10 transition-colors duration-500"></div>
-            
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="w-16 h-16 rounded-2xl bg-[#6C5CE7]/10 flex items-center justify-center text-[#6C5CE7] mb-8 group-hover:scale-110 transition-transform duration-500">
-                <Store size={32} />
-              </div>
-              
-              <h3 className="text-3xl font-extrabold text-[var(--text)] mb-4">
-                انضم إلينا <span className="text-[#6C5CE7]">كشريك</span>
-              </h3>
-              
-              <p className="text-[var(--text-muted)] text-lg mb-8 leading-relaxed font-medium">
-                اجذب المزيد من العملاء وحقق نموًا استثنائيًا لمتجرك بسهولة تامة.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 flex-grow">
-                {[
-                  { text: 'توسيع قاعدة عملائك', icon: <Users size={18} /> },
-                  { text: 'تحقيق أرباح مستدامة', icon: <TrendingUp size={18} /> },
-                  { text: 'لوحة تحكم احترافية', icon: <Smartphone size={18} /> },
-                  { text: 'دعم فني متكامل', icon: <HeadphonesIcon size={18} /> },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-[var(--text)] font-bold">
-                    <div className="text-[#6C5CE7] bg-[#6C5CE7]/5 p-2 rounded-xl border border-[#6C5CE7]/10">
-                      {item.icon}
-                    </div>
-                    <span className="text-sm">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-              
-              <button className="w-full btn btn-outline py-4 text-base rounded-2xl group/btn overflow-hidden relative">
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  سجل متجرك الآن
-                  <ChevronRight size={20} className="scale-x-[-1] group-hover/btn:translate-x-[-4px] transition-transform" />
-                </span>
-              </button>
-            </div>
-          </motion.div>
-
+        <div className="max-w-4xl mx-auto">
           {/* Captain Card */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="group relative bg-[#1E2A45] dark:bg-[#1e293b] rounded-[2.5rem] p-10 shadow-xl border border-[var(--border)] dark:border-white/5 hover:shadow-2xl transition-all duration-500 overflow-hidden"
+            className="group relative bg-[#1E2A45] dark:bg-[#1e293b] rounded-[3rem] p-10 lg:p-16 shadow-2xl border border-[var(--border)] dark:border-white/5 hover:shadow-[#6C5CE7]/10 transition-all duration-500 overflow-hidden"
           >
-            {/* Soft background glow for dark mode */}
-            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#6C5CE7]/20 rounded-full blur-3xl group-hover:bg-[#6C5CE7]/30 transition-colors duration-500"></div>
+            {/* Background Effects */}
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#6C5CE7]/20 rounded-full blur-[100px] group-hover:bg-[#6C5CE7]/30 transition-colors duration-500"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#6C5CE7]/10 rounded-full blur-[80px] -mr-32 -mt-32"></div>
             
-            <div className="relative z-10 flex flex-col h-full">
-              <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-[#6C5CE7] mb-8 border border-white/5 group-hover:scale-110 transition-transform duration-500">
-                <Bike size={32} />
+            <div className="relative z-10 flex flex-col items-center text-center h-full">
+              <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center text-[#6C5CE7] mb-10 border border-white/5 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-xl">
+                <Bike size={40} />
               </div>
               
-              <h3 className="text-3xl font-extrabold text-white mb-4">
-                انضم لأسرة <span className="text-[#6C5CE7]">كباتن حاجات</span>
+              <h3 className="text-3xl lg:text-4xl font-extrabold text-white mb-6">
+                انضم لأسرة <span className="text-[#6C5CE7]">شركاء توصيل حاجات</span>
               </h3>
               
-              <p className="text-gray-400 text-lg mb-8 leading-relaxed font-medium">
-                طريقك لزيادة دخلك بيبدأ هنا. انضم لكباتن حاجات واستثمر وقتك ومركبتك بأفضل طريقة.
+              <p className="text-gray-300 text-lg lg:text-xl mb-12 leading-relaxed font-medium max-w-2xl">
+                طريقك لزيادة دخلك يبدأ من هنا. انضم لشركاء التوصيل واستثمر وقتك ومركبتك بأكبر قدر من المرونة والاحترافية.
               </p>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10 flex-grow">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 w-full">
                 {[
-                  { text: 'دخل إضافي مستمر', icon: <DollarSign size={18} /> },
-                  { text: 'حوافز ومكافآت', icon: <Gift size={18} /> },
-                  { text: 'ساعات عمل مرنة', icon: <Clock size={18} /> },
-                  { text: 'دعم وتأمين كامل', icon: <ShieldCheck size={18} /> },
+                  { text: 'دخل إضافي مستمر', icon: <DollarSign size={20} /> },
+                  { text: 'حوافز ومكافآت', icon: <Gift size={20} /> },
+                  { text: 'ساعات عمل مرنة', icon: <Clock size={20} /> },
+                  { text: 'دعم وتأمين كامل', icon: <ShieldCheck size={20} /> },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-white font-bold">
-                    <div className="text-[#6C5CE7] bg-white/5 p-2 rounded-xl border border-white/10">
+                  <div key={i} className="flex flex-col items-center gap-4 bg-white/5 p-6 rounded-3xl border border-white/10 hover:bg-white/10 transition-colors duration-300">
+                    <div className="text-[#6C5CE7] bg-white/5 p-3 rounded-2xl border border-white/10">
                       {item.icon}
                     </div>
-                    <span className="text-sm">{item.text}</span>
+                    <span className="text-base text-white font-bold">{item.text}</span>
                   </div>
                 ))}
               </div>
               
-              <Link to="/join" className="w-full btn btn-primary py-4 text-base rounded-2xl shadow-lg shadow-[#6C5CE7]/30">
-                <span>سجل ككابتن الآن</span>
-                <ChevronRight size={20} className="scale-x-[-1]" />
+              <Link to="" className="w-full max-w-md btn btn-primary py-5 text-lg rounded-2xl shadow-xl shadow-[#6C5CE7]/30 group/btn overflow-hidden relative">
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  سجل كمندوب توصيل الآن
+                  <ChevronRight size={24} className="scale-x-[-1] group-hover/btn:translate-x-[-6px] transition-transform" />
+                </span>
               </Link>
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

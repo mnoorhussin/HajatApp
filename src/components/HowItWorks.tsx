@@ -4,20 +4,20 @@ import { Smartphone, Send, PackageCheck } from 'lucide-react';
 const steps = [
   {
     icon: <Smartphone size={40} />,
-    title: 'أفتح التطبيق',
-    description: 'حمّل تطبيق حاجات وأنشئ حسابك في ثواني معدودة وابدأ رحلة الطلب',
+    title: 'افتح التطبيق',
+    description: 'حمّل تطبيق حاجات وأنشئ حسابك في ثوانٍ معدودة وابدأ رحلة الطلب',
     color: 'bg-blue-50 text-blue-600'
   },
   {
     icon: <Send size={40} />,
     title: 'أكتب طلبك',
-    description: 'سجّل طلبك كتابة أو صوتياً، وحدد المكان العايزنا نوصل فيه',
+    description: 'سجّل طلبك كتابةً، وحدد المكان الذي تريد التوصيل إليه',
     color: 'bg-[#6C5CE7]/10 text-[#6C5CE7]'
   },
   {
     icon: <PackageCheck size={40} />,
     title: 'استلم طلبك',
-    description: 'أقرب كابتن حيستلم طلبك ويوصله ليك لباب بيتك بأمان وسرعة',
+    description: 'سيستلم أقرب مندوب طلبك ويوصله إلى باب منزلك بأمان وسرعة',
     color: 'bg-[#A3E635]/20 text-[#1E2A45]'
   }
 ];

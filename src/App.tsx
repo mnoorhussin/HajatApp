@@ -7,7 +7,8 @@ import MagicBoxSection from './components/MagicBoxSection';
 import JoinUs from './components/JoinUs';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-import CaptainRegistration from './components/CaptainRegistration';
+import ScrollToTop from './utils/ScrollToTop';
+import PolicyPage from './components/PolicyPage';
 
 function LandingPage() {
   return (
@@ -26,14 +27,12 @@ function LandingPage() {
   );
 }
 
-import PolicyPage from './components/PolicyPage';
-
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/join" element={<CaptainRegistration />} />
         <Route path="/policies/:slug" element={<PolicyPage />} />
       </Routes>
     </Router>

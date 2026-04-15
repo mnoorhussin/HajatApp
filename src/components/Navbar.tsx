@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import ThemeToggle from './ThemeToggle';
 
@@ -16,28 +17,29 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'الرئيسية', href: '#' },
-    { name: 'خدماتنا', href: '#services' },
-    { name: 'كيف يعمل', href: '#how-it-works' },
-    { name: 'انضم إلينا', href: '#join-us' },
+    { name: 'الرئيسية', href: '/' },
+    { name: 'خدماتنا', href: '/#services' },
+    { name: 'كيف يعمل', href: '/#how-it-works' },
   ];
 
   return (
-    <nav 
+    <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-[var(--surface)]/80 backdrop-blur-lg py-3 shadow-sm border-b border-[var(--border)]' 
+        scrolled
+          ? 'bg-[var(--surface)]/80 backdrop-blur-lg py-3 shadow-sm border-b border-[var(--border)]'
           : 'bg-transparent py-5'
       }`}
     >
       <div className="container-custom">
         <div className="flex justify-between items-center">
           <div className="flex-shrink-0">
-            <img 
-              src={logo} 
-              alt="Hajat Logo" 
-              className="h-14 lg:h-18 w-auto object-contain transition-all duration-300 dark:invert dark:brightness-200" 
-            />
+            <Link to="/">
+              <img
+                src={logo}
+                alt="Hajat Logo"
+                className="h-14 lg:h-18 w-auto object-contain transition-all duration-300 cursor-pointer mix-blend-multiply dark:mix-blend-screen"
+              />
+            </Link>
           </div>
 
           {/* Desktop Menu */}

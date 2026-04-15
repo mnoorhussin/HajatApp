@@ -5,7 +5,6 @@ import contentPolicy from './content-policy.md?raw';
 import consumerProtection from './consumer-protection.md?raw';
 import antiFraudPolicy from './anti-fraud-policy.md?raw';
 import merchantAgreement from './merchant-agreement.md?raw';
-import captainAgreement from './captain-agreement.md?raw';
 
 export const policiesMap: Record<string, { title: string; content: string }> = {
   'terms-and-conditions': {
@@ -35,9 +34,5 @@ export const policiesMap: Record<string, { title: string; content: string }> = {
   'merchant-agreement': {
     title: 'اتفاقية المتاجر',
     content: merchantAgreement,
-  },
-  'captain-agreement': {
-    title: 'اتفاقية مندوبي التوصيل',
-    content: captainAgreement,
   },
 };

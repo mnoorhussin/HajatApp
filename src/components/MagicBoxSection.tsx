@@ -54,7 +54,7 @@ export default function MagicBoxSection() {
 
               <div className="mt-8 flex flex-wrap justify-center gap-4">
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-widest w-full text-center mb-2">اقتراحات شائعة</span>
-                {['دواء صيدلية', 'غداء عائلي', 'مقاضي خضار', 'توصيل طرد'].map((tag) => (
+                {['دواء صيدلية', 'غداء عائلي', ' خضار وفواكه', 'توصيل طرد'].map((tag) => (
                   <span
                     key={tag}
                     className="px-4 py-2 bg-[var(--bg)] text-[var(--text)] rounded-full text-sm font-bold border border-[var(--border)] cursor-default transition-colors duration-300"

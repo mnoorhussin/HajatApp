@@ -1,4 +1,4 @@
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Mail, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
@@ -33,14 +33,9 @@ export default function Footer() {
                 <div className="p-2 bg-[var(--bg)] rounded-xl text-[#6C5CE7] border border-[var(--border)]">
                   <Mail size={18} />
                 </div>
-                <span>support@hajat.sd</span>
+                <span>contact@hajatapp.com</span>
                </li>
-               <li className="flex items-center gap-3">
-                <div className="p-2 bg-[var(--bg)] rounded-xl text-[#6C5CE7] border border-[var(--border)]">
-                  <Phone size={18} />
-                </div>
-                <span>+249 123 456 789</span>
-               </li>
+
                <li className="flex items-center gap-3">
                 <div className="p-2 bg-[var(--bg)] rounded-xl text-[#6C5CE7] border border-[var(--border)]">
                   <MapPin size={18} />
@@ -63,9 +58,9 @@ export default function Footer() {
           
           <div className="flex items-center gap-4">
             {[
-              { icon: Facebook, href: '#' },
-              { icon: Twitter, href: '#' },
-              { icon: Instagram, href: '#' }
+              { icon: Facebook, href: 'https://facebook.com/hajatapp' },
+              { icon: Twitter, href: 'https://x.com/hajatapp' },
+              { icon: Instagram, href: 'https://instagram.com/hajatapp' }
             ].map((item, i) => (
               <a 
                 key={i} 

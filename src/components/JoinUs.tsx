@@ -24,7 +24,7 @@ export default function JoinUs() {
             كن جزءاً من عائلة حاجات
           </h2>
           <p className="text-xl lg:text-2xl text-[var(--text-muted)] font-medium max-w-2xl mx-auto">
-            ابدأ رحلتك معنا كمندوب توصيل اليوم وحقق دخلاً ممتازاً بمرونة تامة، مع دعم كامل في كل خطوة.
+            ابدأ رحلتك معنا ككابتن توصيل اليوم وحقق دخلاً ممتازاً بمرونة تامة، مع دعم كامل في كل خطوة.
           </p>
         </motion.div>
 

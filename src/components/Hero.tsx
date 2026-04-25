@@ -56,7 +56,7 @@ export default function Hero() {
                 <span>حمل التطبيق</span>
               </button>
               <a href="#join-us" className="btn btn-outline px-10 py-5 text-xl group">
-                <span>انضم كمندوب توصيل</span>
+                <span>انضم ككابتن توصيل</span>
                 <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
               </a>
             </motion.div>
@@ -139,7 +139,7 @@ export default function Hero() {
               >
                 <div className="w-10 h-10 bg-[#6C5CE7]/20 rounded-full flex items-center justify-center text-xl">🛵</div>
                 <div>
-                  <div className="text-xs font-extrabold text-[var(--text)]">المندوب في الطريق</div>
+                  <div className="text-xs font-extrabold text-[var(--text)]">الكابتن في الطريق</div>
                   <div className="text-[10px] text-[var(--text-muted)]">توصيل خلال 15 دقيقة</div>
                 </div>
               </motion.div>
@@ -150,7 +150,7 @@ export default function Hero() {
                 className="absolute right-1/4 -bottom-4 bg-white dark:bg-[#1E2A45] px-4 py-2 rounded-full shadow-lg border border-[var(--border)] z-30 flex items-center gap-2"
               >
                 <div className="w-2 h-2 bg-[#A3E635] rounded-full animate-pulse"></div>
-                <span className="text-[10px] font-bold text-[var(--text)]">أكثر من 180 مندوب نشط حالياً</span>
+                <span className="text-[10px] font-bold text-[var(--text)]">أكثر من 180 كابتن نشط حالياً</span>
               </motion.div>
             </div>
           </motion.div>

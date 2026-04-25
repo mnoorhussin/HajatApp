@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -8,7 +9,8 @@ import JoinUs from './components/JoinUs';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import ScrollToTop from './utils/ScrollToTop';
-import PolicyPage from './components/PolicyPage';
+
+const PolicyPage = React.lazy(() => import('./components/PolicyPage'));
 
 function LandingPage() {
   return (
@@ -31,10 +33,12 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/policies/:slug" element={<PolicyPage />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center font-ar">جاري التحميل...</div>}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/policies/:slug" element={<PolicyPage />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 }

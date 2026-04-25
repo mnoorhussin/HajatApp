@@ -19,7 +19,7 @@ const services = [
   },
   {
     icon: <Package size={24} />,
-    title: 'مندوب خاص',
+    title: 'كابتن خاص',
     color: 'bg-[#6C5CE7]/10 text-[#6C5CE7]'
   },
   {

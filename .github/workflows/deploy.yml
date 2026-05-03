@@ -1,40 +1,24 @@
-name: Deploy HajatApp Landing Page
+name: Deploy Landing Page
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: hajat_dashboard_var
     steps:
-      - name: Remote SSH Commands
-        uses: appleboy/ssh-action@v1.2.5
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
+          username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e
-            cd ~/hajat-app
-
-            echo "Fetching latest landing page code..."
-            cd HajatApp
-            git fetch --all
-            git reset --hard origin/main
-            cd ..
-
-            echo "Building landing page container..."
-            docker compose build --no-cache landing_page
-
-            echo "Restarting landing page container..."
-            docker compose up -d landing_page
-
-            echo "Reloading Caddy..."
-            docker exec caddy_hajat caddy reload --config /etc/caddy/Caddyfile
-
-            echo "Cleaning up..."
-            docker image prune -f
-            echo "🚀 Landing Page Deployment Successful!"
+            # 1. Go to the specific service folder and pull new code
+            cd /opt/hajat-app/services/HajatApp
+            git pull origin main
+            
+            # 2. Go to infrastructure and rebuild ONLY the landing_page container
+            cd /opt/hajat-app/infrastructure
+            docker compose up -d --build landing_page

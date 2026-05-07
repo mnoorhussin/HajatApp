@@ -1,4 +1,4 @@
-name: Deploy Landing Page
+name: Deploy Hajat API
 
 on:
   push:
@@ -8,17 +8,27 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to VPS
+      - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
+          # Increase timeout for heavy builds
+          command_timeout: 20m
           script: |
-            # 1. Go to the specific service folder and pull new code
-            cd /opt/hajat-app/services/HajatApp
+            # 1. Enter the specific service directory
+            cd /opt/hajat-app/services/landing_page
+            
+            # 2. Pull the latest code
             git pull origin main
             
-            # 2. Go to infrastructure and rebuild ONLY the landing_page container
+            # 3. Move to the infrastructure folder to trigger the rebuild
             cd /opt/hajat-app/infrastructure
+            
+            # 4. Rebuild ONLY this specific container
+            # This ensures no downtime for your other apps
             docker compose up -d --build landing_page
+            
+            # 5. Optional: Clean up old image layers to save space
+            docker image prune -f 

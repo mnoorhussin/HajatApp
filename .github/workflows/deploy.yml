@@ -1,4 +1,4 @@
-name: Deploy Hajat API
+name: Deploy Landing Page
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: hajat_dashboard_var
     steps:
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@master

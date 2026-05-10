@@ -4,7 +4,7 @@ import cancellationPolicy from './cancellation-policy.md?raw';
 import contentPolicy from './content-policy.md?raw';
 import consumerProtection from './consumer-protection.md?raw';
 import antiFraudPolicy from './anti-fraud-policy.md?raw';
-import merchantAgreement from './merchant-agreement.md?raw';
+import captainsAgreement from './captains-agreement.md?raw';
 
 export const policiesMap: Record<string, { title: string; content: string }> = {
   'terms-and-conditions': {
@@ -31,8 +31,8 @@ export const policiesMap: Record<string, { title: string; content: string }> = {
     title: 'سياسة مكافحة الاحتيال',
     content: antiFraudPolicy,
   },
-  'merchant-agreement': {
-    title: 'اتفاقية المتاجر',
-    content: merchantAgreement,
+  'captains-agreement': {
+    title: 'اتفاقية كباتن التوصيل',
+    content: captainsAgreement,
   },
 };

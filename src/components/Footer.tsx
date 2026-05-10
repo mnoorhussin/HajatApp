@@ -77,6 +77,8 @@ export default function Footer() {
               <a 
                 key={i} 
                 href={item.href} 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-[var(--surface)] border border-[var(--border)] flex items-center justify-center text-[var(--text)] hover:text-[#6C5CE7] hover:border-[#6C5CE7]/30 transition-all shadow-sm hover:shadow-md"
                 aria-label="Social Link"
               >

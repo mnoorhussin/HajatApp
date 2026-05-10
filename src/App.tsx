@@ -1,30 +1,53 @@
-import React, { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// ── Above the fold: loaded eagerly ─────────────────────────────────────────
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import Services from './components/Services';
-import HowItWorks from './components/HowItWorks';
-import MagicBoxSection from './components/MagicBoxSection';
-import JoinUs from './components/JoinUs';
-import FAQ from './components/FAQ';
-import Footer from './components/Footer';
+
+// ── Below the fold: lazy loaded only when needed ────────────────────────────
+const Services       = lazy(() => import('./components/Services'));
+const HowItWorks     = lazy(() => import('./components/HowItWorks'));
+const MagicBoxSection = lazy(() => import('./components/MagicBoxSection'));
+const JoinUs         = lazy(() => import('./components/JoinUs'));
+const FAQ            = lazy(() => import('./components/FAQ'));
+const Footer         = lazy(() => import('./components/Footer'));
+const PolicyPage     = lazy(() => import('./components/PolicyPage'));
+
 import ScrollToTop from './utils/ScrollToTop';
 
-const PolicyPage = React.lazy(() => import('./components/PolicyPage'));
+// Minimal skeleton shown while below-the-fold sections stream in
+function SectionSkeleton() {
+  return <div className="w-full h-24 bg-[var(--border)] animate-pulse rounded-2xl my-4 mx-auto max-w-7xl" />;
+}
 
 function LandingPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] font-ar rtl transition-colors duration-300" dir="rtl">
       <Navbar />
       <main>
+        {/* Hero renders instantly — no Suspense wrapper */}
         <Hero />
-        <Services />
-        <HowItWorks />
-        <MagicBoxSection />
-        <JoinUs />
-        <FAQ />
+
+        {/* All sections below the fold are lazy */}
+        <Suspense fallback={<SectionSkeleton />}>
+          <Services />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <HowItWorks />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <MagicBoxSection />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <JoinUs />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <FAQ />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

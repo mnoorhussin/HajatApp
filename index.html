@@ -8,26 +8,41 @@
     <link rel="manifest" href="/site.webmanifest">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <!-- SEO -->
     <title>حاجات | أي حاجة... حاجات — توصيل طلباتك في السودان</title>
     <meta name="description" content="حاجات هو التطبيق الأول لتوصيل كل احتياجاتك في السودان. مطاعم، صيدليات، بقالات، أو أي مرسال، نحن في خدمتك." />
     <meta name="keywords" content="حاجات, توصيل, السودان, تطبيق توصيل, مطاعم, صيدلية, مرسال" />
-    
+
+    <!-- Inline theme flash prevention (must be synchronous) -->
     <script>
       (function() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
         }
       })();
     </script>
-    
-    <!-- Performance: Preconnect to Font domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!-- Performance: DNS + TCP handshake before browser needs fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!--
+      Non-blocking font load:
+      - media="print" trick: browser downloads but doesn't block render
+      - onload flips it to 'all' once downloaded
+      - <noscript> fallback for no-JS environments
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Inter:wght@400;600;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    >
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Inter:wght@400;600;700&display=swap">
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

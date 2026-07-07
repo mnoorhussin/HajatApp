@@ -1,6 +1,7 @@
 import { Facebook, Instagram, Mail, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { policiesMap } from '../data/policies';
 
 const TiktokIcon = ({ size = 24 }) => (
   <svg
@@ -32,10 +33,17 @@ export default function Footer() {
           <div>
             <h4 className="font-extrabold text-[var(--text)] mb-8 text-xl">السياسات</h4>
             <ul className="space-y-4 text-[var(--text-muted)] font-medium">
-              <li><Link to="/policies/terms-and-conditions" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>الشروط والأحكام</Link></li>
-              <li><Link to="/policies/privacy-policy" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>سياسة الخصوصية</Link></li>
-              <li><Link to="/policies/content-policy" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>سياسة المحتوى</Link></li>
-              <li><Link to="/policies/anti-fraud-policy" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>مكافحة الاحتيال</Link></li>
+              {Object.entries(policiesMap).map(([slug, policy]) => (
+                <li key={slug}>
+                  <Link
+                    to={`/policies/${slug}`}
+                    className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>
+                    {policy.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -88,10 +96,7 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 text-xs opacity-70">
-            <Link to="/policies/cancellation-policy" className="hover:text-[var(--text)] transition-colors">سياسة الإلغاء</Link>
-            <Link to="/policies/consumer-protection" className="hover:text-[var(--text)] transition-colors">حماية المستهلك</Link>
-          </div>
+
         </div>
       </div>
     </footer>

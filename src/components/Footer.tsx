@@ -23,9 +23,9 @@ export default function Footer() {
           <div>
             <h4 className="font-extrabold text-[var(--text)] mb-8 text-xl">روابط سريعة</h4>
             <ul className="space-y-4 text-[var(--text-muted)] font-medium">
-              <li><a href="#" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>عن حاجات</a></li>
-              <li><a href="#services" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>خدماتنا</a></li>
-              <li><a href="#how-it-works" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>كيف يعمل</a></li>
+              <li><Link to="/" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>عن حاجات</Link></li>
+              <li><Link to="/#services" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>خدماتنا</Link></li>
+              <li><Link to="/#how-it-works" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>كيف يعمل</Link></li>
               <li><Link to="/captain-guide" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>دليل عمل الكابتن</Link></li>
             </ul>
           </div>

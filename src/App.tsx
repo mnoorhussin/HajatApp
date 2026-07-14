@@ -13,6 +13,7 @@ const FAQ            = lazy(() => import('./components/FAQ'));
 const Footer         = lazy(() => import('./components/Footer'));
 const PolicyPage     = lazy(() => import('./components/PolicyPage'));
 const CaptainGuidePage = lazy(() => import('./components/CaptainGuidePage'));
+const DeleteAccountPage = lazy(() => import('./components/DeleteAccountPage'));
 
 import ScrollToTop from './utils/ScrollToTop';
 
@@ -62,6 +63,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/policies/:slug" element={<PolicyPage />} />
           <Route path="/captain-guide" element={<CaptainGuidePage />} />
+          <Route path="/delete-account" element={<DeleteAccountPage />} />
         </Routes>
       </Suspense>
     </Router>

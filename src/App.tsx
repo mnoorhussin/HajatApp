@@ -14,6 +14,7 @@ const Footer         = lazy(() => import('./components/Footer'));
 const PolicyPage     = lazy(() => import('./components/PolicyPage'));
 const CaptainGuidePage = lazy(() => import('./components/CaptainGuidePage'));
 const DeleteAccountPage = lazy(() => import('./components/DeleteAccountPage'));
+const ChatWidget       = lazy(() => import('./components/ChatWidget'));
 
 import ScrollToTop from './utils/ScrollToTop';
 
@@ -49,6 +50,9 @@ function LandingPage() {
       </main>
       <Suspense fallback={null}>
         <Footer />
+      </Suspense>
+      <Suspense fallback={null}>
+        <ChatWidget />
       </Suspense>
     </div>
   );

@@ -13,6 +13,7 @@ const FAQ            = lazy(() => import('./components/FAQ'));
 const Footer         = lazy(() => import('./components/Footer'));
 const PolicyPage     = lazy(() => import('./components/PolicyPage'));
 const CaptainGuidePage = lazy(() => import('./components/CaptainGuidePage'));
+const CaptainApplicationPage = lazy(() => import('./components/CaptainApplicationPage'));
 const DeleteAccountPage = lazy(() => import('./components/DeleteAccountPage'));
 const ChatWidget       = lazy(() => import('./components/ChatWidget'));
 
@@ -67,6 +68,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/policies/:slug" element={<PolicyPage />} />
           <Route path="/captain-guide" element={<CaptainGuidePage />} />
+          <Route path="/captain-application" element={<CaptainApplicationPage />} />
           <Route path="/delete-account" element={<DeleteAccountPage />} />
         </Routes>
       </Suspense>

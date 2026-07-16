@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { TrendingUp, Gift, Clock, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { TrendingUp, Gift, Clock, ArrowLeft } from 'lucide-react';
 
 export default function JoinUs() {
   return (
@@ -104,10 +105,13 @@ export default function JoinUs() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-center"
           >
-            <button className="btn btn-primary px-10 py-4 text-lg group">
-              <Download size={20} className="group-hover:translate-y-0.5 transition-transform" />
-              <span>حمل التطبيق</span>
-            </button>
+            <Link to="/captain-application" className="btn btn-primary px-10 py-4 text-lg group">
+              <ArrowLeft size={20} className="group-hover:-translate-x-0.5 transition-transform" />
+              <span>قدّم طلبك الآن</span>
+            </Link>
+            <p className="text-sm text-[var(--text-muted)] mt-4">
+              يتطلب حساباً في تطبيق حاجات — قدّم بنفس البريد الإلكتروني الذي سجّلت به
+            </p>
           </motion.div>
         </motion.div>
       </div>

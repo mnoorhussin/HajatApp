@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import {
-  ArrowRight, Mail, Upload, CheckCircle2, Loader2, Clock, BadgeCheck, X, Smartphone,
+  ArrowRight, Mail, Upload, CheckCircle2, Loader2, Clock, BadgeCheck, X, Smartphone, LogOut,
 } from 'lucide-react';
 import { pb, BACKEND_URL } from '../utils/pocketbase';
 import { generateUniqueCaptainId } from '../utils/generateCaptainId';
@@ -65,6 +65,11 @@ export default function CaptainApplicationPage() {
   const [email, setEmail] = useState('');
   const [otpId, setOtpId] = useState('');
   const [code, setCode] = useState('');
+  // Whose session is in play — shown on every signed-in screen so a shared
+  // computer never silently applies as, or strands, the previous person.
+  const [accountEmail, setAccountEmail] = useState<string | null>(
+    () => (currentSession()?.email as string) || null,
+  );
 
   // ── Application ───────────────────────────────────────────────────────────
   const [form, setForm] = useState(() => {
@@ -97,6 +102,24 @@ export default function CaptainApplicationPage() {
       phone: (rec.phone as string) || '',
     }));
     if (rec.avatar) setAvatarUrl(pb.files.getURL(rec, rec.avatar as string));
+    setAccountEmail((rec.email as string) || null);
+  }
+
+  // The PocketBase token lives in localStorage and lasts ~14 days, so without an
+  // explicit way out the first applicant on a shared computer would leave every
+  // later visitor stranded on their status screen.
+  function signOut() {
+    pb.authStore.clear();
+    setForm({
+      first_name: '', father_name: '', phone: '', dob: '',
+      vehicle_type: 'car', vehicle_model: '', vehicle_plate: '',
+    });
+    setAvatar(null); setAvatarUrl(null);
+    setIdFront(null); setIdBack(null); setLicense(null);
+    setAgreeTos(false); setAgreeBackground(false); setAgreePrivacy(false);
+    setEmail(''); setOtpId(''); setCode(''); setAccountEmail(null);
+    setError(null);
+    setStep('auth');
   }
 
   async function requestOtp(e: React.FormEvent) {
@@ -315,6 +338,21 @@ export default function CaptainApplicationPage() {
 
           {step === 'form' && (
             <form onSubmit={submit}>
+              {accountEmail && (
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-8 pb-5 border-b border-[var(--border)]">
+                  <p className="text-sm text-[var(--text-muted)]">
+                    تقدّم الطلب باسم <span className="font-bold text-[var(--text)]" dir="ltr">{accountEmail}</span>
+                  </p>
+                  <button
+                    type="button" onClick={signOut}
+                    className="inline-flex items-center gap-2 text-sm font-bold text-[#6C5CE7] hover:underline"
+                  >
+                    <LogOut size={16} />
+                    ليس أنت؟ تسجيل الخروج
+                  </button>
+                </div>
+              )}
+
               {/* Section 1: Personal */}
               <SectionTitle>المعلومات الشخصية</SectionTitle>
               <div className="flex flex-col items-center mb-8">
@@ -460,7 +498,9 @@ export default function CaptainApplicationPage() {
               icon={<CheckCircle2 size={40} className="text-[#A3E635]" />}
               title="تم تقديم طلبك بنجاح!"
               body="سنراجع بياناتك ونتواصل معك قريباً. بعد الموافقة، سجّل الدخول في تطبيق حاجات بنفس بريدك الإلكتروني وستجد وضع الكابتن مفعّلاً."
+              account={accountEmail}
               onBack={() => navigate('/')}
+              onSignOut={signOut}
             />
           )}
 
@@ -469,7 +509,9 @@ export default function CaptainApplicationPage() {
               icon={<Clock size={40} className="text-[#6C5CE7]" />}
               title="طلبك قيد المراجعة"
               body="لديك طلب مقدَّم بالفعل بهذا البريد الإلكتروني. سيتم مراجعة بياناتك وتفعيل وضع الكابتن في القريب العاجل."
+              account={accountEmail}
               onBack={() => navigate('/')}
+              onSignOut={signOut}
             />
           )}
 
@@ -478,7 +520,9 @@ export default function CaptainApplicationPage() {
               icon={<BadgeCheck size={40} className="text-[#A3E635]" />}
               title="أنت كابتن بالفعل"
               body="هذا الحساب مفعّل ككابتن حاجات. افتح التطبيق وسجّل الدخول للبدء في استقبال الطلبات."
+              account={accountEmail}
               onBack={() => navigate('/')}
+              onSignOut={signOut}
             />
           )}
         </div>
@@ -591,7 +635,10 @@ function FilePicker({ label, file, onPick }: { label: string; file: File | null;
   );
 }
 
-function Outcome({ icon, title, body, onBack }: { icon: ReactNode; title: string; body: string; onBack: () => void }) {
+function Outcome({ icon, title, body, account, onBack, onSignOut }: {
+  icon: ReactNode; title: string; body: string;
+  account?: string | null; onBack: () => void; onSignOut?: () => void;
+}) {
   return (
     <div className="text-center py-8">
       <div className="w-20 h-20 rounded-full bg-[var(--bg)] border border-[var(--border)] flex items-center justify-center mx-auto mb-6">
@@ -599,13 +646,29 @@ function Outcome({ icon, title, body, onBack }: { icon: ReactNode; title: string
       </div>
       <h2 className="text-2xl font-extrabold text-[var(--text)] mb-4">{title}</h2>
       <p className="text-[var(--text-muted)] leading-relaxed max-w-lg mx-auto mb-8">{body}</p>
-      <button
-        onClick={onBack}
-        className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--border)] text-[var(--text)] rounded-lg font-bold hover:bg-[var(--border)]/80 transition-colors"
-      >
-        <ArrowRight size={20} />
-        العودة للرئيسية
-      </button>
+      {account && (
+        <p className="text-sm text-[var(--text-muted)] mb-6">
+          أنت مسجّل الدخول باسم <span className="font-bold text-[var(--text)]" dir="ltr">{account}</span>
+        </p>
+      )}
+      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--border)] text-[var(--text)] rounded-lg font-bold hover:bg-[var(--border)]/80 transition-colors"
+        >
+          <ArrowRight size={20} />
+          العودة للرئيسية
+        </button>
+        {onSignOut && (
+          <button
+            onClick={onSignOut}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-[var(--border)] text-[var(--text)] rounded-lg font-bold hover:border-[#6C5CE7] hover:text-[#6C5CE7] transition-colors"
+          >
+            <LogOut size={20} />
+            تسجيل الخروج وتقديم طلب آخر
+          </button>
+        )}
+      </div>
     </div>
   );
 }

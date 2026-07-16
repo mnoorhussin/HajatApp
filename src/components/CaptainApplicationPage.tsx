@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import {
   ArrowRight, Mail, Upload, CheckCircle2, Loader2, Clock, BadgeCheck, X, Smartphone, LogOut,
+  ShieldCheck,
 } from 'lucide-react';
 import { pb, BACKEND_URL } from '../utils/pocketbase';
 import { generateUniqueCaptainId } from '../utils/generateCaptainId';
@@ -326,6 +327,20 @@ export default function CaptainApplicationPage() {
                   className={`${inputClass} text-center tracking-[0.5em] text-xl font-bold`}
                 />
               </Field>
+
+              {/* PocketBase emails a "login from a new location" alert on every
+                  unrecognised device. Applying from a browser is always a new
+                  device, so this fires for every single applicant — warn them
+                  before it lands, or a security warning mid-signup reads as
+                  "something went wrong" and they abandon the form. */}
+              <div className="flex items-start gap-3 mb-8 p-4 rounded-2xl bg-[var(--bg)] border border-[var(--border)]">
+                <ShieldCheck size={18} className="text-[var(--text-muted)] flex-shrink-0 mt-0.5" />
+                <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+                  قد تصلك أيضاً رسالة تنبيه بتسجيل دخول من جهاز جديد. هذا طبيعي لأنك تستخدم
+                  المتصفح بدل التطبيق، ويمكنك تجاهلها.
+                </p>
+              </div>
+
               <SubmitButton loading={loading} icon={<CheckCircle2 size={20} />}>تحقق ومتابعة</SubmitButton>
               <button
                 type="button" onClick={resendOtp} disabled={loading}

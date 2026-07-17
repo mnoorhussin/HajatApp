@@ -21,7 +21,7 @@ type Step = 'auth' | 'otp' | 'form' | 'done' | 'pending' | 'captain' | 'no-accou
 const VEHICLES = [
   { id: 'car', label: 'سيارة' },
   { id: 'bike', label: 'دراجة' },
-  { id: 'motor', label: 'دباب' },
+  { id: 'motor', label: 'موتر' },
   { id: 'raksha', label: 'ركشة' },
 ];
 
@@ -92,7 +92,6 @@ export default function CaptainApplicationPage() {
   const [idBack, setIdBack] = useState<File | null>(null);
   const [license, setLicense] = useState<File | null>(null);
   const [agreeTos, setAgreeTos] = useState(false);
-  const [agreeBackground, setAgreeBackground] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
 
   function hydrateFrom(rec: Record<string, unknown>) {
@@ -117,7 +116,7 @@ export default function CaptainApplicationPage() {
     });
     setAvatar(null); setAvatarUrl(null);
     setIdFront(null); setIdBack(null); setLicense(null);
-    setAgreeTos(false); setAgreeBackground(false); setAgreePrivacy(false);
+    setAgreeTos(false); setAgreePrivacy(false);
     setEmail(''); setOtpId(''); setCode(''); setAccountEmail(null);
     setError(null);
     setStep('auth');
@@ -190,14 +189,14 @@ export default function CaptainApplicationPage() {
   function validate(): string | null {
     if (form.first_name.trim().length < 2) return 'الاسم الأول مطلوب';
     if (form.father_name.trim().length < 2) return 'اسم الأب مطلوب';
-    if (form.phone.trim().length < 9) return 'رقم الجوال مطلوب';
+    if (form.phone.trim().length < 9) return 'التلفون مطلوب';
     if (!/^\d{2}\/\d{2}\/\d{4}$/.test(form.dob)) return 'تاريخ الميلاد غير صالح (يوم/شهر/سنة)';
     if (!isAdult(form.dob)) return 'يجب أن يكون عمرك 18 سنة على الأقل';
     if (!form.vehicle_type) return 'نوع المركبة مطلوب';
     if (!avatar && !avatarUrl) return 'الصورة الشخصية للكابتن مطلوبة';
     if (!idFront || !idBack) return 'صورة الهوية (الأمام والخلف) مطلوبة';
     if (form.vehicle_type === 'car' && !license) return 'رخصة القيادة مطلوبة للسيارات';
-    if (!agreeTos || !agreeBackground || !agreePrivacy) return 'يرجى الموافقة على جميع الشروط والأحكام';
+    if (!agreeTos || !agreePrivacy) return 'يرجى الموافقة على جميع الشروط والأحكام';
     return null;
   }
 
@@ -382,7 +381,7 @@ export default function CaptainApplicationPage() {
                   <input value={form.father_name} onChange={(e) => setForm({ ...form, father_name: e.target.value })}
                     placeholder="مثال: أحمد" className={inputClass} />
                 </Field>
-                <Field label="رقم الجوال">
+                <Field label="التلفون">
                   <input value={form.phone} dir="ltr" inputMode="tel"
                     onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/[^0-9+]/g, '') })}
                     placeholder="+249900000000" className={inputClass} />
@@ -432,7 +431,7 @@ export default function CaptainApplicationPage() {
 
               {/* Section 3: Documents */}
               <SectionTitle>المستندات المطلوبة</SectionTitle>
-              <p className="text-sm text-[var(--text-muted)] mb-4">الهوية الوطنية / الإقامة</p>
+              <p className="text-sm text-[var(--text-muted)] mb-4">الرقم الوطني / الإقامة</p>
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <FilePicker label="الوجه الأمامي" file={idFront} onPick={setIdFront} />
                 <FilePicker label="الوجه الخلفي" file={idBack} onPick={setIdBack} />
@@ -455,11 +454,11 @@ export default function CaptainApplicationPage() {
                     اتفاقية كباتن التوصيل
                   </Link>
                 </Consent>
-                <Consent checked={agreeBackground} onChange={setAgreeBackground}>
-                  الفحص الأمني: أفوض حاجات بإجراء فحص للسجل الجنائي.
-                </Consent>
                 <Consent checked={agreePrivacy} onChange={setAgreePrivacy}>
-                  سياسة الخصوصية: أتفهم كيف سيتم استخدام بياناتي.
+                  سياسة الخصوصية: أتفهم كيف سيتم استخدام بياناتي وفق{' '}
+                  <Link to="/policies/privacy-policy" target="_blank" className="text-[#6C5CE7] underline font-bold">
+                    سياسة الخصوصية
+                  </Link>
                 </Consent>
               </div>
 

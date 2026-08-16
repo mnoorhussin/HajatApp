@@ -99,7 +99,29 @@ export default function CaptainGuidePage() {
           <GuideWarning>عمولة التطبيق ثابتة وتُخصم من رسوم التوصيل فقط، وليس من قيمة المنتجات.</GuideWarning>
         </GuideSection>
 
-        <div className="mt-12 bg-[var(--primary)]/5 border border-[var(--primary)]/20 p-6 rounded-3xl text-center">
+        {/*
+          Apply CTA. This page is the landing point for the "become a captain"
+          card in the iOS app, which links here rather than straight to
+          /captain-application: the app must not be a functional path into the
+          ID-upload form (App Store guideline 5.1.1(ix) — the exact reason the
+          iOS app ships no captain form of its own). Someone arriving from the
+          app therefore needs this button to reach the form, so do not remove it.
+        */}
+        <div className="mt-12 bg-[var(--card)] border border-[var(--border)] p-8 rounded-3xl text-center shadow-sm">
+          <h3 className="text-2xl font-bold text-[var(--text)] mb-2">جاهز للانضمام؟</h3>
+          <p className="text-[var(--text-secondary)] mb-6">
+            اقرأت الدليل؟ قدّم طلبك الآن وابدأ الكسب مع حاجات.
+          </p>
+          <Link to="/captain-application" className="btn btn-primary px-10 py-4 text-lg group">
+            <ChevronRight size={20} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
+            <span>قدّم طلبك الآن</span>
+          </Link>
+          <p className="text-sm text-[var(--text-muted)] mt-4">
+            يتطلب حساباً في تطبيق حاجات — قدّم بنفس البريد الإلكتروني الذي سجّلت به
+          </p>
+        </div>
+
+        <div className="mt-6 bg-[var(--primary)]/5 border border-[var(--primary)]/20 p-6 rounded-3xl text-center">
           <h3 className="text-xl font-bold text-[var(--text)] mb-2">هل لديك أسئلة إضافية؟</h3>
           <p className="text-[var(--text-secondary)] mb-6">فريق الدعم الفني متواجد دائماً لمساعدتك في أي وقت.</p>
           <Link 

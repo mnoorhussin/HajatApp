@@ -211,12 +211,30 @@ export default function CaptainApplicationPage() {
       const userId = pb.authStore.record?.id;
       if (!userId) throw new Error('انتهت الجلسة، أعد تسجيل الدخول');
 
-      // 1. User profile + application status
+      // 1. User profile ONLY.
+      //
+      // application_status is deliberately NOT written here. It used to be, and
+      // that is the same inverted order that produced a real stuck applicant in
+      // production: the mobile app's RoleContext.verifyAndHealCaptainStatus
+      // treats "status pending with no captains record" as corruption and
+      // clears the status. Between this write and the captains create below
+      // there is a captain_id round-trip, an avatar blob fetch and a multi-file
+      // multipart upload — seconds, not milliseconds — and the applicant's
+      // phone only has to wake up once in that window (cold start, push-token
+      // sync, authRefresh) to blank the status. The upload then completes, and
+      // you are left with a captains record and a blank status: invisible in
+      // the admin review queue, which filters on application_status != "".
+      // Every request returns 2xx, so nothing looks wrong from here.
+      //
+      // This matters most on iOS: this page is the ONLY captain onboarding path
+      // for iPhone users (the app ships no application form — App Store
+      // guideline 5.1.1(ix)), so their phone is the one running the heal.
+      //
+      // The status is now set in step 3, after the captains record exists.
       await pb.collection('users').update(userId, {
         name: form.first_name.trim(),
         father_name: form.father_name.trim(),
         phone: form.phone.trim(),
-        application_status: 'pending',
       });
 
       // 2. Captain profile
@@ -246,6 +264,13 @@ export default function CaptainApplicationPage() {
       } else {
         await pb.collection('captains').create(data);
       }
+
+      // 3. NOW mark the application pending — the captains record exists, so the
+      //    app's self-heal will find it and leave the status alone. This is the
+      //    write that actually puts the applicant in the admin review queue.
+      await pb.collection('users').update(userId, {
+        application_status: 'pending',
+      });
 
       setStep('done');
       window.scrollTo({ top: 0, behavior: 'smooth' });

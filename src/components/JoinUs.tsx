@@ -22,7 +22,7 @@ export default function JoinUs() {
           className="text-center mb-16 lg:mb-20"
         >
           <h2 className="text-4xl lg:text-6xl font-extrabold text-[var(--text)] mb-4">
-            كن جزءاً من عائلة حاجات
+            كن جزءاً من عائلة حاجاتي
           </h2>
           <p className="text-xl lg:text-2xl text-[var(--text-muted)] font-medium max-w-2xl mx-auto">
             ابدأ رحلتك معنا ككابتن توصيل اليوم وحقق دخلاً ممتازاً بمرونة تامة، مع دعم كامل في كل خطوة.
@@ -39,7 +39,7 @@ export default function JoinUs() {
         >
           <div className="text-center mb-10">
             <h3 className="text-3xl lg:text-4xl font-extrabold text-[var(--text)] mb-4">
-              انضم لأسرة شركاء توصيل حاجات
+              انضم لأسرة شركاء توصيل حاجاتي
             </h3>
             <p className="text-lg text-[var(--text-muted)] leading-relaxed">
               طريقك لزيادة دخلك يبدأ من هنا. انضم لشركاء التوصيل واستثمر وقتك ومركبتك بأكبر قدر من المرونة والاحترافية.
@@ -110,7 +110,7 @@ export default function JoinUs() {
               <span>قدّم طلبك الآن</span>
             </Link>
             <p className="text-sm text-[var(--text-muted)] mt-4">
-              يتطلب حساباً في تطبيق حاجات — قدّم بنفس البريد الإلكتروني الذي سجّلت به
+              يتطلب حساباً في تطبيق حاجاتي — قدّم بنفس البريد الإلكتروني الذي سجّلت به
             </p>
           </motion.div>
         </motion.div>

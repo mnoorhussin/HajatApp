@@ -1,7 +1,7 @@
-# Hajat Landing Page Design System
+# Hajati Landing Page Design System
 
 ## Platform Architecture
-The Hajat Landing Page is a modern web application built with React and Tailwind CSS. It serves as the primary marketing and onboarding funnel for the Hajat ecosystem, targeting both Customers and Captains in the Sudanese market. The design emphasizes premium aesthetics, trust, and strict Arabic (RTL) compatibility.
+The Hajati Landing Page is a modern web application built with React and Tailwind CSS. It serves as the primary marketing and onboarding funnel for the Hajati ecosystem, targeting both Customers and Captains in the Sudanese market. The design emphasizes premium aesthetics, trust, and strict Arabic (RTL) compatibility.
 
 ## Brand Identity & Color Palette
 

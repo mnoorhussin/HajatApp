@@ -1,4 +1,4 @@
-**حذف حسابك في تطبيق "حاجات"**
+**حذف حسابك في تطبيق "حاجاتي"**
 
 يمكنك حذف حسابك وبياناتك الشخصية نهائيًا من داخل التطبيق في أي وقت.
 
@@ -25,7 +25,7 @@
 
 ---
 
-**Delete your Hajat account (English)**
+**Delete your Hajati account (English)**
 
 You can permanently delete your account and personal data from within the app at any time:
 

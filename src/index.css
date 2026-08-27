@@ -1,33 +1,56 @@
 /* Google Fonts loaded non-blocking via index.html <link media="print"> trick */
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN SYSTEM
+
+   Structure comes from HAIRLINE BORDERS, not shadows. The previous system had
+   --border at #f3f4f6 (invisible) and leaned on soft coloured shadows, which is
+   what made every surface read as a floating blob. Borders are now actually
+   visible and shadows are almost entirely gone.
+
+   Colour is deliberately rationed. The brand iris and lime are accents on a
+   near-monochrome base — not a background wash. Radii are tight (8px), not 24px.
+   ───────────────────────────────────────────────────────────────────────────*/
+
 :root {
   --brand: #6c5ce7;
-  --secondary: #1e2a45;
+  --brand-hover: #5b4bd6;
   --accent: #a3e635;
-  --bg: #f9fafb;
-  --surface: #ffffff;
-  --text: #1e2a45;
-  --text-muted: #6b7280;
-  --border: #f3f4f6;
+  --secondary: #1e2a45;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 4px 20px -2px rgba(30, 42, 69, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --subtle: #fafafa;        /* alternating section bands */
+  --text: #0a0a0a;
+  --text-muted: #666666;
+  --text-faint: #8f8f8f;
+  --border: #e6e6e6;        /* visible hairline — the main structural device */
+  --border-strong: #d4d4d4;
+
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* Shadows are a last resort here; only overlays use one. */
+  --shadow-overlay: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 .dark {
-  --bg: #0f172a; /* Slate 900 */
-  --surface: #1e293b; /* Slate 800 */
-  --text: #f8fafc; /* Slate 50 */
-  --text-muted: #94a3b8; /* Slate 400 */
-  --border: #334155; /* Slate 700 */
-  --secondary: #f8fafc;
-  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+  --bg: #000000;
+  --surface: #0a0a0a;
+  --subtle: #0a0a0a;
+  --text: #ededed;
+  --text-muted: #a1a1a1;
+  --text-faint: #7d7d7d;
+  --border: #262626;
+  --border-strong: #383838;
+  --secondary: #ededed;
+  --shadow-overlay: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
@@ -36,86 +59,105 @@
   }
 
   body {
-    @apply font-ar bg-[var(--bg)] text-[var(--text)] antialiased selection:bg-[#6C5CE7]/10 selection:text-[#6C5CE7] transition-colors duration-300;
+    @apply font-ar bg-[var(--bg)] text-[var(--text)] antialiased;
+    -webkit-font-smoothing: antialiased;
   }
 
+  ::selection {
+    background: var(--brand);
+    color: #fff;
+  }
+
+  /* Tight tracking is a large part of the "designed" feel. Arabic does not take
+     negative letter-spacing well, so headings only tighten their line-height. */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-[var(--text)];
+    @apply font-extrabold text-[var(--text)];
+    line-height: 1.15;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
   .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-6xl mx-auto px-5 sm:px-6 lg:px-8;
   }
 
+  /* Eyebrow label. Replaces the pill-badge-with-icon that opened every section.
+     Latin/mono, small, uppercase, muted — reads as a system label, not a sticker. */
+  .eyebrow {
+    font-family: var(--mono);
+    @apply text-[11px] uppercase tracking-[0.14em] text-[var(--text-faint)] font-medium;
+  }
+
+  .section {
+    @apply py-20 lg:py-28 border-t border-[var(--border)];
+    /* The navbar is fixed at 64px; without this an anchored heading lands
+       underneath it. */
+    scroll-margin-top: 64px;
+  }
+
+  /* ── Buttons: small radius, flat, no glow ────────────────────────────────*/
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-bold transition-all duration-300 active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 px-5 h-11 font-bold text-[15px]
+           transition-colors duration-150 whitespace-nowrap;
+    border-radius: var(--radius);
   }
 
   .btn-primary {
-    @apply bg-[#6C5CE7] text-white hover:bg-[#5A4AD1] shadow-lg shadow-[#6C5CE7]/20;
+    @apply bg-[var(--text)] text-[var(--bg)] hover:opacity-90;
   }
+
+  .btn-brand {
+    @apply text-white;
+    background: var(--brand);
+  }
+  .btn-brand:hover { background: var(--brand-hover); }
 
   .btn-outline {
-    @apply bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] hover:border-[#6C5CE7] hover:text-[#6C5CE7] shadow-sm;
+    @apply bg-transparent text-[var(--text)] border border-[var(--border-strong)]
+           hover:border-[var(--text)];
   }
 
+  /* ── Cards: defined by a border, never by a shadow ───────────────────────*/
   .card {
-    @apply bg-[var(--surface)] rounded-3xl border border-[var(--border)] p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#6C5CE7]/10;
+    @apply bg-[var(--surface)] border border-[var(--border)] p-6
+           transition-colors duration-150;
+    border-radius: var(--radius-lg);
   }
 
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+  .card-hover:hover {
+    border-color: var(--border-strong);
   }
+
+  /* Hairline grid used for feature rows — the join lines do the decorating,
+     so no card shadows are needed. */
+  .rule {
+    @apply border-t border-[var(--border)];
+  }
+
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 }
 
-/* ─── GPU-composited Hero animations (replaces Framer Motion infinite loops) ─ */
-/* Using transform + opacity only → triggers compositor, no layout/paint cost  */
-
-@keyframes hero-bob {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50%       { transform: translateY(-10px) rotate(1deg); }
+/* Single entry animation. The old file had four infinite float/bob/pulse loops
+   driving the hero's decorative cards; those elements are gone. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
 }
 
-@keyframes card-up {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-15px); }
+.rise {
+  animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes card-down {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(15px); }
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  html { scroll-behavior: auto; }
 }
-
-@keyframes pill-scale {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.06); }
-}
-
-.hero-float {
-  animation: hero-bob 5s ease-in-out infinite;
-  will-change: transform;
-}
-
-.card-float-up {
-  animation: card-up 4s ease-in-out infinite;
-  will-change: transform;
-}
-
-.card-float-down {
-  animation: card-down 5s ease-in-out infinite;
-  animation-delay: 1s;
-  will-change: transform;
-}
-
-.pill-pulse {
-  animation: pill-scale 3s ease-in-out infinite;
-  animation-delay: 0.5s;
-  will-change: transform;
-}
-

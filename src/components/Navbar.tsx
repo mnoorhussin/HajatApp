@@ -1,110 +1,100 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Download } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import ThemeToggle from './ThemeToggle';
 
+/*
+ * Fixed 64px bar defined by a single hairline border. Previously this was a
+ * transparent bar that grew a blurred background and shadow on scroll, with a
+ * pill-shaped brand-coloured CTA floating in it. The border is now always
+ * present so the page has a consistent top edge, and the CTA is a small
+ * square-ish button that does not compete with the hero.
+ */
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
+  // Lock scroll while the mobile sheet is open.
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
 
   const navLinks = [
     { name: 'الرئيسية', href: '/' },
     { name: 'خدماتنا', href: '/#services' },
     { name: 'كيف يعمل', href: '/#how-it-works' },
+    { name: 'الأسئلة', href: '/#faq' },
   ];
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[var(--surface)]/80 backdrop-blur-lg py-3 shadow-sm border-b border-[var(--border)]'
-          : 'bg-transparent py-5'
-      }`}
-    >
+    <nav className="fixed w-full z-50 bg-[var(--bg)]/80 backdrop-blur-md border-b border-[var(--border)]">
       <div className="container-custom">
-        <div className="flex justify-between items-center">
-          <div className="flex-shrink-0">
-            <Link to="/">
-              <img
-                src={logo}
-                alt="Hajati Logo"
-                className="h-14 lg:h-18 w-auto object-contain transition-all duration-300 cursor-pointer mix-blend-multiply dark:mix-blend-screen"
-              />
-            </Link>
+        <div className="h-16 flex items-center justify-between">
+
+          <Link to="/" className="flex-shrink-0" aria-label="حاجاتي">
+            <img
+              src={logo}
+              alt="حاجاتي"
+              className="h-9 w-auto object-contain mix-blend-multiply dark:mix-blend-screen"
+            />
+          </Link>
+
+          {/* Desktop */}
+          <div className="hidden lg:flex items-center gap-9">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-[15px] font-medium text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+              >
+                {link.name}
+              </a>
+            ))}
           </div>
 
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-8 lg:gap-10">
-            <div className="flex items-center gap-8 gap-x-reverse">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-[var(--text)] hover:text-[#6C5CE7] transition-colors font-semibold text-sm lg:text-base relative group"
-                >
-                  {link.name}
-                  <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-[#6C5CE7] transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              ))}
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <ThemeToggle />
-              <button className="btn btn-primary px-7 py-2.5 text-sm">
-                <Download size={18} />
-                <span>حمل التطبيق</span>
-              </button>
-            </div>
+          <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle />
+            <a href="#download" className="btn btn-primary px-4 h-9 text-sm">
+              حمل التطبيق
+            </a>
           </div>
 
-          {/* Mobile Menu Actions */}
-          <div className="lg:hidden flex items-center gap-3">
+          {/* Mobile */}
+          <div className="lg:hidden flex items-center gap-1">
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-[var(--text)] hover:bg-[var(--bg)] rounded-xl transition-colors focus:outline-none border border-transparent hover:border-[var(--border)]"
-              aria-label="Toggle Menu"
+              className="p-2 text-[var(--text)]"
+              aria-label="القائمة"
+              aria-expanded={isOpen}
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`lg:hidden absolute top-full left-0 w-full bg-[var(--surface)] border-b border-[var(--border)] shadow-xl transition-all duration-300 transform origin-top ${
-          isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'
-        }`}
-      >
-        <div className="px-6 py-8 space-y-4">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="block py-3 text-lg font-bold text-[var(--text)] hover:text-[#6C5CE7] transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
+      {/* Mobile sheet */}
+      {isOpen && (
+        <div className="lg:hidden border-t border-[var(--border)] bg-[var(--bg)]">
+          <div className="container-custom py-4">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="block py-3 text-base font-medium text-[var(--text)] border-b border-[var(--border)] last:border-0"
+              >
+                {link.name}
+              </a>
+            ))}
+            <a href="#download" onClick={() => setIsOpen(false)} className="btn btn-primary w-full mt-4">
+              حمل التطبيق
             </a>
-          ))}
-          <div className="pt-6 border-t border-[var(--border)]">
-            <button className="w-full btn btn-primary py-4 text-base">
-              <Download size={20} />
-              <span>حمل التطبيق الآن</span>
-            </button>
           </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 }

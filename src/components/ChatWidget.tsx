@@ -130,7 +130,7 @@ export default function ChatWidget() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label="افتح المحادثة"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#6C5CE7] text-white shadow-lg shadow-[#6C5CE7]/30 flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-[var(--radius)] bg-[var(--text)] text-[var(--bg)] border border-[var(--border)] flex items-center justify-center transition-opacity hover:opacity-90"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
@@ -154,11 +154,11 @@ export default function ChatWidget() {
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.2 }}
             dir="rtl"
-            className="fixed bottom-24 right-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[70vh] max-h-[560px] flex flex-col rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl overflow-hidden font-ar"
+            className="fixed bottom-24 right-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[70vh] max-h-[560px] flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] overflow-hidden font-ar"
           >
             {/* Header */}
-            <div className="flex items-center gap-3 px-5 py-4 bg-[#6C5CE7] text-white">
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+            <div className="flex items-center gap-3 px-5 py-4 bg-[var(--surface)] text-[var(--text)] border-b border-[var(--border)]">
+              <div className="w-9 h-9 rounded-[var(--radius)] bg-[var(--subtle)] border border-[var(--border)] flex items-center justify-center">
                 <MessageCircle size={18} />
               </div>
               <div className="leading-tight">
@@ -201,13 +201,13 @@ export default function ChatWidget() {
                 onKeyDown={(e) => e.key === 'Enter' && send()}
                 disabled={loading}
                 placeholder={loading ? 'جارٍ الرد...' : 'اكتب رسالتك...'}
-                className="flex-1 bg-[var(--bg)] text-[var(--text)] placeholder:text-[var(--text-muted)] rounded-full px-4 py-2.5 text-sm outline-none border border-[var(--border)] focus:border-[#6C5CE7] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex-1 bg-[var(--bg)] text-[var(--text)] placeholder:text-[var(--text-muted)] rounded-[var(--radius)] px-4 py-2.5 text-sm outline-none border border-[var(--border)] focus:border-[var(--text)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               />
               <button
                 onClick={send}
                 disabled={loading || !input.trim()}
                 aria-label="إرسال"
-                className="w-10 h-10 shrink-0 rounded-full bg-[#6C5CE7] text-white flex items-center justify-center disabled:opacity-40 transition-opacity"
+                className="w-10 h-10 shrink-0 rounded-[var(--radius)] bg-[var(--text)] text-[var(--bg)] flex items-center justify-center disabled:opacity-40 transition-opacity"
               >
                 <SendHorizontal size={16} className="scale-x-[-1]" />
               </button>

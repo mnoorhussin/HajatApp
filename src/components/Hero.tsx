@@ -1,160 +1,132 @@
-import { Download, ArrowLeft, Shield, Zap, CreditCard } from 'lucide-react';
-import { motion } from 'framer-motion';
-import heroDelivery from '../assets/hero-delivery.webp';
+import { ArrowLeft } from 'lucide-react';
 
 /*
- * Performance notes:
- * - Infinite float/bob animations replaced with CSS @keyframes (GPU-composited,
- *   zero JS overhead after mount).
- * - hero-delivery is now WebP (161KB vs 2.37MB PNG).
- * - Entry animations kept via Framer Motion (they run once, not forever).
- * - blur-3xl decorative glows kept but wrapped in aria-hidden so they are
- *   transparent to accessibility tools.
+ * Hero visual: the product's distinguishing moment, not a mascot.
+ *
+ * The 3D scooter render is gone. It said "delivery app" — the same thing every
+ * competitor's stock illustration says — while the actual differentiator went
+ * unshown: you write a request in your own words and nearby captains bid on it.
+ * That is what this card shows, and no template can show it.
+ *
+ * Built entirely from text and rules: no image request, crisp on any display,
+ * and it restyles with the theme instead of being a baked-in PNG.
+ *
+ * NOTE: the offers below are an illustrative mock-up, like any product
+ * screenshot. Swap the names and prices for whatever reflects real pricing.
  */
+
+const offers = [
+  { name: 'محمد أ.', km: '١٫٢ كم', mins: '١٨ د', price: '٢٬٢٠٠', best: true },
+  { name: 'سارة م.', km: '٢٫٠ كم', mins: '٢٤ د', price: '٢٬٥٠٠', best: false },
+  { name: 'خالد ع.', km: '٣٫١ كم', mins: '٣٠ د', price: '٢٬٨٠٠', best: false },
+];
+
+const facts = [
+  { k: 'توصيل فوري', v: 'خلال دقائق من تأكيد الطلب' },
+  { k: 'دفع عند الاستلام', v: 'بدون بطاقة، بدون تعقيد' },
+  { k: 'دعم على مدار الساعة', v: 'فريق حاجاتي جاهز في أي وقت' },
+];
 
 export default function Hero() {
   return (
-    <div className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-[var(--bg)]">
-      {/* Background Decorative Glows — aria-hidden, paint-contained */}
-      <div
-        aria-hidden="true"
-        className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#6C5CE7]/5 rounded-full blur-3xl -mr-64 -mt-32 pointer-events-none"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#A3E635]/5 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none"
-      />
+    <section className="pt-16">
+      <div className="container-custom">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center py-16 lg:py-24">
 
-      <div className="container-custom relative">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+          {/* Type */}
+          <div className="lg:col-span-6 text-right">
+            <h1 className="rise text-[2.75rem] sm:text-6xl lg:text-[4rem] font-extrabold leading-[1.1]">
+              لا تختر من قائمة.
+              <br />
+              <span style={{ color: 'var(--brand)' }}>اكتب ما تريد.</span>
+            </h1>
 
-          {/* ── Text Content ── */}
-          <div className="text-right space-y-10 order-1 lg:order-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#6C5CE7]/10 text-[#6C5CE7] rounded-full font-bold text-sm"
+            <p
+              className="rise mt-6 text-lg lg:text-xl text-[var(--text-muted)] leading-relaxed max-w-lg ml-auto"
+              style={{ animationDelay: '60ms' }}
             >
-              <Zap size={16} className="fill-current" />
-              <span>أسرع خدمة توصيل في السودان 🇸🇩</span>
-            </motion.div>
+              اطلب أي شيء بكلماتك، ويتنافس عليه كباتن قريبون منك.
+              أنت من يختار السعر والكابتن — بلا مفاجآت.
+            </p>
 
-            <div className="space-y-6">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-5xl lg:text-7xl font-extrabold leading-[1.1]"
-              >
-                كل ما تحتاجه...
-                <span className="text-[#6C5CE7] block mt-2">في تطبيق حاجاتي!</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xl lg:text-2xl text-[var(--text-muted)] font-medium max-w-xl ml-auto leading-relaxed"
-              >
-                اطلب ما تريد، وسنكون في طريقنا إليك. مهما كانت احتياجاتك، سنوفرها لك في أسرع وقت وبأقل تكلفة.
-              </motion.p>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4"
+            <div
+              className="rise mt-9 flex flex-col sm:flex-row gap-3 sm:justify-end"
+              style={{ animationDelay: '120ms' }}
             >
-              <button className="btn btn-primary px-10 py-5 text-xl group">
-                <Download size={24} className="group-hover:translate-y-0.5 transition-transform" />
-                <span>حمل التطبيق</span>
-              </button>
-              <a href="#join-us" className="btn btn-outline px-10 py-5 text-xl group">
-                <span>انضم ككابتن توصيل</span>
-                <ArrowLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
+              <a href="#download" className="btn btn-brand px-6">حمل التطبيق</a>
+              <a href="#join-us" className="btn btn-outline px-6 group">
+                <span>انضم ككابتن</span>
+                <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-0.5" />
               </a>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="pt-10 flex flex-wrap items-center gap-8 text-[var(--text-muted)] font-bold"
-            >
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#A3E635]/20 rounded-lg text-[var(--text)]"><Zap size={18} /></div>
-                <span>توصيل فوري</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#A3E635]/20 rounded-lg text-[var(--text)]"><CreditCard size={18} /></div>
-                <span>دفع عند الاستلام</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#A3E635]/20 rounded-lg text-[var(--text)]"><Shield size={18} /></div>
-                <span>دعم 24/7</span>
-              </div>
-            </motion.div>
+            </div>
           </div>
 
-          {/* ── Visual Content ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="relative flex items-center justify-center order-2 lg:order-2 mt-12 lg:mt-0"
-          >
-            <div className="relative w-full max-w-lg lg:max-w-xl mx-auto">
+          {/* Product moment: one request, three competing offers */}
+          <div className="lg:col-span-6 rise" style={{ animationDelay: '180ms' }}>
+            <div className="border border-[var(--border)] rounded-[var(--radius-lg)] bg-[var(--surface)] overflow-hidden">
 
-              {/* Hero image — CSS float animation, zero JS runtime cost */}
-              <div className="relative z-20 hero-float">
-                <img
-                  src={heroDelivery}
-                  alt="Hajati Delivery Captain"
-                  width={800}
-                  height={533}
-                  loading="eager"
-                  decoding="async"
-                  className="w-full h-auto drop-shadow-[0_35px_35px_rgba(108,92,231,0.25)]"
-                />
+              <div className="p-6 lg:p-7 text-right">
+                <p className="text-xs font-bold text-[var(--text-faint)]">طلبك</p>
+                <p className="mt-2.5 text-lg lg:text-xl leading-relaxed text-[var(--text)]">
+                  «نص دزينة حلويات من الأفراح، ومشروب غازي عائلي»
+                </p>
               </div>
 
-              {/* Background glow */}
-              <div
-                aria-hidden="true"
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#6C5CE7]/10 rounded-full blur-[100px] -z-10 pointer-events-none"
-              />
-
-              {/* Floating card — CSS animation */}
-              <div className="absolute -right-4 top-[20%] bg-[var(--surface)] p-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-[var(--border)] z-30 card-float-up">
-                <div className="w-10 h-10 bg-[#A3E635]/20 rounded-full flex items-center justify-center text-xl">🍔</div>
-                <div>
-                  <div className="text-xs font-extrabold text-[var(--text)]">تم استلام الطلب</div>
-                  <div className="text-[10px] text-[var(--text-muted)]">مطعم البركة - 12:45م</div>
-                </div>
+              <div className="border-t border-[var(--border)] bg-[var(--subtle)] px-6 lg:px-7 py-3 text-right">
+                <p className="text-xs font-bold text-[var(--text-faint)]">٣ عروض من كباتن قريبين</p>
               </div>
 
-              {/* Floating card 2 — CSS animation */}
-              <div className="absolute -left-8 bottom-[25%] bg-[var(--surface)] p-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-[var(--border)] z-30 card-float-down">
-                <div className="w-10 h-10 bg-[#6C5CE7]/20 rounded-full flex items-center justify-center text-xl">🛵</div>
-                <div>
-                  <div className="text-xs font-extrabold text-[var(--text)]">الكابتن في الطريق</div>
-                  <div className="text-[10px] text-[var(--text-muted)]">توصيل خلال 15 دقيقة</div>
-                </div>
-              </div>
+              <ul className="divide-y divide-[var(--border)]">
+                {offers.map((o) => (
+                  <li key={o.name} className="flex items-center justify-between gap-4 px-6 lg:px-7 py-4">
+                    <div className="flex items-baseline gap-1.5 shrink-0">
+                      <span
+                        className="text-lg font-extrabold"
+                        style={{ color: o.best ? 'var(--brand)' : 'var(--text)' }}
+                      >
+                        {o.price}
+                      </span>
+                      <span className="text-xs text-[var(--text-faint)]">ج</span>
+                    </div>
 
-              {/* Status pill — CSS pulse */}
-              <div className="absolute right-1/4 -bottom-4 bg-white dark:bg-[#1E2A45] px-4 py-2 rounded-full shadow-lg border border-[var(--border)] z-30 flex items-center gap-2 pill-pulse">
-                <div className="w-2 h-2 bg-[#A3E635] rounded-full animate-pulse" />
-                <span className="text-[10px] font-bold text-[var(--text)]">أكثر من 180 كابتن نشط حالياً</span>
-              </div>
-
+                    <div className="text-right min-w-0">
+                      <div className="flex items-center gap-2 justify-end">
+                        {o.best && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded border border-[var(--border-strong)] text-[var(--text-muted)]">
+                            الأفضل
+                          </span>
+                        )}
+                        <span className="font-bold text-[15px] truncate">{o.name}</span>
+                      </div>
+                      <div className="text-xs text-[var(--text-muted)] mt-0.5">
+                        {o.km} · يصل خلال {o.mins}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </motion.div>
 
+            <p className="mt-3 text-xs text-[var(--text-faint)] text-right">
+              مثال توضيحي لواجهة التطبيق.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Facts */}
+      <div className="border-t border-[var(--border)]">
+        <div className="container-custom">
+          <dl className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x sm:divide-x-reverse divide-[var(--border)]">
+            {facts.map((f) => (
+              <div key={f.k} className="py-7 sm:px-8 text-right">
+                <dt className="font-bold text-[15px] text-[var(--text)]">{f.k}</dt>
+                <dd className="mt-1 text-sm text-[var(--text-muted)]">{f.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
   );
 }

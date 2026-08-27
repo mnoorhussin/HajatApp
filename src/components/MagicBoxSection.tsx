@@ -1,63 +1,51 @@
-import { Send, Sparkles } from 'lucide-react';
+/*
+ * The product's core idea, shown as a still of the actual input.
+ *
+ * Was: a "تجربة فريدة" sparkle pill, two blurred colour blobs, a
+ * gradient-to-orange glow ring behind a rounded-[2rem] card with shadow-2xl,
+ * an inset-shadowed textarea and a row of rounded-full suggestion pills.
+ *
+ * NOTE: this section previously carried id="how-it-works", the same id as the
+ * HowItWorks section above it — a duplicate anchor, so the navbar link was
+ * ambiguous. It has its own id now.
+ */
+
+const suggestions = ['دواء من صيدلية', 'غداء عائلي', 'خضار وفواكه', 'توصيل طرد'];
 
 export default function MagicBoxSection() {
   return (
-    <section id="how-it-works" className="py-24 bg-[var(--bg)] overflow-hidden relative transition-colors duration-300">
-      {/* Background patterns */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50 -mr-32 -mt-32"></div>
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-50 -ml-32 -mb-32"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full font-bold text-sm">
-            <Sparkles size={16} />
-            تجربة فريدة
-          </div>
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-[var(--text)]">
-            المربع السحري: <span className="text-primary">اطلب أي شيء!</span>
-          </h2>
-          <p className="text-lg text-[var(--text-muted)] max-w-2xl mx-auto font-medium">
-            لا نلزمك بقائمة مطاعم محددة. اكتب ما يدور في ذهنك، وسنوفره لك.
+    <section id="magic-box" className="section">
+      <div className="container-custom">
+        <div className="text-right max-w-2xl ml-auto">
+          <p className="text-sm font-bold text-[var(--text-faint)]">المربع السحري</p>
+          <h2 className="mt-3 text-3xl lg:text-[2.75rem]">اطلب أي شيء، بكلماتك</h2>
+          <p className="mt-4 text-[var(--text-muted)] text-lg leading-relaxed">
+            لا نلزمك بقائمة محددة. اكتب ما يدور في ذهنك، ويتكفّل كباتن حاجاتي بالباقي.
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="relative group">
-            {/* Glossy Background Effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-orange-400 rounded-[2rem] blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-            
-            <div className="relative bg-[var(--surface)] border-2 border-[var(--border)] rounded-[2rem] shadow-2xl p-6 md:p-10 transition-colors duration-300">
-              <div className="space-y-6">
-                <div className="relative">
-                  <label className="block text-[var(--text)] font-bold text-xl mb-4 text-right">
-ما الذي تحتاجه اليوم؟                     </label>
-                  
-                  <div className="relative">
-                    <textarea
-                      readOnly
-                      placeholder='مثلاً: "أريد نصف دزينة من الحلويات من متجر ومشروب غازي عائلي"'
-                      className="w-full bg-[var(--bg)] border-2 border-[var(--border)] rounded-2xl p-6 text-lg text-right text-[var(--text)] h-40 outline-none transition-all resize-none placeholder-gray-300 dark:placeholder-gray-600 shadow-inner cursor-default"
-                    />
-                  </div>
-                </div>
+        <div className="mt-12 max-w-2xl ml-auto">
+          <div className="border border-[var(--border)] rounded-[var(--radius-lg)] bg-[var(--surface)] overflow-hidden">
+            {/* Field */}
+            <div className="p-6 lg:p-8">
+              <label className="block text-right text-sm font-bold text-[var(--text-muted)]">
+                ما الذي تحتاجه اليوم؟
+              </label>
+              <p
+                className="mt-4 text-right text-lg lg:text-xl leading-relaxed text-[var(--text-faint)]"
+                aria-hidden="true"
+              >
+                «أريد نصف دزينة من الحلويات من متجر ومشروب غازي عائلي»
+              </p>
+            </div>
 
-                <div className="flex flex-col md:flex-row items-center gap-4">
-                  <button
-                    type="button"
-                    className="flex-1 w-full bg-primary text-white py-4 rounded-xl font-bold text-xl shadow-lg flex items-center justify-center gap-3 cursor-default"
-                  >
-                    أرسل الطلب
-                    <Send size={24} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest w-full text-center mb-2">اقتراحات شائعة</span>
-                {['دواء صيدلية', 'غداء عائلي', ' خضار وفواكه', 'توصيل طرد'].map((tag) => (
+            {/* Suggestions sit below a rule rather than floating as pills */}
+            <div className="border-t border-[var(--border)] px-6 lg:px-8 py-5">
+              <div className="flex flex-wrap gap-2 justify-end">
+                {suggestions.map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-2 bg-[var(--bg)] text-[var(--text)] rounded-full text-sm font-bold border border-[var(--border)] cursor-default transition-colors duration-300"
+                    className="text-[13px] text-[var(--text-muted)] border border-[var(--border)] rounded-[var(--radius)] px-3 py-1.5"
                   >
                     {tag}
                   </span>
@@ -65,7 +53,10 @@ export default function MagicBoxSection() {
               </div>
             </div>
           </div>
-          
+
+          <p className="mt-4 text-sm text-[var(--text-faint)] text-right">
+            تستقبل عروض أسعار من كباتن قريبين، وتختار ما يناسبك.
+          </p>
         </div>
       </div>
     </section>

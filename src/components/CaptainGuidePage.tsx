@@ -48,7 +48,7 @@ export default function CaptainGuidePage() {
         
         <div className="mb-10">
           <h1 className="text-4xl font-black text-[var(--text)] mb-4">دليل عمل الكباتن</h1>
-          <p className="text-lg text-[var(--text-secondary)]">دليل يوضح طريقة عمل كباتن التوصيل في تطبيق حاجات خلال المرحلة الأولى من التشغيل لضمان تقديم أفضل تجربة للعملاء.</p>
+          <p className="text-lg text-[var(--text-secondary)]">دليل يوضح طريقة عمل كباتن التوصيل في تطبيق حاجاتي خلال المرحلة الأولى من التشغيل لضمان تقديم أفضل تجربة للعملاء.</p>
         </div>
 
         <GuideSection 
@@ -110,14 +110,14 @@ export default function CaptainGuidePage() {
         <div className="mt-12 bg-[var(--card)] border border-[var(--border)] p-8 rounded-3xl text-center shadow-sm">
           <h3 className="text-2xl font-bold text-[var(--text)] mb-2">جاهز للانضمام؟</h3>
           <p className="text-[var(--text-secondary)] mb-6">
-            اقرأت الدليل؟ قدّم طلبك الآن وابدأ الكسب مع حاجات.
+            اقرأت الدليل؟ قدّم طلبك الآن وابدأ الكسب مع حاجاتي.
           </p>
           <Link to="/captain-application" className="btn btn-primary px-10 py-4 text-lg group">
             <ChevronRight size={20} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
             <span>قدّم طلبك الآن</span>
           </Link>
           <p className="text-sm text-[var(--text-muted)] mt-4">
-            يتطلب حساباً في تطبيق حاجات — قدّم بنفس البريد الإلكتروني الذي سجّلت به
+            يتطلب حساباً في تطبيق حاجاتي — قدّم بنفس البريد الإلكتروني الذي سجّلت به
           </p>
         </div>
 

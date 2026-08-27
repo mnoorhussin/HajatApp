@@ -1,6 +1,6 @@
-# Hajat Platform: System Architecture & Zero-to-Hero Developer Blueprint
+# Hajati Platform: System Architecture & Zero-to-Hero Developer Blueprint
 
-Welcome to the **Hajat Platform**! This blueprint provides an exhaustive, absolute understanding of the Hajat ecosystem, detailing the architecture, database models, unique features, and engineering paradigms that drive the application. 
+Welcome to the **Hajati Platform**! This blueprint provides an exhaustive, absolute understanding of the Hajati ecosystem, detailing the architecture, database models, unique features, and engineering paradigms that drive the application. 
 
 This document is designed to take any developer from **Zero to Hero**, enabling them to understand, run, and extend the project feature-by-feature and concept-by-concept.
 
@@ -8,9 +8,9 @@ This document is designed to take any developer from **Zero to Hero**, enabling 
 
 ## 🗺️ 1. Platform Executive Overview
 
-**Hajat** (حاجات - meaning "Items" or "Needs" in Sudanese Arabic) is a premium, on-demand logistics, delivery, and purchasing platform engineered specifically for the Sudanese market. 
+**Hajati** (حاجاتي - meaning "Items" or "Needs" in Sudanese Arabic) is a premium, on-demand logistics, delivery, and purchasing platform engineered specifically for the Sudanese market. 
 
-Unlike traditional delivery apps, Hajat is designed around local market dynamics:
+Unlike traditional delivery apps, Hajati is designed around local market dynamics:
 - **Bidirectional Mode Toggling**: A single codebase powering both the Customer interface and the Captain (Driver) experience.
 - **RTL Arabic Default**: Designed natively for right-to-left layout constraints, preventing alignment and visual flipping bugs.
 - **Dynamic Delivery Fee Negotiation**: Recognizes local bargaining culture by allowing customers and captains to negotiate fees in real-time.
@@ -21,7 +21,7 @@ Unlike traditional delivery apps, Hajat is designed around local market dynamics
 
 ## 🏗️ 2. High-Level Ecosystem Architecture
 
-Hajat is built as a distributed, highly real-time ecosystem consisting of 5 main components:
+Hajati is built as a distributed, highly real-time ecosystem consisting of 5 main components:
 
 ```mermaid
 graph TD
@@ -30,7 +30,7 @@ graph TD
     Admin["2. Admin Dashboard (Staff Operations)"]
     Android["3. Android App (React Native Expo)"]
     iOS["4. iOS App (React Native Expo)"]
-    API["5. Hajat API (Express Core)"]
+    API["5. Hajati API (Express Core)"]
     DB[("PocketBase Database")]
     OSRM["OSRM Engine (Open Source Routing)"]
     ExpoPush["Expo Push Server"]
@@ -68,7 +68,7 @@ graph TD
 
 ## 🗄️ 3. Database Schema & Data Models
 
-Hajat utilizes **PocketBase** as its core database engine. The data model is highly optimized, linking core entities via relations to support real-time subscriptions.
+Hajati utilizes **PocketBase** as its core database engine. The data model is highly optimized, linking core entities via relations to support real-time subscriptions.
 
 ### Database ER Diagram
 
@@ -177,10 +177,10 @@ erDiagram
 
 ## ⚡ 4. Platform Engine & Key Features
 
-Hajat incorporates several robust, highly customized software engines that every developer must understand before modifying the code.
+Hajati incorporates several robust, highly customized software engines that every developer must understand before modifying the code.
 
 ### A. Dynamic Mode Switching (Role Toggling)
-The Hajat Android and iOS apps are not separate installations for customers and captains. Instead, **a single app dynamically morphs** based on the user's selected mode (`current_mode` in the `users` record). 
+The Hajati Android and iOS apps are not separate installations for customers and captains. Instead, **a single app dynamically morphs** based on the user's selected mode (`current_mode` in the `users` record). 
 
 Components and views listen to `RoleContext.tsx` and dynamically swap entire UI libraries and style tokens:
 
@@ -192,14 +192,14 @@ Components and views listen to `RoleContext.tsx` and dynamically swap entire UI 
     *   Design Language: Utility-focused dashboard, prominent map tracking, quick-accept sheets.
 
 ### B. Foolproof Right-to-Left (RTL) Layout Engine
-The Sudanese market operates primarily in Arabic. To avoid painful layout issues, Hajat implements a strict **RTL Engine Guidelines**:
+The Sudanese market operates primarily in Arabic. To avoid painful layout issues, Hajati implements a strict **RTL Engine Guidelines**:
 
 1.  **Logical Properties over Physical Properties**:
     *   Never use physical properties (`ml-*`, `mr-*`, `pl-*`, `pr-*`).
     *   Always use logical properties (`ms-*` (marginStart), `me-*` (marginEnd), `ps-*` (paddingStart), `pe-*` (paddingEnd)).
 2.  **Bypassing React Native Double-Flipping Bugs**:
     *   Never rely on `writingDirection: 'rtl'` or container flex overrides (`items-end`) to align Arabic text blocks. Doing so triggers engine bugs where layouts flip twice.
-    *   **Always use the Hajat Text Strategy**:
+    *   **Always use the Hajati Text Strategy**:
         ```javascript
         style={{ width: '100%', textAlign: I18nManager.isRTL ? 'left' : 'right' }}
         ```
@@ -235,7 +235,7 @@ sequenceDiagram
 ```
 
 ### D. MagicBox Dynamic Pricing & OSRM Routing
-Hajat handles pricing in two distinct phases via `pricingService.js`:
+Hajati handles pricing in two distinct phases via `pricingService.js`:
 
 1.  **Phase 1: Quote / Estimation (Anchor Method)**:
     *   If the exact shop coordinate isn't specified (optional pickup location), the platform defaults to the **Anchor Point Method** using averaged category radii (Pharmacy: 3.5km, Grocery: 2km, Default: 5km).
@@ -249,7 +249,7 @@ Hajat handles pricing in two distinct phases via `pricingService.js`:
     *   Total Fee finalized and logged before commission sweeps trigger.
 
 ### E. Nightly Commission Sweeps & Blocking System
-Rather than forcing captains to pay commissions manually on every single delivery, Hajat runs a nightly batch job and enforces an automated credit threshold.
+Rather than forcing captains to pay commissions manually on every single delivery, Hajati runs a nightly batch job and enforces an automated credit threshold.
 
 ```mermaid
 stateDiagram-v2
@@ -285,7 +285,7 @@ stateDiagram-v2
 
 Let's break down where the most critical logic files live inside each repository so a developer knows exactly where to look.
 
-### 🔌 Hajat API (`hajat-api`)
+### 🔌 Hajati API (`hajat-api`)
 ```
 hajat-api/
 ├── src/
@@ -352,7 +352,7 @@ hajat-admin-dashboard/
 
 ## 🛠️ 6. Zero-to-Hero Setup Guide
 
-This guide describes how to run the entire Hajat ecosystem locally.
+This guide describes how to run the entire Hajati ecosystem locally.
 
 ### 📋 Prerequisites
 Ensure you have the following installed on your machine:
@@ -372,7 +372,7 @@ Ensure you have the following installed on your machine:
 
 ---
 
-### Step 2: Run the Hajat API Core
+### Step 2: Run the Hajati API Core
 1. Open a terminal in `hajat-api`.
 2. Create your `.env` file:
    ```env
@@ -425,7 +425,7 @@ Ensure you have the following installed on your machine:
 
 ## 🌟 7. Coding Best Practices & Golden Rules
 
-Every developer working on Hajat must rigidly adhere to these 4 architectural pillars:
+Every developer working on Hajati must rigidly adhere to these 4 architectural pillars:
 
 ### I. Keep Business Logic in Services
 *   **Wrong**: Embedding OSRM distance lookups directly inside express controllers.
@@ -457,4 +457,4 @@ Every developer working on Hajat must rigidly adhere to these 4 architectural pi
 ---
 
 ## 🚀 Welcome Aboard!
-You are now fully equipped with the system design, core logic, features, and databases of the Hajat Platform. Happy pair-programming! 🇸🇩✨
+You are now fully equipped with the system design, core logic, features, and databases of the Hajati Platform. Happy pair-programming! 🇸🇩✨

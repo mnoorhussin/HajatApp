@@ -28,7 +28,7 @@ export default function DeleteAccountPage() {
           <section className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-[var(--text)] mb-6">خيارات إدارة حسابك</h2>
             <p className="text-[var(--text-muted)] mb-8 text-lg leading-relaxed">
-              لديك خياران لإدارة حسابك في تطبيق حاجات:
+              لديك خياران لإدارة حسابك في تطبيق حاجاتي:
             </p>
 
             {/* Option 1: Deactivate */}
@@ -73,7 +73,7 @@ export default function DeleteAccountPage() {
                 <li className="flex gap-4">
                   <span className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center flex-shrink-0 font-bold text-sm">1</span>
                   <div>
-                    <p className="font-bold text-[var(--text)]">افتح تطبيق حاجات</p>
+                    <p className="font-bold text-[var(--text)]">افتح تطبيق حاجاتي</p>
                     <p className="text-sm text-[var(--text-muted)]">شغّل التطبيق على هاتفك</p>
                   </div>
                 </li>

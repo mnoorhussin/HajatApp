@@ -35,7 +35,7 @@ export default function PolicyPage() {
         <div className="container-custom">
           <h1 className="text-3xl md:text-5xl font-extrabold mb-4">{policy.title}</h1>
           <p className="text-orange-100 text-lg max-w-2xl mx-auto opacity-90">
-            تطبيق حاجات - كل اللي تحتاجه في مكان واحد
+            تطبيق حاجاتي - كل اللي تحتاجه في مكان واحد
           </p>
         </div>
       </div>

@@ -24,7 +24,7 @@ type Msg = { role: 'user' | 'assistant'; content: string };
 
 const WELCOME: Msg = {
   role: 'assistant',
-  content: 'أهلًا بك في حاجات! 👋 كيف أقدر أساعدك اليوم؟',
+  content: 'أهلًا بك في حاجاتي! 👋 كيف أقدر أساعدك اليوم؟',
 };
 
 export default function ChatWidget() {
@@ -162,7 +162,7 @@ export default function ChatWidget() {
                 <MessageCircle size={18} />
               </div>
               <div className="leading-tight">
-                <p className="font-bold text-sm">مساعد حاجات</p>
+                <p className="font-bold text-sm">مساعد حاجاتي</p>
                 <p className="text-[11px] text-white/80">يرد عادةً خلال لحظات</p>
               </div>
             </div>

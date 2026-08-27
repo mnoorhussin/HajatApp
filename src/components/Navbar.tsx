@@ -36,7 +36,7 @@ export default function Navbar() {
             <Link to="/">
               <img
                 src={logo}
-                alt="Hajat Logo"
+                alt="Hajati Logo"
                 className="h-14 lg:h-18 w-auto object-contain transition-all duration-300 cursor-pointer mix-blend-multiply dark:mix-blend-screen"
               />
             </Link>

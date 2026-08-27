@@ -48,7 +48,7 @@ export default function Hero() {
                 className="text-5xl lg:text-7xl font-extrabold leading-[1.1]"
               >
                 كل ما تحتاجه...
-                <span className="text-[#6C5CE7] block mt-2">في تطبيق حاجات!</span>
+                <span className="text-[#6C5CE7] block mt-2">في تطبيق حاجاتي!</span>
               </motion.h1>
 
               <motion.p
@@ -111,7 +111,7 @@ export default function Hero() {
               <div className="relative z-20 hero-float">
                 <img
                   src={heroDelivery}
-                  alt="Hajat Delivery Captain"
+                  alt="Hajati Delivery Captain"
                   width={800}
                   height={533}
                   loading="eager"

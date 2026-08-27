@@ -289,7 +289,7 @@ export default function CaptainApplicationPage() {
 
       <div className="bg-gradient-to-l from-[#6C5CE7] to-[#4B3FB0] text-white py-16 text-center mt-[72px]">
         <div className="container-custom">
-          <h1 className="text-3xl md:text-5xl font-extrabold mb-4">انضم ككابتن حاجات</h1>
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-4">انضم ككابتن حاجاتي</h1>
           <p className="text-lg max-w-2xl mx-auto opacity-90">
             قدّم طلبك في دقائق، وسنراجع بياناتك ونتواصل معك
           </p>
@@ -314,9 +314,9 @@ export default function CaptainApplicationPage() {
                 <div className="flex items-start gap-3">
                   <Smartphone size={20} className="text-[#6C5CE7] flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-bold text-[var(--text)] mb-2">قبل أن تبدأ: يجب أن يكون لديك حساب في تطبيق حاجات</p>
+                    <p className="font-bold text-[var(--text)] mb-2">قبل أن تبدأ: يجب أن يكون لديك حساب في تطبيق حاجاتي</p>
                     <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                      كل كابتن هو عميل في حاجات أولاً. حمّل التطبيق وأنشئ حساباً، ثم عُد إلى هنا وقدّم طلبك
+                      كل كابتن هو عميل في حاجاتي أولاً. حمّل التطبيق وأنشئ حساباً، ثم عُد إلى هنا وقدّم طلبك
                       باستخدام <span className="font-bold text-[var(--text)]">نفس البريد الإلكتروني</span> الذي سجّلت به في التطبيق.
                     </p>
                   </div>
@@ -498,17 +498,17 @@ export default function CaptainApplicationPage() {
               </div>
               <h2 className="text-2xl font-extrabold text-[var(--text)] mb-4">حمّل التطبيق وأنشئ حسابك أولاً</h2>
               <p className="text-[var(--text-muted)] leading-relaxed max-w-lg mx-auto mb-2">
-                لا يوجد حساب في حاجات بالبريد <span className="font-bold text-[var(--text)]" dir="ltr">{email}</span>
+                لا يوجد حساب في حاجاتي بالبريد <span className="font-bold text-[var(--text)]" dir="ltr">{email}</span>
               </p>
               <p className="text-[var(--text-muted)] leading-relaxed max-w-lg mx-auto mb-8">
-                كل كابتن هو عميل في حاجات أولاً. حمّل التطبيق وسجّل حساباً جديداً بهذا البريد نفسه،
+                كل كابتن هو عميل في حاجاتي أولاً. حمّل التطبيق وسجّل حساباً جديداً بهذا البريد نفسه،
                 ثم عُد إلى هذه الصفحة وأكمل طلبك.
               </p>
 
               <div className="bg-[var(--bg)] border border-[var(--border)] rounded-2xl p-6 max-w-lg mx-auto mb-8 text-right">
                 <ol className="space-y-4">
                   {[
-                    'حمّل تطبيق حاجات على هاتفك',
+                    'حمّل تطبيق حاجاتي على هاتفك',
                     'أنشئ حساباً جديداً بنفس البريد الإلكتروني أعلاه',
                     'ارجع إلى هذه الصفحة وقدّم طلبك ككابتن',
                   ].map((t, i) => (
@@ -536,7 +536,7 @@ export default function CaptainApplicationPage() {
             <Outcome
               icon={<CheckCircle2 size={40} className="text-[#A3E635]" />}
               title="تم تقديم طلبك بنجاح!"
-              body="سنراجع بياناتك ونتواصل معك قريباً. بعد الموافقة، سجّل الدخول في تطبيق حاجات بنفس بريدك الإلكتروني وستجد وضع الكابتن مفعّلاً."
+              body="سنراجع بياناتك ونتواصل معك قريباً. بعد الموافقة، سجّل الدخول في تطبيق حاجاتي بنفس بريدك الإلكتروني وستجد وضع الكابتن مفعّلاً."
               account={accountEmail}
               onBack={() => navigate('/')}
               onSignOut={signOut}
@@ -558,7 +558,7 @@ export default function CaptainApplicationPage() {
             <Outcome
               icon={<BadgeCheck size={40} className="text-[#A3E635]" />}
               title="أنت كابتن بالفعل"
-              body="هذا الحساب مفعّل ككابتن حاجات. افتح التطبيق وسجّل الدخول للبدء في استقبال الطلبات."
+              body="هذا الحساب مفعّل ككابتن حاجاتي. افتح التطبيق وسجّل الدخول للبدء في استقبال الطلبات."
               account={accountEmail}
               onBack={() => navigate('/')}
               onSignOut={signOut}

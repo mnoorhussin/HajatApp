@@ -23,7 +23,7 @@ export default function Footer() {
           <div>
             <h4 className="font-extrabold text-[var(--text)] mb-8 text-xl">روابط سريعة</h4>
             <ul className="space-y-4 text-[var(--text-muted)] font-medium">
-              <li><Link to="/" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>عن حاجات</Link></li>
+              <li><Link to="/" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>عن حاجاتي</Link></li>
               <li><Link to="/#services" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>خدماتنا</Link></li>
               <li><Link to="/#how-it-works" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>كيف يعمل</Link></li>
               <li><Link to="/captain-guide" className="hover:text-[#6C5CE7] transition-all flex items-center gap-2 group"><span className="w-1.5 h-1.5 rounded-full bg-[#6C5CE7]/20 group-hover:bg-[#6C5CE7] transition-colors"></span>دليل عمل الكابتن</Link></li>
@@ -67,15 +67,15 @@ export default function Footer() {
           </div>
 
           <div className="bg-[#6C5CE7]/5 dark:bg-white/5 p-8 rounded-[2.5rem] space-y-6 border border-transparent dark:border-white/5">
-            <img src={logo} alt="Hajat Logo" className="h-12 w-auto object-contain mix-blend-multiply dark:mix-blend-screen" />
+            <img src={logo} alt="Hajati Logo" className="h-12 w-auto object-contain mix-blend-multiply dark:mix-blend-screen" />
             <p className="text-sm text-[var(--text-muted)] leading-relaxed font-medium">
-              تطبيق حاجات... دليلك لتلبية كافة احتياجاتك! اطلب ما تريد، وسنكون في طريقنا إليك. التطبيق السوداني الأول لتوصيل كل احتياجاتك بسرعة وأمان.
+              تطبيق حاجاتي... دليلك لتلبية كافة احتياجاتك! اطلب ما تريد، وسنكون في طريقنا إليك. التطبيق السوداني الأول لتوصيل كل احتياجاتك بسرعة وأمان.
             </p>
           </div>
         </div>
 
         <div className="pt-10 border-t border-[var(--border)] text-center text-[var(--text-muted)] text-sm font-bold flex flex-col lg:flex-row justify-between items-center gap-8">
-          <p>© {new Date().getFullYear()} حاجات لخدمات التوصيل. جميع الحقوق محفوظة.</p>
+          <p>© {new Date().getFullYear()} حاجاتي لخدمات التوصيل. جميع الحقوق محفوظة.</p>
           
           <div className="flex items-center gap-4">
             {[

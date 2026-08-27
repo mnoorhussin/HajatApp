@@ -1,7 +1,7 @@
-# Hajat Landing Page Agent Instructions
+# Hajati Landing Page Agent Instructions
 
 ## Context
-You are an AI agent assisting in the development of the **Hajat Landing Page**, a React / Vite application tailored for the Sudanese market. The app uses **Tailwind CSS** for styling and acts as the entry point for both Customers and Captains.
+You are an AI agent assisting in the development of the **Hajati Landing Page**, a React / Vite application tailored for the Sudanese market. The app uses **Tailwind CSS** for styling and acts as the entry point for both Customers and Captains.
 
 ## Golden Rules for Landing Page
 

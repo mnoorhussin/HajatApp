@@ -5,7 +5,7 @@ const steps = [
   {
     icon: <Smartphone size={40} />,
     title: 'افتح التطبيق',
-    description: 'حمّل تطبيق حاجات وأنشئ حسابك في ثوانٍ معدودة وابدأ رحلة الطلب',
+    description: 'حمّل تطبيق حاجاتي وأنشئ حسابك في ثوانٍ معدودة وابدأ رحلة الطلب',
     color: 'bg-blue-50 text-blue-600'
   },
   {
@@ -33,7 +33,7 @@ export default function HowItWorks() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-extrabold text-[var(--text)]"
           >
-            كيف تطلب من <span className="text-[#6C5CE7]">حاجات؟</span>
+            كيف تطلب من <span className="text-[#6C5CE7]">حاجاتي؟</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}

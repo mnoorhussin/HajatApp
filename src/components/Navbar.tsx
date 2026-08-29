@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import ThemeToggle from './ThemeToggle';
+import DownloadButton from './DownloadButton';
 
 /*
  * Fixed 64px bar defined by a single hairline border. Previously this was a
@@ -55,9 +56,7 @@ export default function Navbar() {
 
           <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
-            <a href="#download" className="btn btn-primary px-4 h-9 text-sm">
-              حمل التطبيق
-            </a>
+            <DownloadButton className="btn btn-primary px-4 h-9 text-sm" />
           </div>
 
           {/* Mobile */}
@@ -89,9 +88,10 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
-            <a href="#download" onClick={() => setIsOpen(false)} className="btn btn-primary w-full mt-4">
-              حمل التطبيق
-            </a>
+            <DownloadButton
+              className="btn btn-primary w-full mt-4"
+              onClick={() => setIsOpen(false)}
+            />
           </div>
         </div>
       )}

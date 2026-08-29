@@ -10,6 +10,7 @@ const HowItWorks     = lazy(() => import('./components/HowItWorks'));
 const MagicBoxSection = lazy(() => import('./components/MagicBoxSection'));
 const JoinUs         = lazy(() => import('./components/JoinUs'));
 const FAQ            = lazy(() => import('./components/FAQ'));
+const Download       = lazy(() => import('./components/Download'));
 const Footer         = lazy(() => import('./components/Footer'));
 const PolicyPage     = lazy(() => import('./components/PolicyPage'));
 const CaptainGuidePage = lazy(() => import('./components/CaptainGuidePage'));
@@ -44,6 +45,9 @@ function LandingPage() {
         </Suspense>
         <Suspense fallback={<SectionSkeleton />}>
           <JoinUs />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <Download />
         </Suspense>
         <Suspense fallback={<SectionSkeleton />}>
           <FAQ />

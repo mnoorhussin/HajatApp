@@ -1,4 +1,5 @@
 import { ArrowLeft } from 'lucide-react';
+import DownloadButton from './DownloadButton';
 
 /*
  * Hero visual: the product's distinguishing moment, not a mascot.
@@ -53,7 +54,7 @@ export default function Hero() {
               className="rise mt-9 flex flex-col sm:flex-row gap-3 sm:justify-end"
               style={{ animationDelay: '120ms' }}
             >
-              <a href="#download" className="btn btn-brand px-6">حمل التطبيق</a>
+              <DownloadButton className="btn btn-brand px-6" />
               <a href="#join-us" className="btn btn-outline px-6 group">
                 <span>انضم ككابتن</span>
                 <ArrowLeft size={17} className="transition-transform group-hover:-translate-x-0.5" />

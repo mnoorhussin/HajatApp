@@ -21,7 +21,7 @@
 
 **لا يمكنك الوصول إلى التطبيق؟**
 
-راسلنا من نفس بريدك الإلكتروني المسجّل على **contact@hajatapp.com** واكتب «حذف الحساب» في عنوان الرسالة، وسنقوم بحذف حسابك خلال مدة معقولة بعد التحقق من هويتك.
+راسلنا من نفس بريدك الإلكتروني المسجّل على **contact@hajati.app** واكتب «حذف الحساب» في عنوان الرسالة، وسنقوم بحذف حسابك خلال مدة معقولة بعد التحقق من هويتك.
 
 ---
 
@@ -37,4 +37,4 @@ You can permanently delete your account and personal data from within the app at
 
 **Retained:** completed order records are kept for accounting/legal purposes with your personal data removed (anonymized).
 
-**Can't access the app?** Email us from your registered email address at **contact@hajatapp.com** with the subject "Delete Account", and we'll delete your account within a reasonable period after verifying your identity.
+**Can't access the app?** Email us from your registered email address at **contact@hajati.app** with the subject "Delete Account", and we'll delete your account within a reasonable period after verifying your identity.

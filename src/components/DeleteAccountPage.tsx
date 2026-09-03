@@ -228,11 +228,11 @@ export default function DeleteAccountPage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="mailto:contact@hajatapp.com"
+                href="mailto:contact@hajati.app"
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition-colors"
               >
                 <Mail size={20} />
-                contact@hajatapp.com
+                contact@hajati.app
               </a>
               <p className="flex items-center text-[var(--text-muted)] text-sm">
                 نرد على جميع الاستفسارات في غضون 24 ساعة عمل

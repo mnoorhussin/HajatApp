@@ -61,8 +61,8 @@ export default function Footer() {
             <h4 className="text-sm font-bold text-[var(--text)]">تواصل معنا</h4>
             <ul className="mt-4 space-y-3 text-[15px] text-[var(--text-muted)]">
               <li>
-                <a href="mailto:contact@hajatapp.com" className={linkCls} dir="ltr">
-                  contact@hajatapp.com
+                <a href="mailto:contact@hajati.app" className={linkCls} dir="ltr">
+                  contact@hajati.app
                 </a>
               </li>
               <li>السودان — كسلا</li>

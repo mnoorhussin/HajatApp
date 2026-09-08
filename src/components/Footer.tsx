@@ -79,9 +79,9 @@ export default function Footer() {
 
           <div className="flex items-center gap-1">
             {[
-              { Icon: Facebook,   href: 'https://www.facebook.com/profile.php?id=61589581559138', label: 'فيسبوك' },
-              { Icon: TiktokIcon, href: 'https://www.tiktok.com/@hajatapp',                        label: 'تيك توك' },
-              { Icon: Instagram,  href: 'https://www.instagram.com/hajatapp/',                     label: 'إنستغرام' },
+              { Icon: Facebook,   href: 'https://www.facebook.com/hajatiapp/',  label: 'فيسبوك' },
+              { Icon: TiktokIcon, href: 'https://www.tiktok.com/@hajati.app',   label: 'تيك توك' },
+              { Icon: Instagram,  href: 'https://www.instagram.com/hajati.app', label: 'إنستغرام' },
             ].map(({ Icon, href, label }) => (
               <a
                 key={href}

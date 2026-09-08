@@ -25,6 +25,23 @@ const VEHICLES = [
   { id: 'raksha', label: 'ركشة' },
 ];
 
+// Identity documents. A بطاقة قومية has two sides, but a passport page and a
+// national-number document are single-page — demanding a back image locked
+// every applicant holding one of those out of the form entirely.
+const ID_DOC_TYPES = [
+  { id: 'national_id', label: 'بطاقة قومية', frontLabel: 'الوجه الأمامي', needsBack: true },
+  { id: 'passport', label: 'جواز السفر', frontLabel: 'صفحة الجواز', needsBack: false },
+  { id: 'national_number', label: 'الرقم الوطني', frontLabel: 'صورة الرقم الوطني', needsBack: false },
+] as const;
+
+type IdDocType = (typeof ID_DOC_TYPES)[number]['id'];
+
+const ID_DOC_MISSING_MESSAGE: Record<IdDocType, string> = {
+  national_id: 'صورة البطاقة القومية (الأمام والخلف) مطلوبة',
+  passport: 'صورة صفحة جواز السفر مطلوبة',
+  national_number: 'صورة الرقم الوطني مطلوبة',
+};
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** 18+ as of today, from a DD/MM/YYYY string. */
@@ -88,9 +105,19 @@ export default function CaptainApplicationPage() {
     const rec = currentSession();
     return rec?.avatar ? pb.files.getURL(rec, rec.avatar as string) : null;
   });
+  const [idDocType, setIdDocType] = useState<IdDocType>('national_id');
   const [idFront, setIdFront] = useState<File | null>(null);
   const [idBack, setIdBack] = useState<File | null>(null);
   const [license, setLicense] = useState<File | null>(null);
+
+  const idDocConfig = ID_DOC_TYPES.find((t) => t.id === idDocType)!;
+
+  function selectIdDocType(type: IdDocType) {
+    setIdDocType(type);
+    // A single-page document has no back side. Drop anything already picked so
+    // it cannot be submitted against a type that does not have one.
+    if (!ID_DOC_TYPES.find((t) => t.id === type)!.needsBack) setIdBack(null);
+  }
   const [agreeTos, setAgreeTos] = useState(false);
   const [agreePrivacy, setAgreePrivacy] = useState(false);
 
@@ -115,6 +142,7 @@ export default function CaptainApplicationPage() {
       vehicle_type: 'car', vehicle_model: '', vehicle_plate: '',
     });
     setAvatar(null); setAvatarUrl(null);
+    setIdDocType('national_id');
     setIdFront(null); setIdBack(null); setLicense(null);
     setAgreeTos(false); setAgreePrivacy(false);
     setEmail(''); setOtpId(''); setCode(''); setAccountEmail(null);
@@ -194,7 +222,7 @@ export default function CaptainApplicationPage() {
     if (!isAdult(form.dob)) return 'يجب أن يكون عمرك 18 سنة على الأقل';
     if (!form.vehicle_type) return 'نوع المركبة مطلوب';
     if (!avatar && !avatarUrl) return 'الصورة الشخصية للكابتن مطلوبة';
-    if (!idFront || !idBack) return 'صورة الهوية (الأمام والخلف) مطلوبة';
+    if (!idFront || (idDocConfig.needsBack && !idBack)) return ID_DOC_MISSING_MESSAGE[idDocType];
     if (form.vehicle_type === 'car' && !license) return 'رخصة القيادة مطلوبة للسيارات';
     if (!agreeTos || !agreePrivacy) return 'يرجى الموافقة على جميع الشروط والأحكام';
     return null;
@@ -254,12 +282,19 @@ export default function CaptainApplicationPage() {
         const blob = await (await fetch(avatarUrl)).blob();
         data.append('avatar', blob, 'avatar.jpg');
       }
+      data.append('id_doc_type', idDocType);
       data.append('id_front', idFront!);
-      data.append('id_back', idBack!);
+      if (idDocConfig.needsBack) data.append('id_back', idBack!);
       if (license) data.append('license', license);
 
       const existing = await pb.collection('captains').getList(1, 1, { filter: `user = "${userId}"` });
       if (existing.items.length > 0) {
+        // An earlier بطاقة قومية submission leaves a back image on the row. A
+        // single-page document has no back, so clear it rather than leave the
+        // reviewer looking at a scan from a document type the applicant is no
+        // longer claiming. PocketBase clears a file field when it is sent as an
+        // empty string.
+        if (!idDocConfig.needsBack) data.append('id_back', '');
         await pb.collection('captains').update(existing.items[0].id, data);
       } else {
         await pb.collection('captains').create(data);
@@ -456,10 +491,26 @@ export default function CaptainApplicationPage() {
 
               {/* Section 3: Documents */}
               <SectionTitle>المستندات المطلوبة</SectionTitle>
-              <p className="text-sm text-[var(--text-muted)] mb-4">الرقم الوطني / الإقامة</p>
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <FilePicker label="الوجه الأمامي" file={idFront} onPick={setIdFront} />
-                <FilePicker label="الوجه الخلفي" file={idBack} onPick={setIdBack} />
+              <p className="text-sm text-[var(--text-muted)] mb-4">نوع الهوية</p>
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                {ID_DOC_TYPES.map((t) => (
+                  <button
+                    key={t.id} type="button" onClick={() => selectIdDocType(t.id)}
+                    className={`py-3 rounded-xl font-bold text-sm border transition-colors ${
+                      idDocType === t.id
+                        ? 'bg-[#6C5CE7] text-white border-[#6C5CE7]'
+                        : 'bg-[var(--bg)] text-[var(--text-muted)] border-[var(--border)] hover:border-[#6C5CE7]/40'
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+              <div className={`grid gap-4 mb-6 ${idDocConfig.needsBack ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                <FilePicker label={idDocConfig.frontLabel} file={idFront} onPick={setIdFront} />
+                {idDocConfig.needsBack && (
+                  <FilePicker label="الوجه الخلفي" file={idBack} onPick={setIdBack} />
+                )}
               </div>
               {form.vehicle_type === 'car' && (
                 <>

@@ -5,51 +5,98 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   DESIGN SYSTEM
+   DESIGN SYSTEM — "Luminous Clarity" on the web
 
-   Structure comes from HAIRLINE BORDERS, not shadows. The previous system had
-   --border at #f3f4f6 (invisible) and leaned on soft coloured shadows, which is
-   what made every surface read as a floating blob. Borders are now actually
-   visible and shadows are almost entirely gone.
+   This file used to ration colour to almost nothing: --border did the
+   structural work, shadows were banned, radii were 8px, and the brand iris
+   appeared only as a link colour. It was disciplined, and it was lifeless —
+   a delivery product with a vivid Arabic identity rendered in greyscale.
 
-   Colour is deliberately rationed. The brand iris and lime are accents on a
-   near-monochrome base — not a background wash. Radii are tight (8px), not 24px.
+   The palette below is not new. It is the exact one the App Store / Play
+   screenshots are built from (hajat-store-assets/source/base.css), so the
+   site, the store listing and the app itself finally speak with one voice.
+
+   Colour now carries meaning:
+     iris   — the product. Primary surfaces, CTAs, the hero field.
+     orange — the accent that lands on exactly one word per headline.
+     lime   — the captain side of the marketplace, never the customer side.
+
+   Hairline borders survive as SECONDARY structure. Elevation is back, but
+   only on things that genuinely float: devices, overlays, lifted cards.
    ───────────────────────────────────────────────────────────────────────────*/
 
 :root {
+  /* ── Brand, straight from the store-asset palette ──────────────────────── */
   --brand: #6c5ce7;
   --brand-hover: #5b4bd6;
+  --brand-deep: #4b3fb0;
+  --brand-ink: #2a2260;
+  --brand-cont: #edebff;
+  --brand-soft: #f3f1ff;
+  /* Ink for text sitting on --brand-cont / --brand-soft. Those two containers
+     invert to near-black in dark mode, so anything painted --brand-deep on
+     top of them drops to ~2:1. This token flips with the theme; the raw
+     --brand-deep does not. */
+  --brand-on-soft: #4b3fb0;
+
+  --orange: #ff7d00;
+  --orange-cont: #ffe9d3;
+
   --accent: #a3e635;
+  --lime: #a3e635;
+  --lime-deep: #5f8f0c;
+  --lime-cont: #e7f8c9;
+
   --secondary: #1e2a45;
 
+  /* ── Neutrals ──────────────────────────────────────────────────────────── */
   --bg: #ffffff;
   --surface: #ffffff;
-  --subtle: #fafafa;        /* alternating section bands */
-  --text: #0a0a0a;
-  --text-muted: #666666;
-  --text-faint: #8f8f8f;
-  --border: #e6e6e6;        /* visible hairline — the main structural device */
-  --border-strong: #d4d4d4;
+  --subtle: #f7f6fd;        /* alternating bands now carry a faint iris cast */
+  --text: #141320;
+  --text-muted: #5f5e75;
+  --text-faint: #8a89a0;
+  --border: #e9e7f4;
+  --border-strong: #d6d3e8;
 
-  --radius: 8px;
-  --radius-lg: 12px;
+  /* Ink-on-colour: text that sits on a brand/charcoal field. */
+  --on-brand: #ffffff;
+  --on-brand-muted: #cfc8ff;
 
-  /* Shadows are a last resort here; only overlays use one. */
-  --shadow-overlay: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* Elevation is reserved for objects that actually float. */
+  --shadow-sm: 0 2px 8px rgba(42, 34, 96, 0.05);
+  --shadow-md: 0 12px 32px rgba(42, 34, 96, 0.09), 0 2px 8px rgba(42, 34, 96, 0.04);
+  --shadow-lg: 0 32px 70px rgba(42, 34, 96, 0.16), 0 8px 22px rgba(42, 34, 96, 0.08);
+  --shadow-device: 0 48px 90px rgba(24, 12, 66, 0.34), 0 14px 34px rgba(24, 12, 66, 0.2);
+  --shadow-overlay: 0 8px 30px rgba(20, 19, 32, 0.14);
 
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 .dark {
-  --bg: #000000;
-  --surface: #0a0a0a;
-  --subtle: #0a0a0a;
-  --text: #ededed;
-  --text-muted: #a1a1a1;
-  --text-faint: #7d7d7d;
-  --border: #262626;
-  --border-strong: #383838;
+  --bg: #0d0c16;
+  --surface: #151422;
+  --subtle: #12111d;
+  --text: #ededf2;
+  --text-muted: #a3a1b8;
+  --text-faint: #7d7b94;
+  --border: #272539;
+  --border-strong: #383550;
   --secondary: #ededed;
+
+  --brand-cont: #221d4d;
+  --brand-soft: #1a1633;
+  --brand-on-soft: #b3a7ff;
+  --orange-cont: #3a2410;
+  --lime-cont: #1f2d10;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 32px 70px rgba(0, 0, 0, 0.6);
   --shadow-overlay: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
@@ -68,8 +115,8 @@
     color: #fff;
   }
 
-  /* Tight tracking is a large part of the "designed" feel. Arabic does not take
-     negative letter-spacing well, so headings only tighten their line-height. */
+  /* Arabic does not take negative letter-spacing well, so headings only
+     tighten their line-height. */
   h1, h2, h3, h4, h5, h6 {
     @apply font-extrabold text-[var(--text)];
     line-height: 1.15;
@@ -86,24 +133,71 @@
     @apply max-w-6xl mx-auto px-5 sm:px-6 lg:px-8;
   }
 
-  /* Eyebrow label. Replaces the pill-badge-with-icon that opened every section.
-     Latin/mono, small, uppercase, muted — reads as a system label, not a sticker. */
+  /* Eyebrow label. On a light field it is iris; the .on-dark variant below
+     flips it, and the dot picks up whichever accent that section owns. */
   .eyebrow {
-    font-family: var(--mono);
-    @apply text-[11px] uppercase tracking-[0.14em] text-[var(--text-faint)] font-medium;
+    @apply inline-flex items-center gap-2 text-[13px] font-bold tracking-[0.02em];
+    color: var(--brand);
   }
+  .eyebrow::before {
+    content: "";
+    @apply inline-block w-[7px] h-[7px] rounded-full;
+    background: var(--orange);
+  }
+  .eyebrow-lime::before { background: var(--lime); }
 
   .section {
-    @apply py-20 lg:py-28 border-t border-[var(--border)];
+    @apply py-20 lg:py-28;
     /* The navbar is fixed at 64px; without this an anchored heading lands
        underneath it. */
     scroll-margin-top: 64px;
   }
+  /* Rules between sections are now optional — a tinted band separates just as
+     well and reads warmer. Kept for sections that still want the hairline. */
+  .section-ruled {
+    @apply border-t border-[var(--border)];
+  }
 
-  /* ── Buttons: small radius, flat, no glow ────────────────────────────────*/
+  /* ── Coloured fields ─────────────────────────────────────────────────────
+     The three backgrounds the store screenshots alternate between. They are
+     theme-independent on purpose: a purple field is purple in dark mode too,
+     the same way the app's own splash is.                                    */
+  .field-brand {
+    background: radial-gradient(130% 90% at 50% 6%, #7b6bf2 0%, #6152d6 34%, #4b3fb0 74%, #3a2f92 100%);
+  }
+  .field-charcoal {
+    background: radial-gradient(120% 80% at 50% 4%, #2a2740 0%, #1b1830 45%, #131022 100%);
+  }
+  .field-soft {
+    background: radial-gradient(120% 80% at 50% 0%, #ffffff 0%, #f1eeff 60%, #e7e3fe 100%);
+  }
+  .dark .field-soft {
+    background: radial-gradient(120% 80% at 50% 0%, #1a1730 0%, #141226 60%, #100e1f 100%);
+  }
+
+  /* Text colours for anything sitting on .field-brand / .field-charcoal. */
+  .on-dark { color: var(--on-brand); }
+  .on-dark h1, .on-dark h2, .on-dark h3 { color: var(--on-brand); }
+  .on-dark .eyebrow { color: var(--on-brand-muted); }
+  .on-dark .muted { color: var(--on-brand-muted); }
+
+  /* The faint geometric undertone from the store slides. Sits inside a
+     coloured field at low opacity — visible as texture, never as pattern. */
+  .tex-dots {
+    background-image: radial-gradient(circle at 1px 1px, currentColor 1.5px, transparent 0);
+    background-size: 30px 30px;
+  }
+
+  /* Soft light source. Always decorative, always pointer-events:none. */
+  .glow {
+    @apply absolute rounded-full pointer-events-none;
+    filter: blur(90px);
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────────────────────*/
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-5 h-11 font-bold text-[15px]
-           transition-colors duration-150 whitespace-nowrap;
+    @apply inline-flex items-center justify-center gap-2 px-5 h-12 font-bold text-[15px]
+           transition-all duration-200 whitespace-nowrap;
     border-radius: var(--radius);
   }
 
@@ -114,29 +208,86 @@
   .btn-brand {
     @apply text-white;
     background: var(--brand);
+    box-shadow: 0 8px 20px rgba(108, 92, 231, 0.28);
   }
-  .btn-brand:hover { background: var(--brand-hover); }
+  .btn-brand:hover {
+    background: var(--brand-hover);
+    box-shadow: 0 12px 26px rgba(108, 92, 231, 0.36);
+    transform: translateY(-1px);
+  }
+
+  /* Warm CTA — used once per page at most, where attention must land. */
+  .btn-accent {
+    @apply text-white;
+    background: var(--orange);
+    box-shadow: 0 8px 20px rgba(255, 125, 0, 0.3);
+  }
+  .btn-accent:hover {
+    background: #eb7200;
+    box-shadow: 0 12px 26px rgba(255, 125, 0, 0.38);
+    transform: translateY(-1px);
+  }
+
+  /* Captain-side CTA. Lime reads as "earn", never as "order". */
+  .btn-lime {
+    color: #1b2a06;
+    background: var(--lime);
+    box-shadow: 0 8px 20px rgba(163, 230, 53, 0.3);
+  }
+  .btn-lime:hover {
+    background: #96db24;
+    transform: translateY(-1px);
+  }
 
   .btn-outline {
     @apply bg-transparent text-[var(--text)] border border-[var(--border-strong)]
            hover:border-[var(--text)];
   }
 
-  /* ── Cards: defined by a border, never by a shadow ───────────────────────*/
+  /* Outline on a coloured field: the neutral border would vanish. */
+  .btn-on-dark {
+    @apply text-white bg-white/10 border border-white/25 backdrop-blur-sm;
+  }
+  .btn-on-dark:hover { @apply bg-white/20 border-white/40; }
+
+  /* ── Cards ───────────────────────────────────────────────────────────────*/
   .card {
     @apply bg-[var(--surface)] border border-[var(--border)] p-6
-           transition-colors duration-150;
+           transition-all duration-200;
     border-radius: var(--radius-lg);
   }
 
   .card-hover:hover {
-    border-color: var(--border-strong);
+    border-color: var(--brand);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
   }
 
-  /* Hairline grid used for feature rows — the join lines do the decorating,
-     so no card shadows are needed. */
+  /* Tinted icon chip. One accent per chip, assigned by meaning. */
+  .chip {
+    @apply inline-flex items-center justify-center w-12 h-12 shrink-0;
+    border-radius: 14px;
+  }
+  /* A shade deeper than --brand-cont: at #EDEBFF the chip read as off-white on
+     a white card, which made the lime captain chip look like the only coloured
+     one by accident rather than by intent. */
+  .chip-brand { background: #e4e0ff; color: var(--brand-deep); }
+  .dark .chip-brand { background: var(--brand-cont); }
+  .chip-orange { background: var(--orange-cont); color: #b85600; }
+  .chip-lime { background: var(--lime-cont); color: var(--lime-deep); }
+  .dark .chip-brand { color: #b3a7ff; }
+  .dark .chip-orange { color: #ffa552; }
+  .dark .chip-lime { color: #bdea6b; }
+
   .rule {
     @apply border-t border-[var(--border)];
+  }
+
+  /* Device mockups render with their own transparent bezel, so the elevation
+     has to come from CSS or they sit flat on the page. */
+  .device {
+    filter: drop-shadow(0 32px 48px rgba(24, 12, 66, 0.28))
+            drop-shadow(0 8px 16px rgba(24, 12, 66, 0.16));
   }
 
   .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -146,8 +297,9 @@
   }
 }
 
-/* Single entry animation. The old file had four infinite float/bob/pulse loops
-   driving the hero's decorative cards; those elements are gone. */
+/* ── Motion ────────────────────────────────────────────────────────────────
+   One entry animation, plus a slow ambient drift for the hero's light. The
+   drift is 18s and 2% of the viewport — felt, not watched.                  */
 @keyframes rise {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
@@ -157,7 +309,22 @@
   animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(2%, -3%) scale(1.06); }
+}
+
+.drift { animation: drift 18s ease-in-out infinite; }
+.drift-slow { animation: drift 26s ease-in-out infinite reverse; }
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+.float-y { animation: float-y 7s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
-  .rise { animation: none; }
+  .rise, .drift, .drift-slow, .float-y { animation: none; }
   html { scroll-behavior: auto; }
 }

@@ -1,62 +1,92 @@
+import { Sparkles } from 'lucide-react';
+
 /*
- * The product's core idea, shown as a still of the actual input.
+ * The product's core idea: you write the request, we do the rest.
  *
- * Was: a "تجربة فريدة" sparkle pill, two blurred colour blobs, a
- * gradient-to-orange glow ring behind a rounded-[2rem] card with shadow-2xl,
- * an inset-shadowed textarea and a row of rounded-full suggestion pills.
+ * This now renders the Magic Box the way the APP renders it — the same iris
+ * gradient panel, the same wand, the same "اكتب حاجتك وسنتكفّل بالباقي"
+ * subtitle as the card in hajat-store-assets/source/slide1.html. The previous
+ * version described the feature in a grey bordered box with a placeholder
+ * sentence in it, which asked the visitor to imagine the product instead of
+ * showing it.
  *
  * NOTE: this section previously carried id="how-it-works", the same id as the
- * HowItWorks section above it — a duplicate anchor, so the navbar link was
- * ambiguous. It has its own id now.
+ * HowItWorks section — a duplicate anchor, so the navbar link was ambiguous.
+ * It has its own id now.
  */
 
 const suggestions = ['دواء من صيدلية', 'غداء عائلي', 'خضار وفواكه', 'توصيل طرد'];
 
 export default function MagicBoxSection() {
   return (
-    <section id="magic-box" className="section">
+    <section id="magic-box" className="section field-soft">
       <div className="container-custom">
-        <div className="text-right max-w-2xl ml-auto">
-          <p className="text-sm font-bold text-[var(--text-faint)]">المربع السحري</p>
-          <h2 className="mt-3 text-3xl lg:text-[2.75rem]">اطلب أي شيء، بكلماتك</h2>
-          <p className="mt-4 text-[var(--text-muted)] text-lg leading-relaxed">
-            لا نلزمك بقائمة محددة. اكتب ما يدور في ذهنك، ويتكفّل كباتن حاجاتي بالباقي.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
 
-        <div className="mt-12 max-w-2xl ml-auto">
-          <div className="border border-[var(--border)] rounded-[var(--radius-lg)] bg-[var(--surface)] overflow-hidden">
-            {/* Field */}
-            <div className="p-6 lg:p-8">
-              <label className="block text-right text-sm font-bold text-[var(--text-muted)]">
-                ما الذي تحتاجه اليوم؟
-              </label>
-              <p
-                className="mt-4 text-right text-lg lg:text-xl leading-relaxed text-[var(--text-faint)]"
-                aria-hidden="true"
+          {/* Copy */}
+          <div className="lg:col-span-5 text-right">
+            <span className="eyebrow">الصندوق السحري</span>
+            <h2 className="mt-4 text-3xl lg:text-[2.75rem]">اطلب أي شيء، بكلماتك</h2>
+            <p className="mt-4 text-[var(--text-muted)] text-lg leading-relaxed">
+              لا نلزمك بقائمة محددة. اكتب ما يدور في ذهنك، ويتكفّل كباتن حاجاتي
+              بالباقي — تستقبل عروض أسعار من كباتن قريبين، وتختار ما يناسبك.
+            </p>
+          </div>
+
+          {/* The Magic Box, as the app draws it */}
+          <div className="lg:col-span-7">
+            <div
+              className="rounded-[var(--radius-xl)] overflow-hidden"
+              style={{ boxShadow: 'var(--shadow-lg)' }}
+            >
+              {/* Iris panel — mirrors .mbox in the store slide */}
+              <div
+                className="relative px-7 py-9 lg:px-10 lg:py-11 text-center overflow-hidden"
+                style={{ background: 'linear-gradient(145deg,#7A6BF0,#5B4FD1 55%,#4B3FB0)' }}
               >
-                «أريد نصف دزينة من الحلويات من متجر ومشروب غازي عائلي»
-              </p>
-            </div>
+                <div
+                  className="absolute rounded-full"
+                  style={{
+                    width: 300, height: 300, top: -140, insetInlineStart: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'radial-gradient(circle,rgba(255,255,255,.22),transparent 70%)',
+                  }}
+                  aria-hidden="true"
+                />
+                <span
+                  className="relative inline-flex items-center justify-center w-16 h-16 rounded-full mb-5"
+                  style={{ background: 'rgba(255,255,255,.16)', border: '1px solid rgba(255,255,255,.28)' }}
+                >
+                  <Sparkles size={26} className="text-white" strokeWidth={1.9} />
+                </span>
+                <h3 className="relative text-2xl lg:text-[1.75rem] text-white font-extrabold">
+                  صندوق حاجاتي السحري
+                </h3>
+                <p className="relative mt-2 text-[15px]" style={{ color: '#E4E0FF' }}>
+                  اكتب حاجتك وسنتكفّل بالباقي
+                </p>
+              </div>
 
-            {/* Suggestions sit below a rule rather than floating as pills */}
-            <div className="border-t border-[var(--border)] px-6 lg:px-8 py-5">
-              <div className="flex flex-wrap gap-2 justify-end">
-                {suggestions.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[13px] text-[var(--text-muted)] border border-[var(--border)] rounded-[var(--radius)] px-3 py-1.5"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              {/* The request itself */}
+              <div className="bg-[var(--surface)] p-7 lg:p-9 text-right">
+                <p className="text-lg lg:text-xl leading-relaxed text-[var(--text)]">
+                  «أريد نصف دزينة من الحلويات من متجر ومشروب غازي عائلي»
+                </p>
+
+                <div className="mt-7 flex flex-wrap gap-2 justify-end">
+                  {suggestions.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[13px] font-medium rounded-full px-3.5 py-1.5"
+                      style={{ background: 'var(--brand-cont)', color: 'var(--brand-on-soft)' }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-
-          <p className="mt-4 text-sm text-[var(--text-faint)] text-right">
-            تستقبل عروض أسعار من كباتن قريبين، وتختار ما يناسبك.
-          </p>
         </div>
       </div>
     </section>

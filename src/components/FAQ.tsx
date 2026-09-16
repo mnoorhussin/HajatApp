@@ -38,7 +38,7 @@ export default function FAQ() {
     <section id="faq" className="section">
       <div className="container-custom">
         <div className="text-right max-w-2xl ml-auto">
-          <p className="text-sm font-bold text-[var(--text-faint)]">الأسئلة الشائعة</p>
+          <span className="eyebrow">الأسئلة الشائعة</span>
           <h2 className="mt-3 text-3xl lg:text-[2.75rem]">كل ما تود معرفته</h2>
         </div>
 

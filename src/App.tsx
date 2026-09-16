@@ -8,6 +8,7 @@ import Hero from './components/Hero';
 const Services       = lazy(() => import('./components/Services'));
 const HowItWorks     = lazy(() => import('./components/HowItWorks'));
 const MagicBoxSection = lazy(() => import('./components/MagicBoxSection'));
+const AppScreens     = lazy(() => import('./components/AppScreens'));
 const JoinUs         = lazy(() => import('./components/JoinUs'));
 const FAQ            = lazy(() => import('./components/FAQ'));
 const Download       = lazy(() => import('./components/Download'));
@@ -38,10 +39,13 @@ function LandingPage() {
           <Services />
         </Suspense>
         <Suspense fallback={<SectionSkeleton />}>
-          <HowItWorks />
+          <AppScreens />
         </Suspense>
         <Suspense fallback={<SectionSkeleton />}>
           <MagicBoxSection />
+        </Suspense>
+        <Suspense fallback={<SectionSkeleton />}>
+          <HowItWorks />
         </Suspense>
         <Suspense fallback={<SectionSkeleton />}>
           <JoinUs />

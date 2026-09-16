@@ -1,9 +1,10 @@
 /*
- * Three steps as a numbered hairline grid.
+ * Three steps.
  *
- * Was: three 96px rounded-3xl tiles in blue-50 / violet / lime, each with a
- * shadow, a floating numbered badge, and a 6-degree rotate on hover, sitting on
- * a gradient connector line. The numerals now carry the sequence on their own.
+ * The numerals used to be --border-strong (#d4d4d4) on white: technically the
+ * sequence carrier, visually invisible. They are the loudest thing in the
+ * section now, and they run iris → iris → orange so the eye finishes on the
+ * step that matters — the one where the order actually arrives.
  */
 
 const steps = [
@@ -11,36 +12,50 @@ const steps = [
     n: '٠١',
     title: 'افتح التطبيق',
     description: 'حمّل تطبيق حاجاتي وأنشئ حسابك في ثوانٍ معدودة وابدأ رحلة الطلب.',
+    color: 'var(--brand)',
   },
   {
     n: '٠٢',
     title: 'اكتب طلبك',
     description: 'سجّل طلبك كتابةً، وحدد المكان الذي تريد التوصيل إليه.',
+    color: 'var(--brand)',
   },
   {
     n: '٠٣',
     title: 'استلم طلبك',
     description: 'يستلم أقرب كابتن طلبك ويوصله إلى باب منزلك بأمان وسرعة.',
+    color: 'var(--orange)',
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="section bg-[var(--subtle)]">
+    <section id="how-it-works" className="section bg-[var(--surface)]">
       <div className="container-custom">
         <div className="text-right max-w-2xl ml-auto">
-          <p className="text-sm font-bold text-[var(--text-faint)]">كيف يعمل</p>
-          <h2 className="mt-3 text-3xl lg:text-[2.75rem]">ثلاث خطوات، ويصل طلبك</h2>
+          <span className="eyebrow">كيف يعمل</span>
+          <h2 className="mt-4 text-3xl lg:text-[2.75rem]">ثلاث خطوات، ويصل طلبك</h2>
         </div>
 
-        <div className="mt-14 grid lg:grid-cols-3 gap-px bg-[var(--border)] border border-[var(--border)] rounded-[var(--radius-lg)] overflow-hidden">
+        <div className="mt-14 grid lg:grid-cols-3 gap-5">
           {steps.map((s) => (
-            <div key={s.n} className="bg-[var(--surface)] p-8 lg:p-10 text-right">
-              <div className="text-[2.5rem] font-extrabold leading-none text-[var(--border-strong)]">
+            <div key={s.n} className="group card card-hover text-right relative overflow-hidden">
+              {/* The numeral, at the scale it deserves. */}
+              <div
+                className="text-[3.5rem] font-extrabold leading-none"
+                style={{ color: s.color }}
+              >
                 {s.n}
               </div>
-              <h3 className="mt-6 text-xl font-bold">{s.title}</h3>
+              <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
               <p className="mt-2 text-[var(--text-muted)] leading-relaxed">{s.description}</p>
+
+              {/* Hairline that picks up the step's colour on hover. */}
+              <span
+                className="absolute bottom-0 right-0 h-[3px] w-0 transition-all duration-300 group-hover:w-full"
+                style={{ background: s.color }}
+                aria-hidden="true"
+              />
             </div>
           ))}
         </div>

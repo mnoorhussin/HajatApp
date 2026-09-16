@@ -1,89 +1,103 @@
 import pricing from '../assets/screens/pricing.webp';
 import tracking from '../assets/screens/tracking.webp';
 import chat from '../assets/screens/chat.webp';
-import captain from '../assets/screens/captain.webp';
-import privacy from '../assets/screens/privacy.webp';
 
 /*
  * The app itself, shown rather than described.
  *
- * The page previously asked visitors to take the product on trust: five
- * category names, three numbered steps, and not one pixel of the thing being
- * downloaded. These are the real screens — rendered from the same source that
- * produces the App Store and Play listings (hajat-store-assets/source), so the
- * site cannot drift from the store or from the app.
+ * The first version of this section was a scroll-snap rail carrying all five
+ * screens at 250px wide, each with its own caption underneath. Five
+ * full-height phones plus captions made the section over 1000px tall: it
+ * dominated the page and asked the visitor to swipe through a catalogue before
+ * reaching the captain CTA. Showing every screen is the store listing's job,
+ * not a landing page's.
  *
- * Horizontal scroll-snap on every breakpoint. A grid would either shrink the
- * devices past legibility or stack into a very long column; a rail lets each
- * phone stay large enough that the Arabic UI inside it is actually readable,
- * and invites the swipe that phone users already expect.
+ * Three screens now, composed as a single overlapping object beside the copy,
+ * with the features as text instead of per-device captions. Same argument, a
+ * little over half the height, and the phones read as one composition rather
+ * than a list to get through.
  *
- * The devices carry their own transparent bezel, so elevation comes from the
- * .device drop-shadow — a box-shadow would draw a rectangle around the
- * rounded corners.
+ * The screens are rendered from the same source that produces the App Store
+ * and Play listings (hajat-store-assets/source), so they cannot drift from the
+ * store or from the app. The devices carry their own transparent bezel, so
+ * elevation comes from the .device drop-shadow — a box-shadow would draw a
+ * rectangle around the rounded corners.
  */
 
-const screens = [
-  { src: pricing,  title: 'أسعار واضحة',        body: 'تعرف السعر كاملاً قبل أن تؤكد الطلب.' },
-  { src: tracking, title: 'تابع طلبك',          body: 'من لحظة الاستلام وحتى باب منزلك.' },
-  { src: chat,     title: 'دردشة نصية وصوتية',  body: 'راسل الكابتن داخل التطبيق فقط.' },
-  { src: captain,  title: 'وصّل واربح',          body: 'اقبل الطلبات القريبة منك في وقتك.' },
-  { src: privacy,  title: 'خصوصيتك محفوظة',     body: 'رقمك لا يُشارك مع أي طرف آخر.' },
+const devices = [
+  { src: tracking, alt: 'شاشة تتبّع الطلب في تطبيق حاجاتي',          lift: 0,   z: 1 },
+  { src: pricing,  alt: 'شاشة تأكيد الطلب والسعر في تطبيق حاجاتي',   lift: -28, z: 3 },
+  { src: chat,     alt: 'شاشة الدردشة مع الكابتن في تطبيق حاجاتي',   lift: 0,   z: 1 },
+];
+
+const features = [
+  { dot: 'var(--orange)', text: 'تعرف السعر كاملاً قبل تأكيد الطلب.' },
+  { dot: 'var(--lime)',   text: 'تتبّع طلبك من لحظة الاستلام وحتى التسليم.' },
+  { dot: '#B3A7FF',       text: 'دردشة نصية وصوتية مع الكابتن داخل التطبيق.' },
 ];
 
 export default function AppScreens() {
   return (
-    <section id="app-screens" className="field-charcoal relative overflow-hidden py-20 lg:py-28">
+    <section id="app-screens" className="field-charcoal relative overflow-hidden py-16 lg:py-20">
       <div
         className="glow drift"
-        style={{ width: 520, height: 520, background: '#6C5CE7', top: -200, insetInlineEnd: -160, opacity: 0.4 }}
+        style={{ width: 460, height: 460, background: '#6C5CE7', top: -180, insetInlineEnd: -140, opacity: 0.4 }}
         aria-hidden="true"
       />
       <div className="absolute inset-0 tex-dots text-white opacity-[0.05]" aria-hidden="true" />
 
-      <div className="relative">
-        <div className="container-custom">
-          <div className="text-right max-w-2xl ml-auto on-dark">
-            <span className="eyebrow eyebrow-lime">داخل التطبيق</span>
-            <h2 className="mt-4 text-3xl lg:text-[2.75rem]">
-              شوف حاجاتي قبل ما تحمّله
-            </h2>
-            <p className="mt-4 text-lg leading-relaxed" style={{ color: '#B9B7CE' }}>
-              لقطات حقيقية من التطبيق — نفس الشاشات التي ستستخدمها.
-            </p>
-          </div>
-        </div>
+      <div className="container-custom relative">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
 
-        {/* Rail. Padding on the scroller (not the container) so the first and
-            last device can sit flush with the page gutter when scrolled. */}
-        <div
-          className="mt-14 flex gap-6 lg:gap-8 overflow-x-auto hide-scrollbar snap-x snap-mandatory
-                     px-5 sm:px-6 lg:px-8 pb-4"
-          style={{ scrollPaddingInline: '1.25rem' }}
-        >
-          {screens.map((s, i) => (
-            <figure
-              key={s.title}
-              className="snap-center shrink-0 w-[200px] sm:w-[230px] lg:w-[250px]"
-              style={{ marginTop: i % 2 === 1 ? '2rem' : 0 }}
-            >
-              <img
-                src={s.src}
-                alt={`شاشة ${s.title} في تطبيق حاجاتي`}
-                width={840}
-                height={1768}
-                loading="lazy"
-                decoding="async"
-                className="device w-full h-auto"
-              />
-              <figcaption className="mt-6 text-right">
-                <h3 className="text-[17px] font-bold text-white">{s.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed" style={{ color: '#9D9BB5' }}>
-                  {s.body}
-                </p>
-              </figcaption>
-            </figure>
-          ))}
+          {/* Copy */}
+          <div className="lg:col-span-5 text-right on-dark">
+            <span className="eyebrow eyebrow-lime">داخل التطبيق</span>
+            <h2 className="mt-4 text-3xl lg:text-[2.5rem]">شاهد التطبيق قبل تحميله</h2>
+            <p className="mt-4 text-[17px] leading-relaxed" style={{ color: '#B9B7CE' }}>
+              لقطات حقيقية من حاجاتي — نفس الشاشات التي ستستخدمها.
+            </p>
+
+            <ul className="mt-7 space-y-3.5">
+              {features.map((f) => (
+                <li
+                  key={f.text}
+                  className="flex items-start gap-3 justify-end text-[15px] leading-relaxed"
+                  style={{ color: '#CFCDE0' }}
+                >
+                  <span>{f.text}</span>
+                  <span
+                    className="mt-[9px] inline-block w-[7px] h-[7px] rounded-full shrink-0"
+                    style={{ background: f.dot }}
+                    aria-hidden="true"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Devices, as one overlapping object. marginInlineStart keeps the
+              overlap direction correct under RTL without a second rule. */}
+          <div className="lg:col-span-7">
+            <div className="flex items-center justify-center">
+              {devices.map((d, i) => (
+                <img
+                  key={d.alt}
+                  src={d.src}
+                  alt={d.alt}
+                  width={840}
+                  height={1768}
+                  loading="lazy"
+                  decoding="async"
+                  className="device w-[118px] sm:w-[150px] lg:w-[168px] h-auto relative"
+                  style={{
+                    marginInlineStart: i === 0 ? 0 : '-1.75rem',
+                    transform: `translateY(${d.lift}px)`,
+                    zIndex: d.z,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -29,7 +29,16 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="fixed w-full z-50 bg-[var(--bg)]/80 backdrop-blur-md border-b border-[var(--border)]">
+    /*
+     * Opaque, not translucent.
+     *
+     * This was bg-[var(--bg)]/80 with a backdrop blur, which worked while every
+     * section behind it was white. The page now scrolls through an iris hero, a
+     * charcoal gallery and an iris download band, and a 20%-transparent bar over
+     * those let the dark field bleed through while the links stayed dark grey —
+     * the nav effectively disappeared. A solid bar is legible over every field.
+     */
+    <nav className="fixed w-full z-50 bg-[var(--bg)] border-b border-[var(--border)]">
       <div className="container-custom">
         <div className="h-16 flex items-center justify-between">
 

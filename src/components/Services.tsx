@@ -62,7 +62,7 @@ export default function Services() {
             style={{ background: 'var(--brand-soft)', borderColor: 'var(--brand-cont)' }}
           >
             <h3 className="text-lg font-bold" style={{ color: 'var(--brand-on-soft)' }}>
-              ولو ما لقيت اللي تدور عليه؟
+              لم تجد ما تبحث عنه؟
             </h3>
             <p className="mt-1.5 text-sm" style={{ color: 'var(--brand-on-soft)', opacity: 0.85 }}>
               اكتبه بكلماتك في الصندوق السحري ←

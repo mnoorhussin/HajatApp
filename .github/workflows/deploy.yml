@@ -4,6 +4,16 @@ on:
   push:
     branches: [ main ]
 
+# One deploy at a time. A single push to the admin dashboard once produced two
+# workflow runs, and both ran `git pull` into the same checkout on the VPS at
+# the same second; the race left git unable to fast-forward and it aborted.
+# Every service here deploys the same way into its own directory, so the same
+# race applies. cancel-in-progress is false on purpose: cancelling a deploy
+# mid-pull is what would actually leave a half-updated working tree.
+concurrency:
+  group: deploy-landing-page
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,11 +28,24 @@ jobs:
           # Increase timeout for heavy builds
           command_timeout: 20m
           script: |
+            # Abort on the first failure. Without this a failed `git pull` fell
+            # through to the rebuild below, so the container was rebuilt from
+            # the OLD checkout and the workflow still reported success — a
+            # silent stale deploy, which is worse than a loud failure.
+            set -e
+
             # 1. Enter the specific service directory
             cd /opt/hajat-app/services/landing_page
-            
-            # 2. Pull the latest code
-            git pull origin main
+
+            # 2. Pull the latest code.
+            #    -c pull.ff=only: a deploy should only ever fast-forward this
+            #    checkout. If it cannot, say so plainly instead of emitting the
+            #    "specify how to reconcile divergent branches" hint, which reads
+            #    like missing config rather than the server holding commits that
+            #    main does not.
+            #    Auth is left as-is: this one pulls via the `origin` remote,
+            #    whose credentials already live on the VPS.
+            git -c pull.ff=only pull origin main
             
             # 3. Move to the infrastructure folder to trigger the rebuild
             cd /opt/hajat-app/infrastructure

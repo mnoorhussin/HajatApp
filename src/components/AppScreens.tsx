@@ -1,6 +1,28 @@
-import pricing from '../assets/screens/pricing.webp';
-import tracking from '../assets/screens/tracking.webp';
-import chat from '../assets/screens/chat.webp';
+import pricing240 from '../assets/screens/pricing-240.webp';
+import pricing360 from '../assets/screens/pricing-360.webp';
+import pricing504 from '../assets/screens/pricing-504.webp';
+import tracking240 from '../assets/screens/tracking-240.webp';
+import tracking360 from '../assets/screens/tracking-360.webp';
+import tracking504 from '../assets/screens/tracking-504.webp';
+import chat240 from '../assets/screens/chat-240.webp';
+import chat360 from '../assets/screens/chat-360.webp';
+import chat504 from '../assets/screens/chat-504.webp';
+
+/*
+ * These render at 118/150/168 CSS px (see the className below) but were being
+ * served from the single 840px master — about seven times wider than the
+ * largest box they ever occupy, which Lighthouse costed at ~115KB on mobile.
+ *
+ * srcset rather than one smaller file: a flat resize would have had to serve
+ * the 3x-retina width to everyone to stay sharp, which is most of the waste
+ * back. This way a 375px phone at DPR 2 takes the 240w (11KB instead of 50KB)
+ * and a retina desktop still gets 504w. 504 is the ceiling because 168 * 3 is
+ * as large as this image is ever painted.
+ */
+const srcSetFor = (a: string, b: string, c: string) => `${a} 240w, ${b} 360w, ${c} 504w`;
+
+// Must track the w-[...] classes on the <img> below.
+const SIZES = '(min-width: 1024px) 168px, (min-width: 640px) 150px, 118px';
 
 /*
  * The app itself, shown rather than described.
@@ -25,9 +47,9 @@ import chat from '../assets/screens/chat.webp';
  */
 
 const devices = [
-  { src: tracking, alt: 'شاشة تتبّع الطلب في تطبيق حاجاتي',          lift: 0,   z: 1 },
-  { src: pricing,  alt: 'شاشة تأكيد الطلب والسعر في تطبيق حاجاتي',   lift: -28, z: 3 },
-  { src: chat,     alt: 'شاشة الدردشة مع الكابتن في تطبيق حاجاتي',   lift: 0,   z: 1 },
+  { src: tracking360, srcSet: srcSetFor(tracking240, tracking360, tracking504), alt: 'شاشة تتبّع الطلب في تطبيق حاجاتي',        lift: 0,   z: 1 },
+  { src: pricing360,  srcSet: srcSetFor(pricing240, pricing360, pricing504),    alt: 'شاشة تأكيد الطلب والسعر في تطبيق حاجاتي', lift: -28, z: 3 },
+  { src: chat360,     srcSet: srcSetFor(chat240, chat360, chat504),             alt: 'شاشة الدردشة مع الكابتن في تطبيق حاجاتي', lift: 0,   z: 1 },
 ];
 
 const features = [
@@ -83,9 +105,11 @@ export default function AppScreens() {
                 <img
                   key={d.alt}
                   src={d.src}
+                  srcSet={d.srcSet}
+                  sizes={SIZES}
                   alt={d.alt}
-                  width={840}
-                  height={1768}
+                  width={504}
+                  height={1061}
                   loading="lazy"
                   decoding="async"
                   className="device w-[118px] sm:w-[150px] lg:w-[168px] h-auto relative"

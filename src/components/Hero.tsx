@@ -1,6 +1,8 @@
 import { ArrowLeft } from 'lucide-react';
 import DownloadButton from './DownloadButton';
-import magicbox from '../assets/screens/magicbox.webp';
+import magicbox320 from '../assets/screens/magicbox-320.webp';
+import magicbox560 from '../assets/screens/magicbox-560.webp';
+import magicbox840 from '../assets/screens/magicbox-840.webp';
 
 /*
  * Hero: the brand field, the real app, and the one thing no competitor has.
@@ -89,8 +91,14 @@ export default function Hero() {
             {/* The actual app, with the bidding moment floating over it */}
             <div className="lg:col-span-6 rise" style={{ animationDelay: '180ms' }}>
               <div className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px]">
+                {/* Painted at 280 CSS px on a phone and 320 from sm up, so the
+                    single 840px master was oversized for every phone that is
+                    not 3x. At DPR 2 this now takes 560w (30KB rather than
+                    47KB); 3x screens still get the full 840w. */}
                 <img
-                  src={magicbox}
+                  src={magicbox560}
+                  srcSet={`${magicbox320} 320w, ${magicbox560} 560w, ${magicbox840} 840w`}
+                  sizes="(min-width: 640px) 320px, 280px"
                   alt="شاشة صندوق حاجاتي السحري في التطبيق"
                   width={840}
                   height={1768}

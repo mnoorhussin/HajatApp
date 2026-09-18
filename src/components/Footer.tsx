@@ -1,6 +1,6 @@
 import { Facebook, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.webp';
 import { policiesMap } from '../data/policies';
 
 /*
@@ -26,9 +26,16 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 text-right">
 
           <div className="lg:col-span-1">
+            {/* Same asset as the navbar, so it is already cached by the time
+                the footer streams in — but it still needs its intrinsic size
+                to avoid reserving the wrong box. */}
             <img
               src={logo}
               alt="حاجاتي"
+              width={282}
+              height={108}
+              loading="lazy"
+              decoding="async"
               className="h-9 w-auto object-contain mr-auto mix-blend-multiply dark:mix-blend-screen"
             />
             <p className="mt-5 text-sm text-[var(--text-muted)] leading-relaxed">
@@ -37,7 +44,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-[var(--text)]">روابط سريعة</h4>
+            <h3 className="text-sm font-bold text-[var(--text)]">روابط سريعة</h3>
             <ul className="mt-4 space-y-3 text-[15px]">
               <li><Link to="/" className={linkCls}>عن حاجاتي</Link></li>
               <li><Link to="/#services" className={linkCls}>خدماتنا</Link></li>
@@ -47,7 +54,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-[var(--text)]">السياسات</h4>
+            <h3 className="text-sm font-bold text-[var(--text)]">السياسات</h3>
             <ul className="mt-4 space-y-3 text-[15px]">
               {Object.entries(policiesMap).map(([slug, policy]) => (
                 <li key={slug}>
@@ -58,7 +65,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-[var(--text)]">تواصل معنا</h4>
+            <h3 className="text-sm font-bold text-[var(--text)]">تواصل معنا</h3>
             <ul className="mt-4 space-y-3 text-[15px] text-[var(--text-muted)]">
               <li>
                 <a href="mailto:contact@hajati.app" className={linkCls} dir="ltr">

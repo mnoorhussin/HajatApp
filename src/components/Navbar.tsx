@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.webp';
 import ThemeToggle from './ThemeToggle';
 import DownloadButton from './DownloadButton';
 
@@ -43,9 +43,19 @@ export default function Navbar() {
         <div className="h-16 flex items-center justify-between">
 
           <Link to="/" className="flex-shrink-0" aria-label="حاجاتي">
+            {/* width/height are the intrinsic size of logo.webp. Without them
+                the browser cannot reserve the box before the file lands, which
+                is what Lighthouse reported as unsized-images. This image is
+                also the LCP element on both mobile and desktop, so it carries
+                fetchPriority and is preloaded from index.html — see the
+                hajatiLogoPreload plugin in vite.config.ts. */}
             <img
               src={logo}
               alt="حاجاتي"
+              width={282}
+              height={108}
+              fetchPriority="high"
+              decoding="async"
               className="h-9 w-auto object-contain mix-blend-multiply dark:mix-blend-screen"
             />
           </Link>

@@ -1,7 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, SendHorizontal } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+
+// Deliberately lazy: see the note in ChatMarkdown.tsx. The chunk is only
+// fetched once a reply actually needs rendering, not when the widget mounts.
+const ChatMarkdown = lazy(() => import('./ChatMarkdown'));
 
 /**
  * ChatWidget.tsx
@@ -179,7 +182,12 @@ export default function ChatWidget() {
                     }`}
                   >
                     {m.content ? (
-                      <ReactMarkdown>{m.content}</ReactMarkdown>
+                      // The fallback is the same text unformatted, so a reply is
+                      // readable during the one-off chunk fetch rather than
+                      // blanking out behind a spinner.
+                      <Suspense fallback={<span className="whitespace-pre-wrap">{m.content}</span>}>
+                        <ChatMarkdown>{m.content}</ChatMarkdown>
+                      </Suspense>
                     ) : (
                       // Typing indicator while the first token is on its way.
                       <span className="inline-flex gap-1 py-1">

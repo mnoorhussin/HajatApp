@@ -1,6 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+
+/*
+ * The sun/moon swap was a framer-motion <AnimatePresence> crossfade. That put
+ * the whole of framer-motion (~122KB, of which Lighthouse measured ~70KB as
+ * unused on the landing page) on the critical path, because this button lives
+ * in the navbar and the navbar is the one component that is not lazy.
+ *
+ * What it animated is a 200ms fade + slide + rotate between two icons, which
+ * CSS does on its own. Both icons now stay mounted and the inactive one is
+ * transformed out, so framer-motion is no longer imported above the fold.
+ */
+
+// Written out in full rather than composed, so Tailwind's scanner sees them.
+const ICON =
+  'absolute inset-0 flex items-center justify-center transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none';
+const SHOWN = 'opacity-100 translate-y-0 rotate-0';
+const HIDDEN = 'opacity-0 -translate-y-5 -rotate-45';
 
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(() => {
@@ -23,50 +39,25 @@ export default function ThemeToggle() {
   const toggleTheme = () => {
     const nextDark = !isDark;
     setIsDark(nextDark);
-    
-    if (nextDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    localStorage.setItem('theme', nextDark ? 'dark' : 'light');
   };
 
   return (
     <button
       onClick={toggleTheme}
       className="p-2.5 rounded-2xl bg-[var(--surface)] border border-[var(--border)] text-[var(--text)] hover:border-[#6C5CE7]/30 transition-all shadow-sm relative overflow-hidden group"
-      aria-label="Toggle Theme"
+      aria-label="تبديل المظهر"
+      aria-pressed={isDark}
     >
       <div className="relative w-6 h-6">
-        <AnimatePresence mode="wait">
-          {isDark ? (
-            <motion.div
-              key="moon"
-              initial={{ y: 20, opacity: 0, rotate: 45 }}
-              animate={{ y: 0, opacity: 1, rotate: 0 }}
-              exit={{ y: -20, opacity: 0, rotate: -45 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 flex items-center justify-center text-[#A3E635]"
-            >
-              <Moon size={20} fill="currentColor" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="sun"
-              initial={{ y: 20, opacity: 0, rotate: 45 }}
-              animate={{ y: 0, opacity: 1, rotate: 0 }}
-              exit={{ y: -20, opacity: 0, rotate: -45 }}
-              transition={{ duration: 0.2 }}
-              className="absolute inset-0 flex items-center justify-center text-[#ffb800]"
-            >
-              <Sun size={20} fill="currentColor" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <span aria-hidden="true" className={`${ICON} text-[#A3E635] ${isDark ? SHOWN : HIDDEN}`}>
+          <Moon size={20} fill="currentColor" />
+        </span>
+        <span aria-hidden="true" className={`${ICON} text-[#ffb800] ${isDark ? HIDDEN : SHOWN}`}>
+          <Sun size={20} fill="currentColor" />
+        </span>
       </div>
-      
+
       {/* Background Hover Effect */}
       <div className="absolute inset-0 bg-[#6C5CE7]/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
     </button>

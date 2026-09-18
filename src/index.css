@@ -55,7 +55,11 @@
   --subtle: #f7f6fd;        /* alternating bands now carry a faint iris cast */
   --text: #141320;
   --text-muted: #5f5e75;
-  --text-faint: #8a89a0;
+  /* Was #8a89a0 — only 3.41:1 on white, below the 4.5:1 WCAG AA floor, which
+     Lighthouse flagged on the footer copyright line. 4.93:1, and still a
+     visible step lighter than --text-muted (6.27:1), so the hierarchy holds.
+     The dark-mode value below is already 4.75:1 and is left alone. */
+  --text-faint: #6f6e88;
   --border: #e9e7f4;
   --border-strong: #d6d3e8;
 

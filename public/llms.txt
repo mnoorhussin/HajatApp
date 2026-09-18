@@ -1,0 +1,30 @@
+# Hajati (حاجاتي)
+
+> Hajati is a Sudanese on-demand delivery app. Instead of ordering from a fixed
+> catalogue, customers write what they want in their own words, and nearby
+> captains compete to quote a price and deliver it.
+
+The service operates in Sudan, starting from Kassala. The app is available for
+Android and iOS, and the interface is in Arabic. Captains (delivery riders) apply
+through this website rather than in the app.
+
+## Main pages
+
+- [Home](https://hajati.app/): What Hajati is, how ordering works, the Magic Box, and links to download the app.
+- [Captain guide](https://hajati.app/captain-guide): How delivery captains earn, what is required of them, and how the application process works.
+- [Captain application](https://hajati.app/captain-application): The form used to apply as a delivery captain, including identity document upload.
+- [Delete account](https://hajati.app/delete-account): How a customer or captain can request deletion of their account and data.
+
+## Policies
+
+- [Terms and conditions](https://hajati.app/policies/terms-and-conditions): الشروط والأحكام — the agreement governing use of the service.
+- [Privacy policy](https://hajati.app/policies/privacy-policy): سياسة الخصوصية — what data is collected and how it is handled.
+- [Cancellation policy](https://hajati.app/policies/cancellation-policy): سياسة الإلغاء — when an order may be cancelled and by whom.
+- [Content policy](https://hajati.app/policies/content-policy): سياسة المحتوى — what may and may not be requested through the app.
+- [Consumer protection](https://hajati.app/policies/consumer-protection): سياسة حماية المستهلك — customer rights and complaint handling.
+- [Anti-fraud policy](https://hajati.app/policies/anti-fraud-policy): سياسة مكافحة الاحتيال — how fraud and abuse are handled.
+- [Captains agreement](https://hajati.app/policies/captains-agreement): اتفاقية كباتن التوصيل — the terms delivery captains operate under.
+
+## Optional
+
+- [Contact](mailto:contact@hajati.app): Email for support, partnerships and press.

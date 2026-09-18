@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // ── Above the fold: loaded eagerly ─────────────────────────────────────────
 import Navbar from './components/Navbar';
@@ -21,12 +21,49 @@ const ChatWidget       = lazy(() => import('./components/ChatWidget'));
 
 import ScrollToTop from './utils/ScrollToTop';
 
+/**
+ * Hold a mount until the browser is idle, or until the visitor first interacts.
+ *
+ * React.lazy starts fetching a chunk the moment its element renders, and every
+ * <Suspense> section on this page renders immediately — so `lazy` here splits
+ * the bundle but does not actually defer it. That is fine for the sections,
+ * which the visitor scrolls to, but the chat widget is a floating button nobody
+ * needs at first paint, and it is the only remaining importer of framer-motion.
+ * Gating it keeps both chunks off the critical path.
+ */
+function useIdleMount(timeout = 2500) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const go = () => setReady(true);
+    const supportsIdle = typeof window.requestIdleCallback === 'function';
+    const handle = supportsIdle
+      ? window.requestIdleCallback(go, { timeout })
+      : window.setTimeout(go, timeout);
+
+    // An early tap shouldn't have to wait out the idle callback.
+    window.addEventListener('pointerdown', go, { once: true, passive: true });
+    window.addEventListener('keydown', go, { once: true });
+
+    return () => {
+      if (supportsIdle) window.cancelIdleCallback(handle);
+      else window.clearTimeout(handle);
+      window.removeEventListener('pointerdown', go);
+      window.removeEventListener('keydown', go);
+    };
+  }, [timeout]);
+
+  return ready;
+}
+
 // Minimal skeleton shown while below-the-fold sections stream in
 function SectionSkeleton() {
   return <div className="w-full h-24 bg-[var(--border)] animate-pulse rounded-2xl my-4 mx-auto max-w-7xl" />;
 }
 
 function LandingPage() {
+  const chatReady = useIdleMount();
+
   return (
     <div className="min-h-screen bg-[var(--bg)] font-ar rtl transition-colors duration-300" dir="rtl">
       <Navbar />
@@ -60,9 +97,11 @@ function LandingPage() {
       <Suspense fallback={null}>
         <Footer />
       </Suspense>
-      <Suspense fallback={null}>
-        <ChatWidget />
-      </Suspense>
+      {chatReady && (
+        <Suspense fallback={null}>
+          <ChatWidget />
+        </Suspense>
+      )}
     </div>
   );
 }

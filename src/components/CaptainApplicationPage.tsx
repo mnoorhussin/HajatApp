@@ -7,6 +7,8 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { pb, BACKEND_URL } from '../utils/pocketbase';
+import { shrinkImage, MAX_UPLOAD_BYTES } from '../utils/shrinkImage';
+import { userMessage } from '../utils/userMessage';
 import { generateUniqueCaptainId } from '../utils/generateCaptainId';
 
 // A captain must already be a customer: the captains record is a relation to an
@@ -168,7 +170,7 @@ export default function CaptainApplicationPage() {
       setOtpId(data.otpId);
       setStep('otp');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'تعذر إرسال الرمز');
+      setError(userMessage(err, 'تعذر إرسال الرمز'));
     } finally {
       setLoading(false);
     }
@@ -208,7 +210,7 @@ export default function CaptainApplicationPage() {
       setOtpId(data.otpId);
       setError('تم إرسال رمز جديد إلى بريدك');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'تعذر إعادة الإرسال');
+      setError(userMessage(err, 'تعذر إعادة الإرسال'));
     } finally {
       setLoading(false);
     }
@@ -321,7 +323,7 @@ export default function CaptainApplicationPage() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('[CaptainApplication]', err);
-      setError(err instanceof Error ? err.message : 'فشل إرسال الطلب. حاول مرة أخرى.');
+      setError(userMessage(err, 'فشل إرسال الطلب. حاول مرة أخرى.'));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } finally {
       setLoading(false);
@@ -517,16 +519,16 @@ export default function CaptainApplicationPage() {
                 ))}
               </div>
               <div className={`grid gap-4 mb-6 ${idDocConfig.needsBack ? 'grid-cols-2' : 'grid-cols-1'}`}>
-                <FilePicker label={idDocConfig.frontLabel} file={idFront} onPick={setIdFront} />
+                <FilePicker label={idDocConfig.frontLabel} file={idFront} onPick={setIdFront} onReject={setError} />
                 {idDocConfig.needsBack && (
-                  <FilePicker label="الوجه الخلفي" file={idBack} onPick={setIdBack} />
+                  <FilePicker label="الوجه الخلفي" file={idBack} onPick={setIdBack} onReject={setError} />
                 )}
               </div>
               {form.vehicle_type === 'car' && (
                 <>
                   <p className="text-sm text-[var(--text-muted)] mb-4">رخصة القيادة</p>
                   <div className="mb-10">
-                    <FilePicker label="إرفاق صورة الرخصة" file={license} onPick={setLicense} />
+                    <FilePicker label="إرفاق صورة الرخصة" file={license} onPick={setLicense} onReject={setError} />
                   </div>
                 </>
               )}
@@ -697,16 +699,45 @@ function AvatarPicker({ file, url, onPick }: { file: File | null; url: string | 
       <span className="text-xs text-[var(--text-muted)] mt-2">الصورة الشخصية</span>
       <input
         ref={ref} type="file" accept="image/*" className="hidden"
-        onChange={(e) => e.target.files?.[0] && onPick(e.target.files[0])}
+        onChange={(e) => {
+          const picked = e.target.files?.[0];
+          e.target.value = '';
+          // A selfie off a phone camera is usually larger than the ID photos.
+          if (picked) void shrinkImage(picked).then(onPick);
+        }}
       />
     </>
   );
 }
 
-function FilePicker({ label, file, onPick }: { label: string; file: File | null; onPick: (f: File) => void }) {
+function FilePicker({ label, file, onPick, onReject }: {
+  label: string; file: File | null; onPick: (f: File) => void; onReject: (msg: string) => void;
+}) {
   const ref = useRef<HTMLInputElement>(null);
+  const [working, setWorking] = useState(false);
   const isPdf = file?.type === 'application/pdf';
   const preview = useObjectUrl(isPdf ? null : file);
+
+  // Shrink here rather than at submit, so what is previewed is what is sent,
+  // and so an unusable file is reported while the applicant is still looking
+  // at the picker — not after they have finished the whole form.
+  async function handle(picked: File) {
+    setWorking(true);
+    try {
+      const prepared = await shrinkImage(picked);
+      if (prepared.size > MAX_UPLOAD_BYTES) {
+        onReject(
+          prepared.type === 'application/pdf'
+            ? 'حجم الملف كبير جداً (الحد ٥ ميجابايت). جرّب صورة بدل ملف PDF.'
+            : 'حجم الصورة كبير جداً (الحد ٥ ميجابايت). جرّب صورة أصغر.',
+        );
+        return;
+      }
+      onPick(prepared);
+    } finally {
+      setWorking(false);
+    }
+  }
 
   return (
     <>
@@ -714,7 +745,9 @@ function FilePicker({ label, file, onPick }: { label: string; file: File | null;
         type="button" onClick={() => ref.current?.click()}
         className="w-full aspect-[4/3] rounded-2xl bg-[var(--bg)] border-2 border-dashed border-[var(--border)] hover:border-[#6C5CE7] flex flex-col items-center justify-center gap-2 overflow-hidden transition-colors"
       >
-        {preview
+        {working
+          ? <span className="text-xs text-[var(--text-muted)]">جاري تجهيز الصورة...</span>
+          : preview
           ? <img src={preview} alt="" className="w-full h-full object-cover" />
           : (
             <>
@@ -729,7 +762,12 @@ function FilePicker({ label, file, onPick }: { label: string; file: File | null;
       </button>
       <input
         ref={ref} type="file" accept="image/*,application/pdf" className="hidden"
-        onChange={(e) => e.target.files?.[0] && onPick(e.target.files[0])}
+        onChange={(e) => {
+          const picked = e.target.files?.[0];
+          // Reset, so picking the SAME file again after an error still fires.
+          e.target.value = '';
+          if (picked) void handle(picked);
+        }}
       />
     </>
   );

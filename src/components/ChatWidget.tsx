@@ -127,13 +127,17 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* ── Floating button (bottom-left feels native in RTL) ── */}
+      {/* ── Floating button ──
+          Bottom-LEFT: in an RTL layout that is the mirror of the bottom-right
+          a chat launcher sits in elsewhere. The class said right-6 while this
+          comment claimed left, so the two disagreed until now. The panel is
+          anchored to the same corner. */}
       <motion.button
         onClick={() => setOpen((o) => !o)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label="افتح المحادثة"
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-[var(--radius)] bg-[var(--text)] text-[var(--bg)] border border-[var(--border)] flex items-center justify-center transition-opacity hover:opacity-90"
+        className="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-[var(--radius)] bg-[var(--text)] text-[var(--bg)] border border-[var(--border)] flex items-center justify-center transition-opacity hover:opacity-90"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
@@ -157,7 +161,7 @@ export default function ChatWidget() {
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.2 }}
             dir="rtl"
-            className="fixed bottom-24 right-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[70vh] max-h-[560px] flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] overflow-hidden font-ar"
+            className="fixed bottom-24 left-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[70vh] max-h-[560px] flex flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] overflow-hidden font-ar"
           >
             {/* Header */}
             <div className="flex items-center gap-3 px-5 py-4 bg-[var(--surface)] text-[var(--text)] border-b border-[var(--border)]">

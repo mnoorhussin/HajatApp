@@ -266,6 +266,15 @@ export default function CaptainApplicationPage() {
       });
 
       // 2. Captain profile
+      //
+      // The existing row is looked up BEFORE building the payload, because a
+      // re-application (previously rejected, or a corrected submission) must
+      // keep the captain_id the applicant already has. Appending a freshly
+      // minted one unconditionally, as this did, changes the number they were
+      // given — and it is the reference they quote on a Bankak transfer.
+      const existing = await pb.collection('captains').getList(1, 1, { filter: `user = "${userId}"` });
+      const existingRow = existing.items[0];
+
       const data = new FormData();
       data.append('user', userId);
       data.append('first_name', form.first_name.trim());
@@ -273,7 +282,9 @@ export default function CaptainApplicationPage() {
       data.append('vehicle_type', form.vehicle_type);
       data.append('plate_number', form.vehicle_plate.trim());
       data.append('status', 'offline');
-      data.append('captain_id', await generateUniqueCaptainId(pb));
+      if (!existingRow?.captain_id) {
+        data.append('captain_id', await generateUniqueCaptainId());
+      }
 
       if (avatar) {
         data.append('avatar', avatar);
@@ -287,15 +298,14 @@ export default function CaptainApplicationPage() {
       if (idDocConfig.needsBack) data.append('id_back', idBack!);
       if (license) data.append('license', license);
 
-      const existing = await pb.collection('captains').getList(1, 1, { filter: `user = "${userId}"` });
-      if (existing.items.length > 0) {
+      if (existingRow) {
         // An earlier بطاقة قومية submission leaves a back image on the row. A
         // single-page document has no back, so clear it rather than leave the
         // reviewer looking at a scan from a document type the applicant is no
         // longer claiming. PocketBase clears a file field when it is sent as an
         // empty string.
         if (!idDocConfig.needsBack) data.append('id_back', '');
-        await pb.collection('captains').update(existing.items[0].id, data);
+        await pb.collection('captains').update(existingRow.id, data);
       } else {
         await pb.collection('captains').create(data);
       }

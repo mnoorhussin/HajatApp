@@ -111,6 +111,8 @@ export default function CaptainApplicationPage() {
   const [idFront, setIdFront] = useState<File | null>(null);
   const [idBack, setIdBack] = useState<File | null>(null);
   const [license, setLicense] = useState<File | null>(null);
+  // شهادة بحث الموتر — required when the vehicle is a motorcycle.
+  const [motorCert, setMotorCert] = useState<File | null>(null);
 
   const idDocConfig = ID_DOC_TYPES.find((t) => t.id === idDocType)!;
 
@@ -145,7 +147,7 @@ export default function CaptainApplicationPage() {
     });
     setAvatar(null); setAvatarUrl(null);
     setIdDocType('national_id');
-    setIdFront(null); setIdBack(null); setLicense(null);
+    setIdFront(null); setIdBack(null); setLicense(null); setMotorCert(null);
     setAgreeTos(false); setAgreePrivacy(false);
     setEmail(''); setOtpId(''); setCode(''); setAccountEmail(null);
     setError(null);
@@ -226,6 +228,7 @@ export default function CaptainApplicationPage() {
     if (!avatar && !avatarUrl) return 'الصورة الشخصية للكابتن مطلوبة';
     if (!idFront || (idDocConfig.needsBack && !idBack)) return ID_DOC_MISSING_MESSAGE[idDocType];
     if (form.vehicle_type === 'car' && !license) return 'رخصة القيادة مطلوبة للسيارات';
+    if (form.vehicle_type === 'motor' && !motorCert) return 'شهادة بحث الموتر مطلوبة';
     if (!agreeTos || !agreePrivacy) return 'يرجى الموافقة على جميع الشروط والأحكام';
     return null;
   }
@@ -299,6 +302,7 @@ export default function CaptainApplicationPage() {
       data.append('id_front', idFront!);
       if (idDocConfig.needsBack) data.append('id_back', idBack!);
       if (license) data.append('license', license);
+      if (form.vehicle_type === 'motor' && motorCert) data.append('motor_certificate', motorCert);
 
       if (existingRow) {
         // An earlier بطاقة قومية submission leaves a back image on the row. A
@@ -307,6 +311,9 @@ export default function CaptainApplicationPage() {
         // longer claiming. PocketBase clears a file field when it is sent as an
         // empty string.
         if (!idDocConfig.needsBack) data.append('id_back', '');
+        // Same for a motor certificate left from an earlier motorcycle
+        // application: it does not belong on a car / bike / raksha file.
+        if (form.vehicle_type !== 'motor') data.append('motor_certificate', '');
         await pb.collection('captains').update(existingRow.id, data);
       } else {
         await pb.collection('captains').create(data);
@@ -529,6 +536,14 @@ export default function CaptainApplicationPage() {
                   <p className="text-sm text-[var(--text-muted)] mb-4">رخصة القيادة</p>
                   <div className="mb-10">
                     <FilePicker label="إرفاق صورة الرخصة" file={license} onPick={setLicense} onReject={setError} />
+                  </div>
+                </>
+              )}
+              {form.vehicle_type === 'motor' && (
+                <>
+                  <p className="text-sm text-[var(--text-muted)] mb-4">شهادة بحث الموتر</p>
+                  <div className="mb-10">
+                    <FilePicker label="إرفاق شهادة البحث" file={motorCert} onPick={setMotorCert} onReject={setError} />
                   </div>
                 </>
               )}

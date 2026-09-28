@@ -57,6 +57,9 @@ export default function ChatWidget() {
     // the user isn't stuck on the typing dots forever (backend caps at 45s).
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 50_000);
+    // Did the stream deliver anything (text or an error message)? If not, we
+    // must not leave the empty bubble's typing dots up forever.
+    let gotContent = false;
 
     try {
       const res = await fetch(`${API_URL}/chat`, {
@@ -91,6 +94,7 @@ export default function ChatWidget() {
           try {
             const payload = JSON.parse(line);
             if (payload.text) {
+              gotContent = true;
               // Append the new token to the last (assistant) message.
               setMessages((prev) => {
                 const next = [...prev];
@@ -100,11 +104,34 @@ export default function ChatWidget() {
                 };
                 return next;
               });
+            } else if (payload.error) {
+              gotContent = true;
+              // The server couldn't answer (e.g. the AI is overloaded) and says
+              // why — show it instead of silently dropping it.
+              setMessages((prev) => {
+                const next = [...prev];
+                const partial = next[next.length - 1].content;
+                next[next.length - 1] = {
+                  role: 'assistant',
+                  content: partial ? `${partial}\n\n${payload.error}` : payload.error,
+                };
+                return next;
+              });
             }
           } catch {
             /* ignore malformed frame */
           }
         }
+      }
+
+      // The stream closed without a single token or error message — replace
+      // the typing dots with something the visitor can act on.
+      if (!gotContent) {
+        setMessages((prev) => {
+          const next = [...prev];
+          next[next.length - 1] = { role: 'assistant', content: 'تعذّر الحصول على رد. حاول مرة أخرى بعد قليل.' };
+          return next;
+        });
       }
     } catch (err) {
       const e = err as Error;
